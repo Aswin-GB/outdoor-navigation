@@ -1,0 +1,39 @@
+[project]
+name = "campusflow-backend"
+version = "1.0.0"
+description = "CampusFlow - Real-Time Dynamic Campus Navigation System Backend"
+requires-python = ">=3.12"
+dependencies = [
+    "django>=5.0",
+    "djangorestframework>=3.15",
+    "channels>=4.1",
+    "channels-redis>=4.2",
+    "uvicorn[standard]>=0.29",
+    "redis>=5.0",
+    "django-cors-headers>=4.3",
+    "whitenoise>=6.6",
+    "daphne>=4.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-django>=4.8",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.0",
+    "pytest-django>=4.8",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["config", "mapdata", "places", "routing_engine", "traffic", "navigation", "analytics", "cache"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["test_*.py", "*_test.py"]

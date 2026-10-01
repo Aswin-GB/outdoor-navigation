@@ -1,0 +1,6675 @@
+{
+  "type": "FeatureCollection",
+  "name": "college-campus",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "22836588",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6895945,
+            9.5659974
+          ],
+          [
+            77.6874411,
+            9.5686676
+          ],
+          [
+            77.6863704,
+            9.5701101
+          ],
+          [
+            77.6857232,
+            9.5709544
+          ],
+          [
+            77.6855189,
+            9.571311
+          ],
+          [
+            77.6838881,
+            9.5744573
+          ],
+          [
+            77.6838808,
+            9.5745912
+          ],
+          [
+            77.6836287,
+            9.5760915
+          ],
+          [
+            77.6832488,
+            9.586092
+          ],
+          [
+            77.6832283,
+            9.5866319
+          ],
+          [
+            77.682654,
+            9.5878163
+          ],
+          [
+            77.6815985,
+            9.5899928
+          ],
+          [
+            77.6769143,
+            9.5957752
+          ],
+          [
+            77.6760864,
+            9.5966322
+          ],
+          [
+            77.6744521,
+            9.5987605
+          ],
+          [
+            77.6734915,
+            9.5994254
+          ],
+          [
+            77.673368,
+            9.5995242
+          ],
+          [
+            77.6685094,
+            9.603412
+          ],
+          [
+            77.6665171,
+            9.6049714
+          ],
+          [
+            77.6657712,
+            9.6055552
+          ],
+          [
+            77.6629293,
+            9.6077797
+          ],
+          [
+            77.6623242,
+            9.6088397
+          ],
+          [
+            77.6600694,
+            9.6096415
+          ],
+          [
+            77.6586166,
+            9.6101581
+          ],
+          [
+            77.6560062,
+            9.6110863
+          ],
+          [
+            77.6541435,
+            9.6117487
+          ],
+          [
+            77.6537168,
+            9.6119287
+          ],
+          [
+            77.653183,
+            9.6122883
+          ],
+          [
+            77.652827,
+            9.6127356
+          ],
+          [
+            77.646968,
+            9.6223479
+          ],
+          [
+            77.6466612,
+            9.6235633
+          ],
+          [
+            77.6424653,
+            9.6308151
+          ],
+          [
+            77.6422436,
+            9.6315051
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "22836588",
+        "highway": "secondary",
+        "name": "Krishnankovil - Koomapatti Road",
+        "surface": "asphalt",
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "secondary",
+          "lanes": "2",
+          "name": "Krishnankovil - Koomapatti Road",
+          "ref": "MDR194",
+          "sidewalk": "no",
+          "surface": "asphalt"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "104294699",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.5542879,
+            9.5359484
+          ],
+          [
+            77.5569869,
+            9.5327263
+          ],
+          [
+            77.5588336,
+            9.5288038
+          ],
+          [
+            77.5609644,
+            9.5311853
+          ],
+          [
+            77.5613905,
+            9.5359484
+          ],
+          [
+            77.5619587,
+            9.5386101
+          ],
+          [
+            77.5692034,
+            9.544914
+          ],
+          [
+            77.5755957,
+            9.5475756
+          ],
+          [
+            77.5819881,
+            9.5479959
+          ],
+          [
+            77.5871019,
+            9.5506574
+          ],
+          [
+            77.5903691,
+            9.5547198
+          ],
+          [
+            77.5951989,
+            9.5596226
+          ],
+          [
+            77.5963413,
+            9.5598313
+          ],
+          [
+            77.5997446,
+            9.5594826
+          ],
+          [
+            77.6054266,
+            9.5597627
+          ],
+          [
+            77.6078415,
+            9.560183
+          ],
+          [
+            77.6128133,
+            9.5580818
+          ],
+          [
+            77.6162226,
+            9.5582218
+          ],
+          [
+            77.6231831,
+            9.5548599
+          ],
+          [
+            77.6226086,
+            9.5559259
+          ],
+          [
+            77.6229495,
+            9.5568565
+          ],
+          [
+            77.6247043,
+            9.5588436
+          ],
+          [
+            77.6263598,
+            9.5586861
+          ],
+          [
+            77.6269625,
+            9.558032
+          ],
+          [
+            77.6266131,
+            9.5551547
+          ],
+          [
+            77.6267021,
+            9.5539169
+          ],
+          [
+            77.6275867,
+            9.5542996
+          ],
+          [
+            77.628155,
+            9.5597627
+          ],
+          [
+            77.6307119,
+            9.5611635
+          ],
+          [
+            77.6338088,
+            9.565409
+          ],
+          [
+            77.6341689,
+            9.5676586
+          ],
+          [
+            77.6339865,
+            9.5688964
+          ],
+          [
+            77.6331389,
+            9.5704833
+          ],
+          [
+            77.6322913,
+            9.571774
+          ],
+          [
+            77.6323128,
+            9.5723347
+          ],
+          [
+            77.6331496,
+            9.5722289
+          ],
+          [
+            77.6341689,
+            9.5712239
+          ],
+          [
+            77.6340508,
+            9.5716894
+          ],
+          [
+            77.6327956,
+            9.5730224
+          ],
+          [
+            77.6327526,
+            9.5740697
+          ],
+          [
+            77.6341474,
+            9.5744294
+          ],
+          [
+            77.6352954,
+            9.5739957
+          ],
+          [
+            77.637248,
+            9.5724299
+          ],
+          [
+            77.6381278,
+            9.5722924
+          ],
+          [
+            77.6385355,
+            9.5724405
+          ],
+          [
+            77.6394153,
+            9.5722183
+          ],
+          [
+            77.6401555,
+            9.5721126
+          ],
+          [
+            77.6414233,
+            9.5716205
+          ],
+          [
+            77.6443291,
+            9.5699861
+          ],
+          [
+            77.647258,
+            9.5689493
+          ],
+          [
+            77.6489027,
+            9.5677095
+          ],
+          [
+            77.650423,
+            9.5667699
+          ],
+          [
+            77.6529776,
+            9.5661754
+          ],
+          [
+            77.6558089,
+            9.5688752
+          ],
+          [
+            77.6573539,
+            9.5707584
+          ],
+          [
+            77.6577342,
+            9.5716805
+          ],
+          [
+            77.6582658,
+            9.5729695
+          ],
+          [
+            77.6591778,
+            9.5728425
+          ],
+          [
+            77.6605081,
+            9.57097
+          ],
+          [
+            77.6613986,
+            9.5706949
+          ],
+          [
+            77.6609051,
+            9.5688117
+          ],
+          [
+            77.6603901,
+            9.5650348
+          ],
+          [
+            77.6594064,
+            9.5635448
+          ],
+          [
+            77.6600146,
+            9.5602528
+          ],
+          [
+            77.6599587,
+            9.5574368
+          ],
+          [
+            77.6608269,
+            9.5542996
+          ],
+          [
+            77.6669351,
+            9.5537393
+          ],
+          [
+            77.6705693,
+            9.5526763
+          ],
+          [
+            77.6718831,
+            9.5529672
+          ],
+          [
+            77.6730294,
+            9.5536807
+          ],
+          [
+            77.674097,
+            9.5543642
+          ],
+          [
+            77.6744065,
+            9.5547411
+          ],
+          [
+            77.6748741,
+            9.5548265
+          ],
+          [
+            77.675429,
+            9.5552329
+          ],
+          [
+            77.6753699,
+            9.5568364
+          ],
+          [
+            77.6744639,
+            9.558502
+          ],
+          [
+            77.6744639,
+            9.5610234
+          ],
+          [
+            77.6744639,
+            9.5652258
+          ],
+          [
+            77.6734695,
+            9.5676071
+          ],
+          [
+            77.6716229,
+            9.5702685
+          ],
+          [
+            77.6717147,
+            9.5729355
+          ],
+          [
+            77.6738957,
+            9.5744649
+          ],
+          [
+            77.6791516,
+            9.578953
+          ],
+          [
+            77.6821347,
+            9.5832952
+          ],
+          [
+            77.6797198,
+            9.5853963
+          ],
+          [
+            77.6756003,
+            9.5858165
+          ],
+          [
+            77.6713387,
+            9.5860966
+          ],
+          [
+            77.6667931,
+            9.5873572
+          ],
+          [
+            77.6616792,
+            9.5929599
+          ],
+          [
+            77.6578438,
+            9.5926797
+          ],
+          [
+            77.6545766,
+            9.590999
+          ],
+          [
+            77.650031,
+            9.5947807
+          ],
+          [
+            77.6429284,
+            9.5922596
+          ],
+          [
+            77.6393771,
+            9.5921195
+          ],
+          [
+            77.6335529,
+            9.5938003
+          ],
+          [
+            77.6271716,
+            9.5945298
+          ],
+          [
+            77.6237513,
+            9.5949208
+          ],
+          [
+            77.6166487,
+            9.5974419
+          ],
+          [
+            77.6155899,
+            9.5972411
+          ],
+          [
+            77.6129554,
+            9.5967416
+          ],
+          [
+            77.6103985,
+            9.5949208
+          ],
+          [
+            77.6048584,
+            9.5988426
+          ],
+          [
+            77.6017333,
+            9.6013637
+          ],
+          [
+            77.6032959,
+            9.6034646
+          ],
+          [
+            77.606421,
+            9.6071062
+          ],
+          [
+            77.6072733,
+            9.6108878
+          ],
+          [
+            77.6023015,
+            9.6169102
+          ],
+          [
+            77.6007389,
+            9.6202716
+          ],
+          [
+            77.5987502,
+            9.6222323
+          ],
+          [
+            77.592642,
+            9.6191511
+          ],
+          [
+            77.581704,
+            9.6152296
+          ],
+          [
+            77.5743173,
+            9.6156497
+          ],
+          [
+            77.5679249,
+            9.6155097
+          ],
+          [
+            77.563308,
+            9.6123582
+          ],
+          [
+            77.5623849,
+            9.6117281
+          ],
+          [
+            77.5557085,
+            9.6101875
+          ],
+          [
+            77.5480376,
+            9.6068261
+          ],
+          [
+            77.5400827,
+            9.6036047
+          ],
+          [
+            77.5342586,
+            9.6022041
+          ],
+          [
+            77.505062,
+            9.5819113
+          ],
+          [
+            77.5503711,
+            9.5396058
+          ],
+          [
+            77.5542879,
+            9.5359484
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "104294699",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "natural": "wood",
+          "source": "bing"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "647250408",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6797122,
+            9.5758666
+          ],
+          [
+            77.6800293,
+            9.5754616
+          ],
+          [
+            77.6801935,
+            9.5752518
+          ],
+          [
+            77.6805918,
+            9.5747431
+          ],
+          [
+            77.6813757,
+            9.5737418
+          ],
+          [
+            77.6838808,
+            9.5745912
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "647250408",
+        "highway": "residential",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "residential"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "647250409",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6778546,
+            9.574745
+          ],
+          [
+            77.6771533,
+            9.5754177
+          ],
+          [
+            77.6769394,
+            9.5755985
+          ],
+          [
+            77.6767981,
+            9.5755061
+          ],
+          [
+            77.6760503,
+            9.5750169
+          ],
+          [
+            77.6758243,
+            9.5748692
+          ],
+          [
+            77.6754307,
+            9.5746117
+          ],
+          [
+            77.6748043,
+            9.574202
+          ],
+          [
+            77.6743906,
+            9.5739624
+          ],
+          [
+            77.673946,
+            9.5737049
+          ],
+          [
+            77.6735437,
+            9.573472
+          ],
+          [
+            77.6746286,
+            9.5717637
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "647250409",
+        "highway": "residential",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "residential"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "647250410",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6836287,
+            9.5760915
+          ],
+          [
+            77.6832739,
+            9.5761055
+          ],
+          [
+            77.6816564,
+            9.5766072
+          ],
+          [
+            77.6812697,
+            9.5765175
+          ],
+          [
+            77.6797122,
+            9.5758666
+          ],
+          [
+            77.6794124,
+            9.5757413
+          ],
+          [
+            77.6792209,
+            9.5756338
+          ],
+          [
+            77.6786855,
+            9.5753539
+          ],
+          [
+            77.6783964,
+            9.5751052
+          ],
+          [
+            77.6780482,
+            9.5748159
+          ],
+          [
+            77.6778546,
+            9.574745
+          ],
+          [
+            77.677774,
+            9.5745882
+          ],
+          [
+            77.6775694,
+            9.5744182
+          ],
+          [
+            77.6773517,
+            9.5742373
+          ],
+          [
+            77.6772773,
+            9.5741755
+          ],
+          [
+            77.6770466,
+            9.5739629
+          ],
+          [
+            77.6767181,
+            9.5736602
+          ],
+          [
+            77.6756358,
+            9.5726627
+          ],
+          [
+            77.6749921,
+            9.5720881
+          ],
+          [
+            77.6746286,
+            9.5717637
+          ],
+          [
+            77.674166,
+            9.5713508
+          ],
+          [
+            77.6732862,
+            9.5705785
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "647250410",
+        "highway": "motorway_link",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "motorway_link"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1073485252",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6824554,
+              9.5752111
+            ],
+            [
+              77.6831601,
+              9.5754184
+            ],
+            [
+              77.6832213,
+              9.5752437
+            ],
+            [
+              77.6831614,
+              9.5752312
+            ],
+            [
+              77.6832455,
+              9.5749585
+            ],
+            [
+              77.6832366,
+              9.5748655
+            ],
+            [
+              77.6831997,
+              9.5747825
+            ],
+            [
+              77.6831308,
+              9.5747134
+            ],
+            [
+              77.6830378,
+              9.5746669
+            ],
+            [
+              77.6829397,
+              9.5746682
+            ],
+            [
+              77.6828607,
+              9.5747046
+            ],
+            [
+              77.6827791,
+              9.5747674
+            ],
+            [
+              77.6827447,
+              9.5748378
+            ],
+            [
+              77.6826669,
+              9.5751382
+            ],
+            [
+              77.6826211,
+              9.5751256
+            ],
+            [
+              77.6827574,
+              9.5745928
+            ],
+            [
+              77.6826313,
+              9.5745664
+            ],
+            [
+              77.6824554,
+              9.5752111
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1073485252",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments",
+          "building:levels": "5"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1073485254",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6812515,
+              9.5759234
+            ],
+            [
+              77.6812788,
+              9.575863
+            ],
+            [
+              77.6812197,
+              9.5758406
+            ],
+            [
+              77.6814082,
+              9.5754465
+            ],
+            [
+              77.6814672,
+              9.5754756
+            ],
+            [
+              77.6814809,
+              9.5754443
+            ],
+            [
+              77.6819645,
+              9.5756637
+            ],
+            [
+              77.6819464,
+              9.5756906
+            ],
+            [
+              77.6820054,
+              9.575713
+            ],
+            [
+              77.6818351,
+              9.576116
+            ],
+            [
+              77.6817738,
+              9.5760869
+            ],
+            [
+              77.681742,
+              9.5761451
+            ],
+            [
+              77.6812515,
+              9.5759234
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1073485254",
+        "highway": null,
+        "name": "Kalasalingam University",
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": "industrial",
+        "osm_tags": {
+          "industrial": "building",
+          "landuse": "industrial",
+          "name": "Kalasalingam University"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1163638166",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6761119,
+              9.5730723
+            ],
+            [
+              77.6767022,
+              9.5724838
+            ],
+            [
+              77.6774974,
+              9.5732365
+            ],
+            [
+              77.6769235,
+              9.5738171
+            ],
+            [
+              77.6761119,
+              9.5730723
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1163638166",
+        "highway": null,
+        "name": "Nelson Mandela Mens Hostel",
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": "park",
+        "landuse": null,
+        "osm_tags": {
+          "leisure": "park",
+          "name": "Nelson Mandela Mens Hostel",
+          "name:etymology:wikidata": "Q8023",
+          "name:ta": "\u0ba8\u0bc6\u0bb2\u0bcd\u0b9a\u0ba9\u0bcd \u0bae\u0ba3\u0bcd\u0b9f\u0bc7\u0bb2\u0bbe \u0b86\u0ba3\u0bcd\u0b95\u0bb3\u0bcd \u0bb5\u0bbf\u0b9f\u0bc1\u0ba4\u0bbf",
+          "operator": "Kalasalingam Academy Of Research And Education",
+          "website": "https://kalasalingam.ac.in"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1322657579",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6805918,
+            9.5747431
+          ],
+          [
+            77.6803774,
+            9.5746391
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1322657579",
+        "highway": "path",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "path"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1322657581",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6780482,
+            9.5748159
+          ],
+          [
+            77.6779756,
+            9.5749023
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1322657581",
+        "highway": "path",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "path"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1322657587",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6775694,
+            9.5744182
+          ],
+          [
+            77.677502,
+            9.5745004
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1322657587",
+        "highway": "path",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "path"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1322657588",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6771533,
+            9.5754177
+          ],
+          [
+            77.6768358,
+            9.5751441
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1322657588",
+        "highway": "footway",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "footway"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1322657591",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6785937,
+            9.5754449
+          ],
+          [
+            77.678434,
+            9.5755375
+          ],
+          [
+            77.678434,
+            9.5757765
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1322657591",
+        "highway": "footway",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "footway"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1322657594",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6773517,
+            9.5742373
+          ],
+          [
+            77.6771932,
+            9.5743846
+          ],
+          [
+            77.6770072,
+            9.5745337
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1322657594",
+        "highway": "footway",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "footway"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1322657595",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6773517,
+            9.5742373
+          ],
+          [
+            77.6774251,
+            9.5741099
+          ],
+          [
+            77.6776289,
+            9.5738584
+          ],
+          [
+            77.6778055,
+            9.5736753
+          ],
+          [
+            77.677887,
+            9.5735994
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1322657595",
+        "highway": "footway",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "footway"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1322657597",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6770466,
+            9.5739629
+          ],
+          [
+            77.6769782,
+            9.5740296
+          ],
+          [
+            77.6767703,
+            9.5742325
+          ],
+          [
+            77.6764701,
+            9.5745996
+          ],
+          [
+            77.6760503,
+            9.5750169
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1322657597",
+        "highway": "footway",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "footway"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1322657599",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6758243,
+            9.5748692
+          ],
+          [
+            77.6760454,
+            9.5745436
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1322657599",
+        "highway": "footway",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "footway"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1322657600",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6748043,
+            9.574202
+          ],
+          [
+            77.6747646,
+            9.5742508
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1322657600",
+        "highway": "footway",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "footway"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1322657601",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6754307,
+            9.5746117
+          ],
+          [
+            77.6757855,
+            9.5741998
+          ],
+          [
+            77.6759219,
+            9.5740504
+          ],
+          [
+            77.6760355,
+            9.5741301
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1322657601",
+        "highway": "footway",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "footway"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1322657602",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6748043,
+            9.574202
+          ],
+          [
+            77.674866,
+            9.5741268
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1322657602",
+        "highway": "footway",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "footway"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1322657604",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.673946,
+            9.5737049
+          ],
+          [
+            77.673887,
+            9.5738136
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1322657604",
+        "highway": "footway",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "footway"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1322657606",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6749921,
+            9.5720881
+          ],
+          [
+            77.675139,
+            9.5719312
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1322657606",
+        "highway": "footway",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "footway"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1323561249",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6756358,
+            9.5726627
+          ],
+          [
+            77.6758005,
+            9.5725094
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1323561249",
+        "highway": "footway",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "footway"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1324040625",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6792209,
+            9.5756338
+          ],
+          [
+            77.679146,
+            9.5757342
+          ],
+          [
+            77.6791005,
+            9.5765558
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1324040625",
+        "highway": "footway",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "footway"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1324040626",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6786855,
+            9.5753539
+          ],
+          [
+            77.6785937,
+            9.5754449
+          ],
+          [
+            77.6783557,
+            9.5754678
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1324040626",
+        "highway": "footway",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "footway"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1324040627",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6783964,
+            9.5751052
+          ],
+          [
+            77.6786538,
+            9.57474
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1324040627",
+        "highway": "path",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "path"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1324040628",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.677774,
+            9.5745882
+          ],
+          [
+            77.6777191,
+            9.5746857
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1324040628",
+        "highway": "path",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "path"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1324040629",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6775694,
+            9.5744182
+          ],
+          [
+            77.677663,
+            9.5742997
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1324040629",
+        "highway": "footway",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "footway"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1324040630",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6767981,
+            9.5755061
+          ],
+          [
+            77.6767474,
+            9.5755948
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1324040630",
+        "highway": "footway",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "footway"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1324300677",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6754307,
+            9.5746117
+          ],
+          [
+            77.6752973,
+            9.5747647
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1324300677",
+        "highway": "footway",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "footway"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1325590548",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6800293,
+            9.5754616
+          ],
+          [
+            77.680679,
+            9.5757512
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1325590548",
+        "highway": "footway",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "footway"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1325590549",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6801935,
+            9.5752518
+          ],
+          [
+            77.680024,
+            9.5751489
+          ],
+          [
+            77.6797508,
+            9.5752657
+          ],
+          [
+            77.6796324,
+            9.5751683
+          ],
+          [
+            77.6796554,
+            9.5749185
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1325590549",
+        "highway": "footway",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "footway"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1325590550",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6767181,
+            9.5736602
+          ],
+          [
+            77.6767881,
+            9.5736202
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1325590550",
+        "highway": "footway",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "footway"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1326198913",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6812697,
+            9.5765175
+          ],
+          [
+            77.6814292,
+            9.5762134
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1326198913",
+        "highway": "path",
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "highway": "path"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1329359769",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6789482,
+              9.5768726
+            ],
+            [
+              77.67891,
+              9.5773068
+            ],
+            [
+              77.6791334,
+              9.5773259
+            ],
+            [
+              77.6791717,
+              9.5768918
+            ],
+            [
+              77.6789482,
+              9.5768726
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1329359769",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": "swimming_pool",
+        "landuse": null,
+        "osm_tags": {
+          "leisure": "swimming_pool",
+          "sport": "swimming"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1329359770",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6784494,
+              9.5759971
+            ],
+            [
+              77.6784599,
+              9.5756923
+            ],
+            [
+              77.6788614,
+              9.5757057
+            ],
+            [
+              77.6788509,
+              9.5760105
+            ],
+            [
+              77.6784494,
+              9.5759971
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1329359770",
+        "highway": null,
+        "name": "BASKETBALL GROUND",
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": "pitch",
+        "landuse": null,
+        "osm_tags": {
+          "leisure": "pitch",
+          "name": "BASKETBALL GROUND",
+          "sport": "basketball"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1329359771",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6774964,
+              9.5763849
+            ],
+            [
+              77.6781785,
+              9.5763844
+            ],
+            [
+              77.6781778,
+              9.5754668
+            ],
+            [
+              77.6774956,
+              9.5754674
+            ],
+            [
+              77.6774964,
+              9.5763849
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1329359771",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": "pitch",
+        "landuse": null,
+        "osm_tags": {
+          "leisure": "pitch"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762676",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6761069,
+              9.5742665
+            ],
+            [
+              77.6761654,
+              9.5743286
+            ],
+            [
+              77.6762486,
+              9.5743906
+            ],
+            [
+              77.676316,
+              9.5744328
+            ],
+            [
+              77.6764712,
+              9.5742576
+            ],
+            [
+              77.6762576,
+              9.5740646
+            ],
+            [
+              77.6761721,
+              9.5741378
+            ],
+            [
+              77.6761603,
+              9.5741612
+            ],
+            [
+              77.6761069,
+              9.5742665
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762676",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762677",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6764397,
+              9.5749451
+            ],
+            [
+              77.6767321,
+              9.5752112
+            ],
+            [
+              77.6769008,
+              9.5750493
+            ],
+            [
+              77.6765837,
+              9.5747898
+            ],
+            [
+              77.6764397,
+              9.5749451
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762677",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": "place_of_worship",
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "amenity": "place_of_worship",
+          "building": "apartments",
+          "religion": "taoist"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762678",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6758415,
+              9.5744594
+            ],
+            [
+              77.6759247,
+              9.5745082
+            ],
+            [
+              77.6759202,
+              9.5745503
+            ],
+            [
+              77.6759697,
+              9.5745592
+            ],
+            [
+              77.6759944,
+              9.5745281
+            ],
+            [
+              77.6760754,
+              9.574588
+            ],
+            [
+              77.6761361,
+              9.574506
+            ],
+            [
+              77.6761316,
+              9.574466
+            ],
+            [
+              77.6761384,
+              9.5744017
+            ],
+            [
+              77.6761114,
+              9.5743463
+            ],
+            [
+              77.6760484,
+              9.5743374
+            ],
+            [
+              77.6760057,
+              9.5743241
+            ],
+            [
+              77.6759382,
+              9.5743108
+            ],
+            [
+              77.6758775,
+              9.5743596
+            ],
+            [
+              77.6758347,
+              9.574415
+            ],
+            [
+              77.6758415,
+              9.5744594
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762678",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762679",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6771414,
+              9.5750959
+            ],
+            [
+              77.6772471,
+              9.5752068
+            ],
+            [
+              77.6775777,
+              9.5749362
+            ],
+            [
+              77.6774518,
+              9.5747699
+            ],
+            [
+              77.6771977,
+              9.5749916
+            ],
+            [
+              77.6771279,
+              9.575067
+            ],
+            [
+              77.6771414,
+              9.5750959
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762679",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "yes",
+        "amenity": "place_of_worship",
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "amenity": "place_of_worship",
+          "building": "yes"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762680",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6769127,
+              9.5744557
+            ],
+            [
+              77.6769696,
+              9.5745448
+            ],
+            [
+              77.6770509,
+              9.574597
+            ],
+            [
+              77.677029,
+              9.5746773
+            ],
+            [
+              77.676874,
+              9.5746149
+            ],
+            [
+              77.6768365,
+              9.5744697
+            ],
+            [
+              77.6769127,
+              9.5744557
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762680",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762681",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6761024,
+              9.5742146
+            ],
+            [
+              77.6759955,
+              9.5741297
+            ],
+            [
+              77.6761187,
+              9.5740317
+            ],
+            [
+              77.6761558,
+              9.5740653
+            ],
+            [
+              77.6760994,
+              9.5741195
+            ],
+            [
+              77.6761603,
+              9.5741612
+            ],
+            [
+              77.6761024,
+              9.5742146
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762681",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762682",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6766385,
+              9.5755394
+            ],
+            [
+              77.6768265,
+              9.5756648
+            ],
+            [
+              77.6765778,
+              9.5760529
+            ],
+            [
+              77.6763605,
+              9.5759139
+            ],
+            [
+              77.6765739,
+              9.5755606
+            ],
+            [
+              77.6766385,
+              9.5755394
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762682",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "yes",
+        "amenity": "place_of_worship",
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "amenity": "place_of_worship",
+          "building": "yes"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762683",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.67592,
+              9.57552
+            ],
+            [
+              77.6759944,
+              9.5754177
+            ],
+            [
+              77.6756576,
+              9.5752092
+            ],
+            [
+              77.6755832,
+              9.5753135
+            ],
+            [
+              77.67592,
+              9.57552
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762683",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762684",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.675174,
+              9.5750277
+            ],
+            [
+              77.675454,
+              9.5752034
+            ],
+            [
+              77.6755323,
+              9.5751339
+            ],
+            [
+              77.6752308,
+              9.5749235
+            ],
+            [
+              77.675174,
+              9.5749737
+            ],
+            [
+              77.675174,
+              9.5750277
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762684",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762685",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6754794,
+              9.5749447
+            ],
+            [
+              77.6756066,
+              9.5750341
+            ],
+            [
+              77.6756992,
+              9.5750992
+            ],
+            [
+              77.6760316,
+              9.5753328
+            ],
+            [
+              77.6761138,
+              9.5752362
+            ],
+            [
+              77.6760893,
+              9.5752216
+            ],
+            [
+              77.6755343,
+              9.5748887
+            ],
+            [
+              77.6755007,
+              9.574923
+            ],
+            [
+              77.6754794,
+              9.5749447
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762685",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762686",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6754716,
+              9.5752729
+            ],
+            [
+              77.6755597,
+              9.5753154
+            ],
+            [
+              77.6756992,
+              9.5750992
+            ],
+            [
+              77.6756066,
+              9.5750341
+            ],
+            [
+              77.6754716,
+              9.5752729
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762686",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762687",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6752523,
+              9.5748771
+            ],
+            [
+              77.6754364,
+              9.5750065
+            ],
+            [
+              77.6755007,
+              9.574923
+            ],
+            [
+              77.6754066,
+              9.5748497
+            ],
+            [
+              77.6752973,
+              9.5747647
+            ],
+            [
+              77.6752523,
+              9.5748771
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762687",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762688",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6745671,
+              9.5746049
+            ],
+            [
+              77.6749469,
+              9.5748694
+            ],
+            [
+              77.6750193,
+              9.5747768
+            ],
+            [
+              77.6746219,
+              9.5745181
+            ],
+            [
+              77.6745671,
+              9.5746049
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762688",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762689",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6741304,
+              9.5743289
+            ],
+            [
+              77.6744124,
+              9.5745142
+            ],
+            [
+              77.6745064,
+              9.5744254
+            ],
+            [
+              77.6741911,
+              9.5742265
+            ],
+            [
+              77.6741304,
+              9.5743289
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762689",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762690",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6742714,
+              9.5741647
+            ],
+            [
+              77.6743634,
+              9.5742343
+            ],
+            [
+              77.6743967,
+              9.5742014
+            ],
+            [
+              77.6745841,
+              9.5743464
+            ],
+            [
+              77.6746317,
+              9.5742651
+            ],
+            [
+              77.6743321,
+              9.5740682
+            ],
+            [
+              77.6742714,
+              9.5741647
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762690",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762691",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6746689,
+              9.5744408
+            ],
+            [
+              77.6747159,
+              9.5744698
+            ],
+            [
+              77.6748607,
+              9.5745779
+            ],
+            [
+              77.674849,
+              9.5746242
+            ],
+            [
+              77.6750369,
+              9.5747381
+            ],
+            [
+              77.675082,
+              9.5746493
+            ],
+            [
+              77.6749528,
+              9.5745451
+            ],
+            [
+              77.6749136,
+              9.5745026
+            ],
+            [
+              77.6749116,
+              9.5744408
+            ],
+            [
+              77.6746924,
+              9.5743327
+            ],
+            [
+              77.6746689,
+              9.5744408
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762691",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762692",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6744887,
+              9.5745045
+            ],
+            [
+              77.6745514,
+              9.5745509
+            ],
+            [
+              77.6746924,
+              9.5743327
+            ],
+            [
+              77.6746317,
+              9.574298
+            ],
+            [
+              77.6745841,
+              9.5743464
+            ],
+            [
+              77.6745064,
+              9.5744254
+            ],
+            [
+              77.6744887,
+              9.5745045
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762692",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762693",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.673498,
+              9.5738597
+            ],
+            [
+              77.6734491,
+              9.5739601
+            ],
+            [
+              77.6734883,
+              9.5739813
+            ],
+            [
+              77.6734863,
+              9.5740064
+            ],
+            [
+              77.6736731,
+              9.5741127
+            ],
+            [
+              77.6738681,
+              9.5742111
+            ],
+            [
+              77.6738935,
+              9.5741937
+            ],
+            [
+              77.6739327,
+              9.5742111
+            ],
+            [
+              77.6739836,
+              9.5741454
+            ],
+            [
+              77.6740423,
+              9.5741647
+            ],
+            [
+              77.6740835,
+              9.5740991
+            ],
+            [
+              77.6739777,
+              9.5740315
+            ],
+            [
+              77.6740362,
+              9.5739065
+            ],
+            [
+              77.6737109,
+              9.5737391
+            ],
+            [
+              77.6735959,
+              9.5739292
+            ],
+            [
+              77.673498,
+              9.5738597
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762693",
+        "highway": null,
+        "name": "7TH BLOCK",
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments",
+          "name": "7TH BLOCK"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762694",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6746669,
+              9.5738752
+            ],
+            [
+              77.6749919,
+              9.5741203
+            ],
+            [
+              77.6750918,
+              9.5740238
+            ],
+            [
+              77.674986,
+              9.573935
+            ],
+            [
+              77.6750291,
+              9.5738771
+            ],
+            [
+              77.6748627,
+              9.5737574
+            ],
+            [
+              77.6748157,
+              9.5738385
+            ],
+            [
+              77.6747609,
+              9.573796
+            ],
+            [
+              77.6747139,
+              9.5737863
+            ],
+            [
+              77.6746669,
+              9.5738752
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762694",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762695",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6752817,
+              9.5740663
+            ],
+            [
+              77.6753815,
+              9.5741841
+            ],
+            [
+              77.6760609,
+              9.5735856
+            ],
+            [
+              77.6759219,
+              9.5734523
+            ],
+            [
+              77.6758847,
+              9.5735006
+            ],
+            [
+              77.6759141,
+              9.573574
+            ],
+            [
+              77.6757809,
+              9.5736782
+            ],
+            [
+              77.6752817,
+              9.5740663
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762695",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762696",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6753835,
+              9.5734659
+            ],
+            [
+              77.6755812,
+              9.5736222
+            ],
+            [
+              77.6756635,
+              9.5735392
+            ],
+            [
+              77.6756474,
+              9.5735247
+            ],
+            [
+              77.6754892,
+              9.5733809
+            ],
+            [
+              77.6753835,
+              9.5734659
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762696",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "yes",
+        "amenity": "place_of_worship",
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "amenity": "place_of_worship",
+          "building": "yes"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762697",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6750154,
+              9.5735334
+            ],
+            [
+              77.6752288,
+              9.5733346
+            ],
+            [
+              77.6753248,
+              9.5734118
+            ],
+            [
+              77.6753058,
+              9.5734281
+            ],
+            [
+              77.6750937,
+              9.5736107
+            ],
+            [
+              77.6750154,
+              9.5735334
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762697",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "yes",
+        "amenity": "place_of_worship",
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "amenity": "place_of_worship",
+          "building": "yes"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762698",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6750272,
+              9.5737999
+            ],
+            [
+              77.6752034,
+              9.5739833
+            ],
+            [
+              77.6753013,
+              9.5739022
+            ],
+            [
+              77.6751192,
+              9.5737168
+            ],
+            [
+              77.6750272,
+              9.5737999
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762698",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "yes",
+        "amenity": "place_of_worship",
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "amenity": "place_of_worship",
+          "building": "yes"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762699",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6748705,
+              9.5736898
+            ],
+            [
+              77.6749371,
+              9.5737612
+            ],
+            [
+              77.6750722,
+              9.5736609
+            ],
+            [
+              77.6749919,
+              9.5735431
+            ],
+            [
+              77.6748705,
+              9.5736898
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762699",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762700",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6754892,
+              9.5733269
+            ],
+            [
+              77.6756474,
+              9.5735247
+            ],
+            [
+              77.6757437,
+              9.5734562
+            ],
+            [
+              77.675544,
+              9.5732709
+            ],
+            [
+              77.6754892,
+              9.5733269
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762700",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "yes",
+        "amenity": "place_of_worship",
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "amenity": "place_of_worship",
+          "building": "yes"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762701",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6783164,
+              9.5744466
+            ],
+            [
+              77.6788176,
+              9.5747169
+            ],
+            [
+              77.6792503,
+              9.5740489
+            ],
+            [
+              77.6787198,
+              9.5738288
+            ],
+            [
+              77.6786003,
+              9.5739987
+            ],
+            [
+              77.6783164,
+              9.5744466
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762701",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762702",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6776664,
+              9.5733211
+            ],
+            [
+              77.6776762,
+              9.5733848
+            ],
+            [
+              77.6777114,
+              9.5733848
+            ],
+            [
+              77.677733,
+              9.5734215
+            ],
+            [
+              77.6779014,
+              9.5733925
+            ],
+            [
+              77.677919,
+              9.5735045
+            ],
+            [
+              77.6778876,
+              9.5735489
+            ],
+            [
+              77.677917,
+              9.5735894
+            ],
+            [
+              77.6779738,
+              9.5735431
+            ],
+            [
+              77.6780697,
+              9.5735508
+            ],
+            [
+              77.6780874,
+              9.5737149
+            ],
+            [
+              77.6781206,
+              9.5737632
+            ],
+            [
+              77.6782087,
+              9.5737535
+            ],
+            [
+              77.6782087,
+              9.5737207
+            ],
+            [
+              77.6782322,
+              9.5737033
+            ],
+            [
+              77.6782244,
+              9.573545
+            ],
+            [
+              77.6784241,
+              9.5735161
+            ],
+            [
+              77.6784241,
+              9.5734832
+            ],
+            [
+              77.6776664,
+              9.5733211
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762702",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762703",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6776664,
+              9.5733211
+            ],
+            [
+              77.6777193,
+              9.5733018
+            ],
+            [
+              77.6777369,
+              9.5732651
+            ],
+            [
+              77.6778818,
+              9.5732458
+            ],
+            [
+              77.6778759,
+              9.5730797
+            ],
+            [
+              77.6779072,
+              9.5730797
+            ],
+            [
+              77.6779111,
+              9.5730392
+            ],
+            [
+              77.6779797,
+              9.5730122
+            ],
+            [
+              77.6779797,
+              9.5730643
+            ],
+            [
+              77.6780247,
+              9.5730662
+            ],
+            [
+              77.6780619,
+              9.5732651
+            ],
+            [
+              77.6780991,
+              9.57324
+            ],
+            [
+              77.6782029,
+              9.5731512
+            ],
+            [
+              77.6782773,
+              9.5732168
+            ],
+            [
+              77.6782127,
+              9.5732805
+            ],
+            [
+              77.6782185,
+              9.5733751
+            ],
+            [
+              77.6783771,
+              9.5733886
+            ],
+            [
+              77.6784084,
+              9.5734234
+            ],
+            [
+              77.6784378,
+              9.5734253
+            ],
+            [
+              77.6784456,
+              9.5734678
+            ],
+            [
+              77.6784241,
+              9.5734832
+            ],
+            [
+              77.6776664,
+              9.5733211
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762703",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762704",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6794383,
+              9.5746879
+            ],
+            [
+              77.6796321,
+              9.5747999
+            ],
+            [
+              77.6796654,
+              9.574771
+            ],
+            [
+              77.679732,
+              9.574686
+            ],
+            [
+              77.6798475,
+              9.5747478
+            ],
+            [
+              77.6799689,
+              9.5745798
+            ],
+            [
+              77.6797007,
+              9.5744099
+            ],
+            [
+              77.6795851,
+              9.5744331
+            ],
+            [
+              77.6794383,
+              9.5746879
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762704",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762705",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6792875,
+              9.5747169
+            ],
+            [
+              77.6798123,
+              9.5750393
+            ],
+            [
+              77.6801451,
+              9.57452
+            ],
+            [
+              77.6798632,
+              9.5743462
+            ],
+            [
+              77.6798769,
+              9.5742999
+            ],
+            [
+              77.679683,
+              9.5741474
+            ],
+            [
+              77.6796478,
+              9.5740856
+            ],
+            [
+              77.6795616,
+              9.5740547
+            ],
+            [
+              77.6794951,
+              9.5741628
+            ],
+            [
+              77.6794696,
+              9.5742825
+            ],
+            [
+              77.6794128,
+              9.5744157
+            ],
+            [
+              77.6794403,
+              9.5744563
+            ],
+            [
+              77.6792875,
+              9.5747169
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762705",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762706",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6801803,
+              9.5744157
+            ],
+            [
+              77.6804349,
+              9.5745451
+            ],
+            [
+              77.6806307,
+              9.5742806
+            ],
+            [
+              77.6806385,
+              9.5741705
+            ],
+            [
+              77.6804975,
+              9.5740875
+            ],
+            [
+              77.6804231,
+              9.5740586
+            ],
+            [
+              77.6803879,
+              9.5741088
+            ],
+            [
+              77.6801803,
+              9.5744157
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762706",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "yes",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "yes"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762707",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6776497,
+              9.5741457
+            ],
+            [
+              77.6778103,
+              9.5742712
+            ],
+            [
+              77.6779708,
+              9.574082
+            ],
+            [
+              77.6780237,
+              9.5741167
+            ],
+            [
+              77.6781431,
+              9.57397
+            ],
+            [
+              77.6780354,
+              9.5738908
+            ],
+            [
+              77.6779395,
+              9.5739739
+            ],
+            [
+              77.6778534,
+              9.5739314
+            ],
+            [
+              77.6776497,
+              9.5741457
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762707",
+        "highway": null,
+        "name": "sudexo",
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments",
+          "name": "sudexo"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762708",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6775323,
+              9.5741322
+            ],
+            [
+              77.6775793,
+              9.5741631
+            ],
+            [
+              77.6776262,
+              9.5740955
+            ],
+            [
+              77.6775773,
+              9.5740781
+            ],
+            [
+              77.6775323,
+              9.5741322
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762708",
+        "highway": null,
+        "name": "juice shop",
+        "surface": null,
+        "building": "yes",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "yes",
+          "name": "juice shop"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762709",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6764006,
+              9.5729468
+            ],
+            [
+              77.677035,
+              9.5735414
+            ],
+            [
+              77.6773384,
+              9.5732557
+            ],
+            [
+              77.6767119,
+              9.5726243
+            ],
+            [
+              77.6764006,
+              9.5729468
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762709",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762710",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6763947,
+              9.5739237
+            ],
+            [
+              77.6764319,
+              9.57397
+            ],
+            [
+              77.6765063,
+              9.5739217
+            ],
+            [
+              77.6765592,
+              9.5739854
+            ],
+            [
+              77.676524,
+              9.5740453
+            ],
+            [
+              77.6765827,
+              9.5741129
+            ],
+            [
+              77.6764868,
+              9.5742268
+            ],
+            [
+              77.6762576,
+              9.5740646
+            ],
+            [
+              77.6763947,
+              9.5739237
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762710",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": "park",
+        "landuse": null,
+        "osm_tags": {
+          "leisure": "park"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762711",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6755379,
+              9.572126
+            ],
+            [
+              77.6761787,
+              9.572721
+            ],
+            [
+              77.676414,
+              9.5724789
+            ],
+            [
+              77.6764515,
+              9.572368
+            ],
+            [
+              77.6763867,
+              9.5723445
+            ],
+            [
+              77.6764003,
+              9.5723041
+            ],
+            [
+              77.6762094,
+              9.5720924
+            ],
+            [
+              77.6759742,
+              9.5718571
+            ],
+            [
+              77.675906,
+              9.5719277
+            ],
+            [
+              77.6758447,
+              9.571884
+            ],
+            [
+              77.6757629,
+              9.5718907
+            ],
+            [
+              77.6755379,
+              9.572126
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762711",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762712",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6760083,
+              9.5718335
+            ],
+            [
+              77.6764344,
+              9.5722436
+            ],
+            [
+              77.6766935,
+              9.5720117
+            ],
+            [
+              77.6761651,
+              9.5716251
+            ],
+            [
+              77.6760083,
+              9.5718335
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762712",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "yes",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "yes"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762713",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6749754,
+              9.5715713
+            ],
+            [
+              77.6754458,
+              9.5719882
+            ],
+            [
+              77.6759947,
+              9.5714604
+            ],
+            [
+              77.6756095,
+              9.5709898
+            ],
+            [
+              77.6754595,
+              9.571094
+            ],
+            [
+              77.6749754,
+              9.5715713
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762713",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762714",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6768878,
+              9.5724688
+            ],
+            [
+              77.6774094,
+              9.5730168
+            ],
+            [
+              77.6775525,
+              9.5729058
+            ],
+            [
+              77.6769969,
+              9.5723579
+            ],
+            [
+              77.6768878,
+              9.5724688
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762714",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762715",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6732096,
+              9.5735411
+            ],
+            [
+              77.6733119,
+              9.5735949
+            ],
+            [
+              77.6735164,
+              9.5732554
+            ],
+            [
+              77.6734516,
+              9.5731848
+            ],
+            [
+              77.6733664,
+              9.5732386
+            ],
+            [
+              77.6732096,
+              9.5735411
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762715",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762716",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.672746,
+              9.5733361
+            ],
+            [
+              77.6730937,
+              9.5735109
+            ],
+            [
+              77.6730732,
+              9.5733865
+            ],
+            [
+              77.6727767,
+              9.5732352
+            ],
+            [
+              77.672746,
+              9.5733361
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762716",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "yes",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "yes"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762717",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6722517,
+              9.5731109
+            ],
+            [
+              77.672613,
+              9.5732991
+            ],
+            [
+              77.6726778,
+              9.5731411
+            ],
+            [
+              77.6723165,
+              9.5729731
+            ],
+            [
+              77.6722517,
+              9.5731109
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762717",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762718",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6718222,
+              9.5727512
+            ],
+            [
+              77.6720847,
+              9.5728621
+            ],
+            [
+              77.6722994,
+              9.5724352
+            ],
+            [
+              77.6720847,
+              9.5722974
+            ],
+            [
+              77.6718222,
+              9.5727512
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762718",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762719",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6729403,
+              9.5727949
+            ],
+            [
+              77.6730357,
+              9.572889
+            ],
+            [
+              77.6732437,
+              9.5725058
+            ],
+            [
+              77.673121,
+              9.5724688
+            ],
+            [
+              77.6729403,
+              9.5727949
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762719",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "yes",
+        "amenity": "place_of_worship",
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "amenity": "place_of_worship",
+          "building": "yes"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762720",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6731687,
+              9.5724251
+            ],
+            [
+              77.67383,
+              9.5727949
+            ],
+            [
+              77.6738914,
+              9.5726403
+            ],
+            [
+              77.67323,
+              9.5723041
+            ],
+            [
+              77.6731687,
+              9.5724251
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762720",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "yes",
+        "amenity": "place_of_worship",
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "amenity": "place_of_worship",
+          "building": "yes"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762721",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6732744,
+              9.5718571
+            ],
+            [
+              77.6736698,
+              9.5721293
+            ],
+            [
+              77.6737857,
+              9.5720487
+            ],
+            [
+              77.6733391,
+              9.5717394
+            ],
+            [
+              77.6732744,
+              9.5718571
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762721",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762722",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6737141,
+              9.5722369
+            ],
+            [
+              77.6739357,
+              9.5724184
+            ],
+            [
+              77.6740039,
+              9.5722974
+            ],
+            [
+              77.6737925,
+              9.5721125
+            ],
+            [
+              77.6737141,
+              9.5722369
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762722",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": "industrial",
+        "osm_tags": {
+          "landuse": "industrial"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762723",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6739595,
+              9.572089
+            ],
+            [
+              77.6740073,
+              9.5721966
+            ],
+            [
+              77.6742152,
+              9.5720352
+            ],
+            [
+              77.6740925,
+              9.5719142
+            ],
+            [
+              77.6739595,
+              9.572089
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762723",
+        "highway": null,
+        "name": "canteen",
+        "surface": null,
+        "building": "yes",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "yes",
+          "name": "canteen"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762724",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6735505,
+              9.5716991
+            ],
+            [
+              77.6738573,
+              9.5720352
+            ],
+            [
+              77.6739152,
+              9.5719142
+            ],
+            [
+              77.6736459,
+              9.571652
+            ],
+            [
+              77.6735505,
+              9.5716991
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762724",
+        "highway": null,
+        "name": "building",
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments",
+          "name": "building"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762725",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6746935,
+              9.5734769
+            ],
+            [
+              77.674854,
+              9.5736159
+            ],
+            [
+              77.6753846,
+              9.5730039
+            ],
+            [
+              77.6754081,
+              9.5730271
+            ],
+            [
+              77.675504,
+              9.5729441
+            ],
+            [
+              77.6754357,
+              9.5728482
+            ],
+            [
+              77.6754022,
+              9.5728012
+            ],
+            [
+              77.6746935,
+              9.5734769
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762725",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762726",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6743528,
+              9.5740445
+            ],
+            [
+              77.675085,
+              9.5746006
+            ],
+            [
+              77.6751712,
+              9.574506
+            ],
+            [
+              77.6743939,
+              9.574004
+            ],
+            [
+              77.6743528,
+              9.5740445
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762726",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": "park",
+        "landuse": null,
+        "osm_tags": {
+          "leisure": "park"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762727",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6753298,
+              9.5747647
+            ],
+            [
+              77.6754066,
+              9.5748497
+            ],
+            [
+              77.6755119,
+              9.574811
+            ],
+            [
+              77.6757409,
+              9.5749867
+            ],
+            [
+              77.6760893,
+              9.5752216
+            ],
+            [
+              77.676156,
+              9.5751353
+            ],
+            [
+              77.6754316,
+              9.5746411
+            ],
+            [
+              77.6753298,
+              9.5747647
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762727",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": "park",
+        "landuse": null,
+        "osm_tags": {
+          "leisure": "park"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762728",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6748418,
+              9.5725477
+            ],
+            [
+              77.67491,
+              9.5726223
+            ],
+            [
+              77.6750599,
+              9.5724585
+            ],
+            [
+              77.6749991,
+              9.5723634
+            ],
+            [
+              77.6748418,
+              9.5725477
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762728",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "yes",
+        "amenity": "place_of_worship",
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "amenity": "place_of_worship",
+          "building": "yes"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762729",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6759406,
+              9.572889
+            ],
+            [
+              77.6760913,
+              9.5727449
+            ],
+            [
+              77.6754841,
+              9.5721771
+            ],
+            [
+              77.6753784,
+              9.572339
+            ],
+            [
+              77.6759406,
+              9.572889
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762729",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": "park",
+        "landuse": null,
+        "osm_tags": {
+          "leisure": "park"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762730",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6751062,
+              9.5736497
+            ],
+            [
+              77.6753851,
+              9.5739313
+            ],
+            [
+              77.675628,
+              9.573714
+            ],
+            [
+              77.6753058,
+              9.5734281
+            ],
+            [
+              77.6751062,
+              9.5736497
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762730",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": "forest",
+        "osm_tags": {
+          "landuse": "forest"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762731",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6758777,
+              9.573408
+            ],
+            [
+              77.6761003,
+              9.5735876
+            ],
+            [
+              77.6753806,
+              9.5742485
+            ],
+            [
+              77.6754841,
+              9.5743527
+            ],
+            [
+              77.6761228,
+              9.5737517
+            ],
+            [
+              77.6762735,
+              9.5736963
+            ],
+            [
+              77.6762982,
+              9.5734834
+            ],
+            [
+              77.6759631,
+              9.5733259
+            ],
+            [
+              77.6758777,
+              9.573408
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762731",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": "forest",
+        "osm_tags": {
+          "landuse": "forest"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762732",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6764512,
+              9.5737584
+            ],
+            [
+              77.6765141,
+              9.5738715
+            ],
+            [
+              77.6766108,
+              9.5739846
+            ],
+            [
+              77.6767255,
+              9.5739735
+            ],
+            [
+              77.6766963,
+              9.5740378
+            ],
+            [
+              77.6765839,
+              9.5741664
+            ],
+            [
+              77.6767121,
+              9.574244
+            ],
+            [
+              77.67691,
+              9.5740334
+            ],
+            [
+              77.676901,
+              9.5739358
+            ],
+            [
+              77.6766963,
+              9.5736918
+            ],
+            [
+              77.6764512,
+              9.5737584
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762732",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": "forest",
+        "osm_tags": {
+          "landuse": "forest"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762733",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6762802,
+              9.5738338
+            ],
+            [
+              77.6763387,
+              9.5739336
+            ],
+            [
+              77.6762576,
+              9.5740646
+            ],
+            [
+              77.6761116,
+              9.573958
+            ],
+            [
+              77.6762802,
+              9.5738338
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762733",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": "park",
+        "landuse": null,
+        "osm_tags": {
+          "leisure": "park"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762734",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6769527,
+              9.5744481
+            ],
+            [
+              77.6772158,
+              9.5742751
+            ],
+            [
+              77.6770741,
+              9.5740356
+            ],
+            [
+              77.6769782,
+              9.5740296
+            ],
+            [
+              77.6767098,
+              9.5743461
+            ],
+            [
+              77.6765884,
+              9.5746432
+            ],
+            [
+              77.6769527,
+              9.5744481
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762734",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": "forest",
+        "osm_tags": {
+          "landuse": "forest"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762735",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6770044,
+              9.5746965
+            ],
+            [
+              77.6771056,
+              9.5749227
+            ],
+            [
+              77.6773418,
+              9.5747963
+            ],
+            [
+              77.6774093,
+              9.5744215
+            ],
+            [
+              77.6773125,
+              9.5743261
+            ],
+            [
+              77.6770044,
+              9.5746965
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762735",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": "forest",
+        "osm_tags": {
+          "landuse": "forest"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762736",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6779767,
+              9.5741466
+            ],
+            [
+              77.6781058,
+              9.5741899
+            ],
+            [
+              77.6779328,
+              9.5744523
+            ],
+            [
+              77.6777803,
+              9.5743581
+            ],
+            [
+              77.6779767,
+              9.5741466
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762736",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": "forest",
+        "osm_tags": {
+          "landuse": "forest"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762737",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.6782734,
+            9.5747493
+          ],
+          [
+            77.6783302,
+            9.5747646
+          ],
+          [
+            77.6783832,
+            9.5748232
+          ],
+          [
+            77.678378,
+            9.5747493
+          ],
+          [
+            77.6783897,
+            9.5746895
+          ],
+          [
+            77.6783522,
+            9.5747137
+          ],
+          [
+            77.678338,
+            9.5746984
+          ],
+          [
+            77.678338,
+            9.5746818
+          ],
+          [
+            77.6783199,
+            9.5746818
+          ],
+          [
+            77.6783212,
+            9.5747099
+          ],
+          [
+            77.6782954,
+            9.5746933
+          ],
+          [
+            77.6782734,
+            9.5747493
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762737",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "aeroway": "apron"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561762738",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6789575,
+              9.5752531
+            ],
+            [
+              77.6790377,
+              9.5750717
+            ],
+            [
+              77.6791682,
+              9.5749136
+            ],
+            [
+              77.6792543,
+              9.57494
+            ],
+            [
+              77.679192,
+              9.5750278
+            ],
+            [
+              77.6794353,
+              9.5751507
+            ],
+            [
+              77.6795125,
+              9.5751068
+            ],
+            [
+              77.6795896,
+              9.5751565
+            ],
+            [
+              77.6793582,
+              9.5755399
+            ],
+            [
+              77.6790406,
+              9.575496
+            ],
+            [
+              77.6789635,
+              9.5754609
+            ],
+            [
+              77.6789575,
+              9.5752531
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561762738",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": "park",
+        "landuse": null,
+        "osm_tags": {
+          "leisure": "park"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561769448",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.682942,
+              9.5732874
+            ],
+            [
+              77.6828859,
+              9.5733764
+            ],
+            [
+              77.683135,
+              9.5734624
+            ],
+            [
+              77.6832222,
+              9.5735146
+            ],
+            [
+              77.6835584,
+              9.5736251
+            ],
+            [
+              77.6836954,
+              9.5733181
+            ],
+            [
+              77.6836331,
+              9.5732383
+            ],
+            [
+              77.683546,
+              9.5731308
+            ],
+            [
+              77.6833467,
+              9.5731677
+            ],
+            [
+              77.6834619,
+              9.5733028
+            ],
+            [
+              77.682942,
+              9.5732874
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561769448",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561769449",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.682777,
+              9.5734409
+            ],
+            [
+              77.6827178,
+              9.5735699
+            ],
+            [
+              77.6832502,
+              9.573794
+            ],
+            [
+              77.6833031,
+              9.5736834
+            ],
+            [
+              77.682777,
+              9.5734409
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561769449",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561769450",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6824327,
+              9.5733326
+            ],
+            [
+              77.6824799,
+              9.5732455
+            ],
+            [
+              77.682028,
+              9.5730247
+            ],
+            [
+              77.6819151,
+              9.573047
+            ],
+            [
+              77.6818966,
+              9.5731017
+            ],
+            [
+              77.6824327,
+              9.5733326
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561769450",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561769451",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6818088,
+              9.5732354
+            ],
+            [
+              77.6816557,
+              9.5735641
+            ],
+            [
+              77.6817519,
+              9.5736016
+            ],
+            [
+              77.6818169,
+              9.5734492
+            ],
+            [
+              77.681863,
+              9.5734666
+            ],
+            [
+              77.6818955,
+              9.5734198
+            ],
+            [
+              77.6818359,
+              9.5733958
+            ],
+            [
+              77.6818847,
+              9.5732702
+            ],
+            [
+              77.6818088,
+              9.5732354
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561769451",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561769452",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.682228,
+              9.573696
+            ],
+            [
+              77.6822763,
+              9.5737236
+            ],
+            [
+              77.6823977,
+              9.573432
+            ],
+            [
+              77.6823525,
+              9.5734105
+            ],
+            [
+              77.6823588,
+              9.5733706
+            ],
+            [
+              77.6824911,
+              9.5734304
+            ],
+            [
+              77.682351,
+              9.5738265
+            ],
+            [
+              77.6821984,
+              9.5737451
+            ],
+            [
+              77.682228,
+              9.573696
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561769452",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561769453",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6824192,
+              9.5739957
+            ],
+            [
+              77.683054,
+              9.5742461
+            ],
+            [
+              77.6834921,
+              9.5741156
+            ],
+            [
+              77.6825336,
+              9.573696
+            ],
+            [
+              77.6824192,
+              9.5739957
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561769453",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": "park",
+        "landuse": null,
+        "osm_tags": {
+          "leisure": "park"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561769454",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6813074,
+              9.5740391
+            ],
+            [
+              77.6817758,
+              9.5742213
+            ],
+            [
+              77.6818374,
+              9.5741201
+            ],
+            [
+              77.6814019,
+              9.5738932
+            ],
+            [
+              77.6813074,
+              9.5740391
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561769454",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561769455",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.681176,
+              9.5743392
+            ],
+            [
+              77.6816616,
+              9.5745387
+            ],
+            [
+              77.6816367,
+              9.5746247
+            ],
+            [
+              77.6811853,
+              9.5744681
+            ],
+            [
+              77.6811511,
+              9.5746093
+            ],
+            [
+              77.681176,
+              9.5746584
+            ],
+            [
+              77.6811168,
+              9.5747597
+            ],
+            [
+              77.681067,
+              9.5747413
+            ],
+            [
+              77.6809923,
+              9.5748457
+            ],
+            [
+              77.6809207,
+              9.5747966
+            ],
+            [
+              77.681176,
+              9.5743392
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561769455",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "yes",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "yes"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561769456",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6805626,
+              9.5749685
+            ],
+            [
+              77.6806716,
+              9.5750115
+            ],
+            [
+              77.6805813,
+              9.5751404
+            ],
+            [
+              77.6805004,
+              9.5751067
+            ],
+            [
+              77.6805626,
+              9.5749685
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561769456",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "yes",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "yes"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561769457",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6803385,
+              9.5754321
+            ],
+            [
+              77.6805222,
+              9.5754965
+            ],
+            [
+              77.6805502,
+              9.575343
+            ],
+            [
+              77.6804194,
+              9.5752202
+            ],
+            [
+              77.6803385,
+              9.5754321
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561769457",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "yes",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "yes"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561769458",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6805813,
+              9.5740659
+            ],
+            [
+              77.6807059,
+              9.5741365
+            ],
+            [
+              77.6807899,
+              9.5739923
+            ],
+            [
+              77.6806809,
+              9.5739032
+            ],
+            [
+              77.6805813,
+              9.5740659
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561769458",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "yes",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "yes"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561769459",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.681609,
+              9.5750481
+            ],
+            [
+              77.6821102,
+              9.5752661
+            ],
+            [
+              77.6820884,
+              9.5753766
+            ],
+            [
+              77.6821787,
+              9.575395
+            ],
+            [
+              77.6824465,
+              9.5747964
+            ],
+            [
+              77.6818176,
+              9.5744986
+            ],
+            [
+              77.681609,
+              9.5750481
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561769459",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": "apartments",
+        "amenity": null,
+        "leisure": null,
+        "landuse": null,
+        "osm_tags": {
+          "building": "apartments"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1561769460",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.6756479,
+              9.574735
+            ],
+            [
+              77.6756962,
+              9.5746997
+            ],
+            [
+              77.6755717,
+              9.5745907
+            ],
+            [
+              77.6757118,
+              9.574491
+            ],
+            [
+              77.6760044,
+              9.5746614
+            ],
+            [
+              77.6760387,
+              9.5747442
+            ],
+            [
+              77.6760605,
+              9.574689
+            ],
+            [
+              77.6760465,
+              9.5746322
+            ],
+            [
+              77.6761881,
+              9.5746629
+            ],
+            [
+              77.6761772,
+              9.5748348
+            ],
+            [
+              77.6760496,
+              9.5749469
+            ],
+            [
+              77.6759157,
+              9.5748931
+            ],
+            [
+              77.6756479,
+              9.574735
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": "1561769460",
+        "highway": null,
+        "name": null,
+        "surface": null,
+        "building": null,
+        "amenity": null,
+        "leisure": "park",
+        "landuse": null,
+        "osm_tags": {
+          "leisure": "park"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238903074",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.6832739,
+          9.5761055
+        ]
+      },
+      "properties": {
+        "osm_id": "12238903074",
+        "name": "MAIN GATE",
+        "osm_tags": {
+          "name": "MAIN GATE"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238903076",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.6814292,
+          9.5762134
+        ]
+      },
+      "properties": {
+        "osm_id": "12238903076",
+        "name": "LADIES HOSTEL",
+        "osm_tags": {
+          "name": "LADIES HOSTEL"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238903078",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.680679,
+          9.5757512
+        ]
+      },
+      "properties": {
+        "osm_id": "12238903078",
+        "name": "MENS HOSTEL 5",
+        "osm_tags": {
+          "name": "MENS HOSTEL 5"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238903083",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.6796554,
+          9.5749185
+        ]
+      },
+      "properties": {
+        "osm_id": "12238903083",
+        "name": "TIFAC CORE",
+        "osm_tags": {
+          "name": "TIFAC CORE"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238903085",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.6803774,
+          9.5746391
+        ]
+      },
+      "properties": {
+        "osm_id": "12238903085",
+        "name": "GUEST HOUSE",
+        "osm_tags": {
+          "name": "GUEST HOUSE"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238903087",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.6786538,
+          9.57474
+        ]
+      },
+      "properties": {
+        "osm_id": "12238903087",
+        "name": "KALASAINGAM LIBRARY",
+        "osm_tags": {
+          "name": "KALASAINGAM LIBRARY"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238903090",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.6779756,
+          9.5749023
+        ]
+      },
+      "properties": {
+        "osm_id": "12238903090",
+        "name": "RESTAURANT",
+        "osm_tags": {
+          "name": "RESTAURANT"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238903092",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.6777191,
+          9.5746857
+        ]
+      },
+      "properties": {
+        "osm_id": "12238903092",
+        "name": "KALASALINGAM AUDITORIUM",
+        "osm_tags": {
+          "name": "KALASALINGAM AUDITORIUM"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238903095",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.677502,
+          9.5745004
+        ]
+      },
+      "properties": {
+        "osm_id": "12238903095",
+        "name": "POST OFFICE / BANK/ATM",
+        "osm_tags": {
+          "name": "POST OFFICE / BANK/ATM"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238903098",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.6768358,
+          9.5751441
+        ]
+      },
+      "properties": {
+        "osm_id": "12238903098",
+        "name": "MANIMANDABAM",
+        "osm_tags": {
+          "name": "MANIMANDABAM"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238903100",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.6767474,
+          9.5755948
+        ]
+      },
+      "properties": {
+        "osm_id": "12238903100",
+        "name": "PHYSICAL EDUCATION DEPT/GYM",
+        "osm_tags": {
+          "name": "PHYSICAL EDUCATION DEPT/GYM"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238907202",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.6783557,
+          9.5754678
+        ]
+      },
+      "properties": {
+        "osm_id": "12238907202",
+        "name": "KALASALINGAM GROUND",
+        "osm_tags": {
+          "name": "KALASALINGAM GROUND"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238907209",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.677663,
+          9.5742997
+        ]
+      },
+      "properties": {
+        "osm_id": "12238907209",
+        "name": "SUDEXO / MENS HOSTEL 6",
+        "osm_tags": {
+          "name": "SUDEXO / MENS HOSTEL 6"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238907213",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.6770072,
+          9.5745337
+        ]
+      },
+      "properties": {
+        "osm_id": "12238907213",
+        "name": "COE OFFICE",
+        "osm_tags": {
+          "name": "COE OFFICE"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238907217",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.677887,
+          9.5735994
+        ]
+      },
+      "properties": {
+        "osm_id": "12238907217",
+        "name": "BHAGAT SINGH HOSTEL",
+        "osm_tags": {
+          "name": "BHAGAT SINGH HOSTEL"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238907220",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.6767881,
+          9.5736202
+        ]
+      },
+      "properties": {
+        "osm_id": "12238907220",
+        "name": "NELSON MANDELA MENS HOSTEL / MH 1",
+        "osm_tags": {
+          "name": "NELSON MANDELA MENS HOSTEL / MH 1"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238907224",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.6760503,
+          9.5750169
+        ]
+      },
+      "properties": {
+        "osm_id": "12238907224",
+        "name": "SRINIVASA RAMANIJAM BLOCK / 8TH BLOCK",
+        "osm_tags": {
+          "name": "SRINIVASA RAMANIJAM BLOCK / 8TH BLOCK"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238907226",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.6752973,
+          9.5747647
+        ]
+      },
+      "properties": {
+        "osm_id": "12238907226",
+        "name": "SRINIVASA RAMANUJAM BLOCK / 8TH BLOCK",
+        "osm_tags": {
+          "name": "SRINIVASA RAMANUJAM BLOCK / 8TH BLOCK"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238907229",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.6760454,
+          9.5745436
+        ]
+      },
+      "properties": {
+        "osm_id": "12238907229",
+        "name": "COMPITER SCIENCE DEPT LAB",
+        "osm_tags": {
+          "name": "COMPITER SCIENCE DEPT LAB"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238907230",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.6747646,
+          9.5742508
+        ]
+      },
+      "properties": {
+        "osm_id": "12238907230",
+        "name": "APJ ABUDL KALAM BLOCK / 9TH BLOCK",
+        "osm_tags": {
+          "name": "APJ ABUDL KALAM BLOCK / 9TH BLOCK"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238907233",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.6760355,
+          9.5741301
+        ]
+      },
+      "properties": {
+        "osm_id": "12238907233",
+        "name": "ADMIN OFFICE",
+        "osm_tags": {
+          "name": "ADMIN OFFICE"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238907234",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.674866,
+          9.5741268
+        ]
+      },
+      "properties": {
+        "osm_id": "12238907234",
+        "name": "10TH BLOCK",
+        "osm_tags": {
+          "name": "10TH BLOCK"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238907237",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.6750973,
+          9.5731946
+        ]
+      },
+      "properties": {
+        "osm_id": "12238907237",
+        "name": "FE BLOCK / 11TH BLOCK",
+        "osm_tags": {
+          "name": "FE BLOCK / 11TH BLOCK"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238907240",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.673887,
+          9.5738136
+        ]
+      },
+      "properties": {
+        "osm_id": "12238907240",
+        "name": "7 TH BLOCK",
+        "osm_tags": {
+          "name": "7 TH BLOCK"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238907242",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.6758005,
+          9.5725094
+        ]
+      },
+      "properties": {
+        "osm_id": "12238907242",
+        "name": "MENS HOSTEL 2",
+        "osm_tags": {
+          "name": "MENS HOSTEL 2"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12238907245",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.675139,
+          9.5719312
+        ]
+      },
+      "properties": {
+        "osm_id": "12238907245",
+        "name": "MENS HOSTEL 3",
+        "osm_tags": {
+          "name": "MENS HOSTEL 3"
+        }
+      }
+    }
+  ]
+}

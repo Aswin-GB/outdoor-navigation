@@ -1,0 +1,21 @@
+{
+  "input": "/mnt/data/map (1).osm",
+  "output": "/mnt/data/campus_map_data",
+  "osm_nodes": 749,
+  "osm_ways_with_geometry": 113,
+  "geojson_features": 139,
+  "routing_nodes": 102,
+  "routing_directed_edges": 178,
+  "places": 35,
+  "walkable_highways": [
+    "footway",
+    "living_street",
+    "path",
+    "pedestrian",
+    "residential",
+    "secondary",
+    "service",
+    "tertiary",
+    "unclassified"
+  ]
+}
