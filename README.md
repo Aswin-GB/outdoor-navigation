@@ -578,3 +578,4 @@ Measures:
 - Mobile app (React Native)
 - Offline map support
 - Turn-by-turn voice navigation
+# outdoor-navigation
