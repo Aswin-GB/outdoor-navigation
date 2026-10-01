@@ -1062,8 +1062,8 @@ body {
   color: var(--text-secondary);
 }
 
-/* Map Configuration Message */
-.map-config-message {
+/* Map Error Message */
+.map-error-message {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -1077,72 +1077,16 @@ body {
   z-index: 100;
 }
 
-.map-config-message.error {
-  border: 1px solid var(--danger);
-}
-
-.config-icon {
-  color: var(--primary);
-  margin-bottom: 1rem;
-}
-
-.map-config-message.error .config-icon {
-  color: var(--danger);
-}
-
-.map-config-message h3 {
+.map-error-message h3 {
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
+  color: var(--danger);
 }
 
-.map-config-message p {
+.map-error-message p {
   color: var(--text-secondary);
   font-size: 0.875rem;
-  margin-bottom: 1rem;
-}
-
-.config-instructions {
-  text-align: left;
-  background: var(--bg);
-  border-radius: var(--radius);
-  padding: 1rem;
-  margin-top: 1rem;
-}
-
-.config-instructions p {
-  margin: 0.5rem 0;
-  font-size: 0.875rem;
-}
-
-.config-instructions a {
-  color: var(--primary);
-  text-decoration: none;
-}
-
-.config-instructions a:hover {
-  text-decoration: underline;
-}
-
-.config-code {
-  display: block;
-  background: var(--surface);
-  padding: 0.5rem;
-  border-radius: var(--radius);
-  font-family: monospace;
-  font-size: 0.875rem;
-  margin: 0.5rem 0;
-  border: 1px solid var(--border);
-}
-
-.error-details {
-  font-family: monospace;
-  font-size: 0.75rem;
-  color: var(--danger);
-  background: #fef2f2;
-  padding: 0.5rem;
-  border-radius: var(--radius);
-  margin-top: 0.5rem;
 }
 
 /* Responsive */

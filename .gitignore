@@ -66,3 +66,16 @@ node_modules/
 # Build
 dist/
 build/
+
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+.env
+.env.*
+node_modules/
+dist/
+build/
+.vscode/
+.ipynb_checkpoints/
