@@ -139,7 +139,25 @@ class PresenceManager:
         return None
 
     def cleanup_expired(self) -> int:
-        """Clean up expired sessions. Returns count of removed sessions."""
-        # Redis TTL handles expiration automatically
-        # This method can be used for additional cleanup if needed
-        return 0
+        """Clean up expired sessions from edge sets. Returns count of removed sessions."""
+        client = get_redis_client()
+        if not client:
+            return 0
+
+        try:
+            removed_count = 0
+            # Scan all active_users:* sets
+            keys = client.keys("active_users:*")
+            for key in keys:
+                # Get all session IDs on this edge
+                members = client.smembers(key)
+                for session_id in members:
+                    sid = session_id.decode() if isinstance(session_id, bytes) else session_id
+                    # Check if the corresponding session key still exists
+                    if not client.exists(self._session_key(sid)):
+                        client.srem(key, sid)
+                        removed_count += 1
+            return removed_count
+        except Exception as e:
+            logger.error(f"Expired cleanup failed: {e}")
+            return 0

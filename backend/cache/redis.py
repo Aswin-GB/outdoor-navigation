@@ -1,15 +1,16 @@
 """
 Redis cache client wrapper.
 Provides a unified interface for Redis operations.
+Supports an in-memory fallback for environments without Redis.
 """
 import logging
-from typing import Optional
+from typing import Optional, Any
 from django.conf import settings
 
 logger = logging.getLogger('cache')
 
 _redis_client = None
-
+_memory_cache = {}
 
 def get_redis_client() -> Optional[object]:
     """
@@ -17,7 +18,6 @@ def get_redis_client() -> Optional[object]:
     Returns None if Redis is unavailable.
     """
     global _redis_client
-
     if _redis_client is not None:
         return _redis_client
 
@@ -39,8 +39,42 @@ def get_redis_client() -> Optional[object]:
         _redis_client = None
         return None
 
+def get_cached_item(key: str) -> Optional[Any]:
+    """Get item from Redis or in-memory fallback."""
+    client = get_redis_client()
+    if client:
+        try:
+            cached = client.get(key)
+            if cached:
+                import json
+                return json.loads(cached)
+        except Exception as e:
+            logger.warning(f"Redis read failed: {e}")
 
-def reset_redis_client():
-    """Reset the Redis client (for testing)."""
-    global _redis_client
-    _redis_client = None
+    # Fallback to in-memory cache
+    return _memory_cache.get(key)
+
+def set_cached_item(key: str, value: Any, ttl: int = 300) -> None:
+    """Set item in Redis or in-memory fallback."""
+    global _memory_cache
+    client = get_redis_client()
+    if client:
+        try:
+            import json
+            client.setex(key, ttl, json.dumps(value))
+            return
+        except Exception as e:
+            logger.warning(f"Redis write failed: {e}")
+
+    # Fallback to in-memory cache
+    _memory_cache[key] = value
+
+def clear_cache() -> None:
+    """Clear all cached items."""
+    global _memory_cache
+    if _redis_client:
+        try:
+            _redis_client.flushall()
+        except Exception:
+            pass
+    _memory_cache.clear()

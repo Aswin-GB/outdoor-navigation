@@ -27,6 +27,7 @@ class GraphManager:
         self._graph: Optional[GraphData] = None
         self._graph_version = 0
         self._map_version = 0
+        self._stale = False
         self._lock = threading.RLock()
 
     def load_graph(self) -> GraphData:
@@ -112,10 +113,26 @@ class GraphManager:
             pass
         return False
 
-    def update_edge_weight(self, edge_id: str, new_time_sec: float):
-        """Update edge weight in the in-memory graph."""
+    def mark_stale(self):
+        """Mark the graph as stale, triggering reload on next access."""
+        self._stale = True
+
+    def reload_if_stale(self) -> GraphData:
+        """Reload graph if it has become stale."""
+        if self._stale or self.is_graph_stale():
+            self._stale = False  # Reset stale flag after reload
+            return self.reload_graph()
+        return self._graph
+
+    def ensure_current(self) -> GraphData:
+        """Ensure the graph is current, reloading if necessary."""
+        return self.reload_if_stale()
+
+    def update_edge_weight(self, edge_id: str, traffic_level: str):
+        """Update edge weight in the in-memory graph based on traffic level."""
         if self._graph:
-            self._graph.update_edge_weight(edge_id, new_time_sec)
+            self._graph.update_edge_weight(edge_id, traffic_level)
+
 
     def get_spatial_index(self):
         """Get the spatial index for map matching."""

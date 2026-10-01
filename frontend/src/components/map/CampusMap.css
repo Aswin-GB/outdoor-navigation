@@ -1,0 +1,32 @@
+.map-layer-control {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+  background: white;
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.map-layer-control button {
+  padding: 6px 12px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.map-layer-control button.active {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+.map-layer-control button:hover:not(.active) {
+  background: #f8fafc;
+}

@@ -95,10 +95,11 @@ class RouteView(APIView):
                 }
             }, status=status.HTTP_400_BAD_REQUEST)
 
+        algorithm = data.get('algorithm', 'astar')
         mode = data.get('mode', 'walking')
 
         service = RoutingService()
-        result = service.compute_route(source_lat, source_lng, dest_lat, dest_lng, mode)
+        result = service.compute_route(source_lat, source_lng, dest_lat, dest_lng, mode, algorithm)
 
         if result['success']:
             return Response(result, status=status.HTTP_200_OK)
@@ -111,75 +112,25 @@ class RouteView(APIView):
             return Response(result, status=http_status)
 
 
-class RerouteView(APIView):
-    """POST /api/v1/routes/{route_id}/reroute - Reroute from current position."""
+class TrafficUpdateView(APIView):
+    """POST /api/v1/traffic/update - Update travel time for an edge."""
 
-    def post(self, request, route_id):
+    def post(self, request):
         data = request.data
+        edge_id = data.get('edge_id')
+        traffic_level = data.get('traffic_level')
 
-        current = data.get('current_position', {})
-        current_lat = current.get('lat')
-        current_lng = current.get('lng')
-
-        if current_lat is None or current_lng is None:
+        if not edge_id or not traffic_level:
             return Response({
                 'success': False,
-                'error': {
-                    'code': 'INVALID_POSITION',
-                    'message': 'Current position coordinates are required.',
-                }
+                'error': 'edge_id and traffic_level are required'
             }, status=status.HTTP_400_BAD_REQUEST)
 
-        destination = data.get('destination', {})
-        dest_place_id = destination.get('place_id')
-        dest_lat = destination.get('lat')
-        dest_lng = destination.get('lng')
+        from routing_engine.manager import get_graph_manager
+        manager = get_graph_manager()
+        manager.update_edge_weight(edge_id, traffic_level)
 
-        if dest_place_id is None and (dest_lat is None or dest_lng is None):
-            return Response({
-                'success': False,
-                'error': {
-                    'code': 'INVALID_DESTINATION',
-                    'message': 'Destination place_id or coordinates are required.',
-                }
-            }, status=status.HTTP_400_BAD_REQUEST)
-
-        # Resolve place_id if needed
-        if dest_place_id and (dest_lat is None or dest_lng is None):
-            from places.models import Place
-            try:
-                place = Place.objects.get(id=dest_place_id)
-                dest_lat = place.lat
-                dest_lng = place.lng
-            except Place.DoesNotExist:
-                return Response({
-                    'success': False,
-                    'error': {
-                        'code': 'PLACE_NOT_FOUND',
-                        'message': f'Place with id {dest_place_id} not found.',
-                    }
-                }, status=status.HTTP_404_NOT_FOUND)
-
-        try:
-            current_lat = float(current_lat)
-            current_lng = float(current_lng)
-            dest_lat = float(dest_lat)
-            dest_lng = float(dest_lng)
-        except (TypeError, ValueError):
-            return Response({
-                'success': False,
-                'error': {
-                    'code': 'INVALID_COORDINATES',
-                    'message': 'Coordinates must be valid numbers.',
-                }
-            }, status=status.HTTP_400_BAD_REQUEST)
-
-        reason = data.get('reason', 'traffic_change')
-
-        service = RoutingService()
-        result = service.reroute(route_id, current_lat, current_lng, dest_lat, dest_lng, reason)
-
-        if result['success']:
-            return Response(result, status=status.HTTP_200_OK)
-        else:
-            return Response(result, status=status.HTTP_400_BAD_REQUEST)
+        return Response({
+            'success': True,
+            'message': f'Traffic for edge {edge_id} updated to {traffic_level}'
+        }, status=status.HTTP_200_OK)

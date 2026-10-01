@@ -70,18 +70,40 @@ class GraphData:
             return float('inf')
         return weight_func
 
-    def update_edge_weight(self, edge_id: str, new_time_sec: float):
-        """Update the current travel time for an edge."""
+    def update_edge_weight(self, edge_id: str, traffic_level: str):
+        """Update the current travel time for an edge based on traffic level."""
         if edge_id in self.edges:
-            self.edges[edge_id]['current_time_sec'] = new_time_sec
-            # Update adjacency weights
             edge = self.edges[edge_id]
+            dist = edge.get('distance_m', 0.0)
+
+            # Traffic speed mapping (km/h)
+            speeds = {
+                'LOW': 40,
+                'MEDIUM': 30,
+                'HIGH': 18,
+                'SEVERE': 7,
+                'CLOSED': 0
+            }
+
+            speed_kmh = speeds.get(traffic_level, 30)
+            edge['traffic_level'] = traffic_level
+
+            if speed_kmh == 0:
+                new_time_sec = float('inf')
+            else:
+                # travel_time_s = distance_m / (speed_kmh * 1000 / 3600)
+                new_time_sec = dist / (speed_kmh * 1000 / 3600)
+
+            edge['current_time_sec'] = new_time_sec
+
+            # Update adjacency weights
             from_node = edge['from']
             if from_node in self.adjacency:
                 for i, (neighbor, eid, weight) in enumerate(self.adjacency[from_node]):
                     if eid == edge_id:
                         self.adjacency[from_node][i] = (neighbor, eid, new_time_sec)
                         break
+
 
     def get_stats(self) -> dict:
         """Get graph statistics."""

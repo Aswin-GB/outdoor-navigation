@@ -3,6 +3,7 @@ import CampusMap from './components/map/CampusMap'
 import SearchBox from './components/navigation/SearchBox'
 import RoutePanel from './components/navigation/RoutePanel'
 import NavigationPanel from './components/navigation/NavigationPanel'
+import RerouteNotice from './components/navigation/RerouteNotice'
 import TrafficPanel from './components/traffic/TrafficPanel'
 import TradeoffPanel from './components/traffic/TradeoffPanel'
 import TrafficDemo from './components/demo/TrafficDemo'
@@ -11,43 +12,57 @@ import { useCampusData } from './hooks/useCampusData'
 import { useNavigation } from './hooks/useNavigation'
 import { useTraffic } from './hooks/useTraffic'
 import { useWebSocket } from './hooks/useWebSocket'
+import { useGeolocation } from './hooks/useGeolocation'
+import { computeRoute } from './services/routeApi'
 
 export default function App() {
   const [view, setView] = useState('map') // 'map' | 'demo' | 'admin'
   const [selectedPlace, setSelectedPlace] = useState(null)
   const [route, setRoute] = useState(null)
   const [showTradeoff, setShowTradeoff] = useState(false)
+  const [routeError, setRouteError] = useState(null)
+  const [rerouteData, setRerouteData] = useState(null)
 
   const { mapData, places, loading: mapLoading, error: mapError } = useCampusData()
   const { navigation, startNavigation, stopNavigation, updateLocation } = useNavigation()
   const { trafficData, trafficVersion, activeUsers } = useTraffic()
   const { connected, lastMessage } = useWebSocket(navigation?.navigation_id)
+  const { position, error: geoError, getCurrentPosition } = useGeolocation()
 
-  // Handle place selection
-  const handlePlaceSelect = useCallback((place) => {
+  // Handle place selection — trigger route request when we have GPS
+  const handlePlaceSelect = useCallback(async (place) => {
     setSelectedPlace(place)
-  }, [])
+    setRouteError(null)
 
-  // Handle route request
-  const handleRouteRequest = useCallback(async (source, destination) => {
+    if (!place) {
+      setRoute(null)
+      return
+    }
+
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/v1/routes`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          source,
-          destination: { place_id: destination.id },
-          mode: 'walking',
-        }),
-      })
-      const data = await response.json()
-      if (data.success) {
-        setRoute(data.data)
+      // Get current position
+      const pos = await getCurrentPosition()
+
+      if (!pos) {
+        setRouteError('Unable to get your location. Please enable GPS.')
+        return
+      }
+
+      const result = await computeRoute(
+        { lat: pos.lat, lng: pos.lng },
+        { place_id: place.id }
+      )
+
+      if (result.success) {
+        setRoute(result.data)
+        setRouteError(null)
+      } else {
+        setRouteError(result.error?.message || 'No route found.')
       }
     } catch (err) {
-      console.error('Route request failed:', err)
+      setRouteError(err.message || 'Failed to compute route.')
     }
-  }, [])
+  }, [getCurrentPosition])
 
   // Handle navigation start
   const handleStartNavigation = useCallback(async () => {
@@ -70,6 +85,7 @@ export default function App() {
         duration_sec: lastMessage.eta_sec,
         traffic_version: lastMessage.traffic_version,
       }))
+      setRerouteData(lastMessage)
     }
   }, [lastMessage])
 
@@ -153,6 +169,15 @@ export default function App() {
               trafficData={trafficData}
               trafficVersion={trafficVersion}
               activeUsers={activeUsers}
+            />
+            {routeError && (
+              <div className="map-error-message" style={{ top: '1rem', left: '50%', transform: 'translateX(-50%)', bottom: 'auto' }}>
+                <p>{routeError}</p>
+              </div>
+            )}
+            <RerouteNotice
+              rerouteData={rerouteData}
+              onDismiss={() => setRerouteData(null)}
             />
           </>
         )}

@@ -10,6 +10,7 @@ from typing import Optional
 
 from django.conf import settings
 from routing_engine.astar import astar, haversine_m
+from routing_engine.dijkstra import dijkstra
 from routing_engine.manager import get_graph_manager
 from cache.redis import get_redis_client
 from analytics.services import AnalyticsService
@@ -41,33 +42,25 @@ class RoutingService:
         return self._redis_available
 
     def _get_cached_route(self, cache_key: str) -> Optional[dict]:
-        """Try to get a cached route from Redis."""
-        if not self._is_redis_available():
-            return None
+        """Try to get a cached route from Redis or fallback."""
         try:
-            client = get_redis_client()
-            if client:
-                cached = client.get(cache_key)
-                if cached:
-                    route = json.loads(cached)
-                    route['cache'] = 'HIT'
-                    return route
+            from cache.redis import get_cached_item
+            cached = get_cached_item(cache_key)
+            if cached:
+                route = dict(cached)
+                route['cache'] = 'HIT'
+                return route
         except Exception as e:
-            logger.warning(f"Redis cache read failed: {e}")
-            self._redis_available = False
+            logger.warning(f"Cache read failed: {e}")
         return None
 
     def _cache_route(self, cache_key: str, route: dict, ttl: int = 300):
-        """Cache a route in Redis."""
-        if not self._is_redis_available():
-            return
+        """Cache a route in Redis or fallback."""
         try:
-            client = get_redis_client()
-            if client:
-                client.setex(cache_key, ttl, json.dumps(route))
+            from cache.redis import set_cached_item
+            set_cached_item(cache_key, route, ttl)
         except Exception as e:
-            logger.warning(f"Redis cache write failed: {e}")
-            self._redis_available = False
+            logger.warning(f"Cache write failed: {e}")
 
     def find_nearest_node(self, lat: float, lng: float, max_distance_m: float = 500.0) -> Optional[str]:
         """Find the nearest graph node to a coordinate."""
@@ -95,6 +88,7 @@ class RoutingService:
         dest_lat: float,
         dest_lng: float,
         mode: str = 'walking',
+        algorithm: str = 'astar',
     ) -> dict:
         """
         Compute the fastest route between two points.
@@ -144,8 +138,8 @@ class RoutingService:
         except Exception:
             pass
 
-        # Check cache
-        cache_key = self._get_cache_key(source_node, dest_node, map_version, traffic_version)
+        # Check cache (including algorithm in key)
+        cache_key = f"route:{source_node}:{dest_node}:{algorithm}:{map_version}:{traffic_version}"
         cached = self._get_cached_route(cache_key)
         if cached:
             self.analytics.record_cache_hit()
@@ -158,17 +152,23 @@ class RoutingService:
 
         self.analytics.record_cache_miss()
 
-        # Build graph dict for A*
+        # Build graph dict for algorithm
         graph_dict = {
             'nodes': graph.nodes,
             'adjacency': graph.adjacency,
+            'edges': graph.edges,
         }
 
         # Get current time function for dynamic weights
         current_time_func = graph.get_edge_weight_func()
 
-        # Run A*
-        result = astar(graph_dict, source_node, dest_node, current_time_func)
+        # Run selected algorithm
+        if algorithm == 'dijkstra':
+            result = dijkstra(graph_dict, source_node, dest_node, current_time_func)
+            algo_name = 'Dijkstra'
+        else:
+            result = astar(graph_dict, source_node, dest_node, current_time_func)
+            algo_name = 'A*'
 
         if result is None:
             return {
@@ -180,7 +180,8 @@ class RoutingService:
             }
 
         # Record metrics
-        self.analytics.record_astar_run(result['latency_ms'])
+        if algorithm == 'astar':
+            self.analytics.record_astar_run(result['latency_ms'])
 
         # Build response
         route_data = {
@@ -189,13 +190,13 @@ class RoutingService:
             'node_path': result['path'],
             'distance_m': result['distance_m'],
             'duration_sec': result['duration_sec'],
-            'algorithm': 'A*',
+            'algorithm': algo_name,
             'cache': 'MISS',
             'map_version': map_version,
             'traffic_version': traffic_version,
             'source_node': source_node,
             'dest_node': dest_node,
-            'astar_latency_ms': result['latency_ms'],
+            'latency_ms': result['latency_ms'],
             'nodes_executed': result['nodes_executed'],
         }
 
