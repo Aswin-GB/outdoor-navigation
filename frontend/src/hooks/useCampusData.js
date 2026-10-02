@@ -17,18 +17,31 @@ export function useCampusData() {
     async function load() {
       try {
         setLoading(true)
-        const [mapResult, placesResult] = await Promise.all([
+        setError(null)
+
+        const [mapResult, placesResult] = await Promise.allSettled([
           getMapData(),
           getPlaces({ limit: 100 }),
         ])
-        if (!cancelled) {
-          setMapData(mapResult.data)
-          setPlaces(placesResult.data || [])
-          setError(null)
+
+        if (cancelled) return
+
+        if (mapResult.status === 'fulfilled' && mapResult.value?.data) {
+          setMapData(mapResult.value.data)
+        } else {
+          const message = mapResult.reason?.message || 'Campus map failed to load.'
+          setError(message)
+          setMapData(null)
+        }
+
+        if (placesResult.status === 'fulfilled') {
+          setPlaces(placesResult.value?.data || [])
+        } else {
+          console.error('Places request failed:', placesResult.reason)
         }
       } catch (err) {
         if (!cancelled) {
-          setError(err.message)
+          setError(err.message || 'Campus data failed to load.')
         }
       } finally {
         if (!cancelled) {

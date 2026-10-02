@@ -51,6 +51,7 @@ Trade-off Analytics
 ## Features
 
 - **Interactive Campus Map** — MapLibre GL JS with OSM-derived data
+- **Production Map Lifecycle** — MapLibre initializes once, creates empty GeoJSON sources immediately, and updates them when map data arrives without recreating the map instance
 - **Dynamic Custom Map Data** — Admin editor for adding/editing campus features
 - **Campus Places** — Searchable POIs with categories
 - **Search** — Partial, case-insensitive place search
@@ -75,6 +76,7 @@ Trade-off Analytics
 - **Trade-off Dashboard** — Real system metrics
 - **Traffic Demo Mode** — Live hackathon demonstration
 - **Traffic Simulator Fallback** — SIMULATED data for testing
+- **Production Resilience** — Map data and places load independently so a places outage does not block campus map rendering
 
 ## Architecture
 

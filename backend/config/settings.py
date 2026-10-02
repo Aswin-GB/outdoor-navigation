@@ -1,19 +1,52 @@
 """
 Django settings for CampusFlow backend.
 """
+import json
 import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+def parse_env_list(name, default):
+    """Support JSON array or comma-separated values for environment config."""
+    value = os.environ.get(name)
+    if value is None:
+        return default
+
+    value = value.strip()
+    if not value:
+        return []
+
+    try:
+        parsed = json.loads(value)
+        if isinstance(parsed, list):
+            return [str(item).strip() for item in parsed if str(item).strip()]
+    except (TypeError, ValueError):
+        pass
+
+    return [item.strip() for item in value.split(',') if item.strip()]
+
+
 # Security
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-only-insecure-key-change-in-production')
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False').lower() in ('true', '1', 'yes')
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,https://campusflow-6hbt.onrender.com,https://campusflow-backend-6d72.onrender.com').split(',')
+ALLOWED_HOSTS = parse_env_list(
+    'DJANGO_ALLOWED_HOSTS',
+    ['localhost', '127.0.0.1', 'campusflow-6hbt.onrender.com', 'campusflow-backend-6d72.onrender.com'],
+)
 
 # CORS
-CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173,https://campusflow-6hbt.onrender.com,https://campusflow-backend-6d72.onrender.com').split(',')
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173,https://campusflow-6hbt.onrender.com,https://campusflow-backend-6d72.onrender.com').split(',')
+CORS_ALLOWED_ORIGINS = parse_env_list(
+    'CORS_ALLOWED_ORIGINS',
+    ['http://localhost:5173', 'http://127.0.0.1:5173', 'https://campusflow-6hbt.onrender.com', 'https://campusflow-backend-6d72.onrender.com'],
+)
+CSRF_TRUSTED_ORIGINS = parse_env_list(
+    'CSRF_TRUSTED_ORIGINS',
+    ['http://localhost:5173', 'http://127.0.0.1:5173', 'https://campusflow-6hbt.onrender.com', 'https://campusflow-backend-6d72.onrender.com'],
+)
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
 INSTALLED_APPS = [

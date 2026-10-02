@@ -4,6 +4,7 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
+import { apiPost } from '../../services/api'
 
 const MAP_STYLE = import.meta.env.VITE_MAP_STYLE_URL || 'https://demotiles.maplibre.org/style.json'
 
@@ -102,6 +103,11 @@ export default function CampusMap({
       addMapLayers()
     })
 
+    map.current.on('error', (event) => {
+      console.error('MapLibre error:', event.error)
+      setEvents(prev => [`[${new Date().toLocaleTimeString()}] Map loading error: ${event.error?.message || 'Unknown map error'}`, ...prev].slice(0, 50))
+    })
+
     return () => {
       if (map.current) {
         map.current.remove()
@@ -114,29 +120,21 @@ export default function CampusMap({
   const addMapLayers = useCallback(() => {
     if (!map.current) return
 
-    // OSM data source
-    map.current.addSource('osm-data', {
-      type: 'geojson',
-      data: mapData?.osm || { type: 'FeatureCollection', features: [] },
-    })
+    // Initialize all sources with valid empty FeatureCollections so updates are safe before remote data arrives.
+    const emptyFeatureCollection = { type: 'FeatureCollection', features: [] }
 
-    // Custom features source
-    map.current.addSource('custom-features', {
-      type: 'geojson',
-      data: mapData?.custom || { type: 'FeatureCollection', features: [] },
-    })
+    const addSourceIfMissing = (sourceId, sourceData = emptyFeatureCollection) => {
+      if (!map.current.getSource(sourceId)) {
+        map.current.addSource(sourceId, { type: 'geojson', data: sourceData })
+      }
+    }
 
-    // Traffic source
-    map.current.addSource('traffic', {
-      type: 'geojson',
-      data: { type: 'FeatureCollection', features: [] },
-    })
+    addSourceIfMissing('osm-data', emptyFeatureCollection)
+    addSourceIfMissing('custom-features', emptyFeatureCollection)
+    addSourceIfMissing('traffic', emptyFeatureCollection)
+    addSourceIfMissing('route', emptyFeatureCollection)
 
-    // Route source
-    map.current.addSource('route', {
-      type: 'geojson',
-      data: { type: 'FeatureCollection', features: [] },
-    })
+    if (map.current.getLayer('osm-buildings')) return
 
     // OSM layers
     map.current.addLayer({
@@ -256,7 +254,48 @@ export default function CampusMap({
         setActivePopup(popup)
       }
     })
-  }, [mapData])
+  }, [])
+
+  useEffect(() => {
+    if (!map.current || !mapLoaded) return
+
+    const source = map.current.getSource('osm-data')
+    if (source && mapData?.osm) {
+      source.setData(mapData.osm)
+    }
+
+    const customSource = map.current.getSource('custom-features')
+    if (customSource && mapData?.custom) {
+      customSource.setData(mapData.custom)
+    }
+
+    if (mapData?.osm && mapData?.custom) {
+      const bounds = new maplibregl.LngLatBounds()
+      const features = [...(mapData.osm?.features || []), ...(mapData.custom?.features || [])]
+
+      for (const feature of features) {
+        const geom = feature.geometry
+        if (!geom) continue
+
+        if (geom.type === 'Point') {
+          bounds.extend(geom.coordinates)
+        } else if (geom.type === 'LineString' || geom.type === 'MultiPoint') {
+          for (const coord of geom.coordinates) {
+            bounds.extend(coord)
+          }
+        } else if (geom.type === 'Polygon' || geom.type === 'MultiLineString') {
+          const coords = geom.type === 'Polygon' ? geom.coordinates : geom.coordinates.flat()
+          for (const coord of coords) {
+            bounds.extend(coord)
+          }
+        }
+      }
+
+      if (!bounds.isEmpty()) {
+        map.current.fitBounds(bounds, { padding: 50, duration: 1000 })
+      }
+    }
+  }, [mapData, mapLoaded])
 
   // Update traffic layer when data changes
   useEffect(() => {
@@ -407,17 +446,11 @@ export default function CampusMap({
     logEvent(`Calculating route from ${fromNode.name} to ${toNode.name} using ${algorithm.toUpperCase()}...`)
 
     try {
-      const response = await fetch('/api/v1/routes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          source: { lat: fromNode.lat, lng: fromNode.lng },
-          destination: { place_id: toNode.id },
-          algorithm: algorithm,
-        })
+      const result = await apiPost('/api/v1/routes', {
+        source: { lat: fromNode.lat, lng: fromNode.lng },
+        destination: { place_id: toNode.id },
+        algorithm: algorithm,
       })
-
-      const result = await response.json()
 
       if (result.success) {
         const data = result.data
@@ -449,7 +482,7 @@ export default function CampusMap({
       }
     } catch (err) {
       console.error('Routing API error:', err)
-      logEvent('API error while computing route')
+      logEvent(`API error while computing route: ${err.message}`)
     }
   }, [fromPlace, toPlace, algorithm, places, logEvent])
 
@@ -458,13 +491,7 @@ export default function CampusMap({
     if (!edgeId) return
 
     try {
-      const response = await fetch('/api/v1/traffic/update', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ edge_id: edgeId, traffic_level: level })
-      })
-
-      const result = await response.json()
+      const result = await apiPost('/api/v1/traffic/update', { edge_id: edgeId, traffic_level: level })
 
       if (result.success) {
         logEvent(`Traffic updated: Edge ${edgeId} -> ${level}`)

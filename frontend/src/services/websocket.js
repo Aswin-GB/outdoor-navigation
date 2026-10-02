@@ -1,7 +1,12 @@
 /**
  * WebSocket service for real-time navigation updates.
  */
-const WS_BASE = import.meta.env.VITE_WS_BASE_URL || 'ws://localhost:8000'
+const normalizeWebSocketBase = (baseUrl, fallback) => {
+  const candidate = (baseUrl || fallback).trim().replace(/\/+$/, '')
+  return candidate || fallback
+}
+
+const WS_BASE = normalizeWebSocketBase(import.meta.env.VITE_WS_BASE_URL, 'ws://localhost:8000')
 
 export class NavigationWebSocket {
   constructor(navigationId, onMessage, onConnect, onDisconnect) {
@@ -17,9 +22,9 @@ export class NavigationWebSocket {
   }
 
   connect() {
-    if (this.closed) return
+    if (this.closed || !this.navigationId) return
 
-    const url = `${WS_BASE}/ws/navigation/${this.navigationId}/`
+    const url = `${WS_BASE.replace(/\/$/, '')}/ws/navigation/${this.navigationId}/`
     this.ws = new WebSocket(url)
 
     this.ws.onopen = () => {

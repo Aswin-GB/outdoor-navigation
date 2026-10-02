@@ -151,6 +151,11 @@ export default function App() {
               onPlaceSelect={handlePlaceSelect}
               loading={mapLoading}
             />
+            {mapError && (
+              <div className="map-error-message" style={{ top: '1rem', left: '50%', transform: 'translateX(-50%)', bottom: 'auto' }}>
+                <p>Campus map failed to load: {mapError}</p>
+              </div>
+            )}
             {route && (
               <RoutePanel
                 route={route}
