@@ -983,7 +983,7 @@
       "properties": {
         "osm_id": "1073485252",
         "highway": null,
-        "name": null,
+        "name": "Linga Global School",
         "surface": null,
         "building": "apartments",
         "amenity": null,
@@ -991,7 +991,8 @@
         "landuse": null,
         "osm_tags": {
           "building": "apartments",
-          "building:levels": "5"
+          "building:levels": "5",
+          "name": "Linga Global School"
         }
       }
     },
@@ -1060,7 +1061,7 @@
       "properties": {
         "osm_id": "1073485254",
         "highway": null,
-        "name": "Kalasalingam University",
+        "name": "Girl's hostel 1",
         "surface": null,
         "building": null,
         "amenity": null,
@@ -1069,7 +1070,7 @@
         "osm_tags": {
           "industrial": "building",
           "landuse": "industrial",
-          "name": "Kalasalingam University"
+          "name": "Girl's hostel 1"
         }
       }
     },
@@ -1995,7 +1996,7 @@
       "properties": {
         "osm_id": "1329359769",
         "highway": null,
-        "name": null,
+        "name": "swimming pool",
         "surface": null,
         "building": null,
         "amenity": null,
@@ -2003,6 +2004,7 @@
         "landuse": null,
         "osm_tags": {
           "leisure": "swimming_pool",
+          "name": "swimming pool",
           "sport": "swimming"
         }
       }
@@ -2086,14 +2088,15 @@
       "properties": {
         "osm_id": "1329359771",
         "highway": null,
-        "name": null,
+        "name": "ground",
         "surface": null,
         "building": null,
         "amenity": null,
         "leisure": "pitch",
         "landuse": null,
         "osm_tags": {
-          "leisure": "pitch"
+          "leisure": "pitch",
+          "name": "ground"
         }
       }
     },
@@ -2146,14 +2149,15 @@
       "properties": {
         "osm_id": "1561762676",
         "highway": null,
-        "name": null,
+        "name": "ADMISSION OFFICE",
         "surface": null,
         "building": "apartments",
         "amenity": null,
         "leisure": null,
         "landuse": null,
         "osm_tags": {
-          "building": "apartments"
+          "building": "apartments",
+          "name": "ADMISSION OFFICE"
         }
       }
     },
@@ -2190,7 +2194,7 @@
       "properties": {
         "osm_id": "1561762677",
         "highway": null,
-        "name": null,
+        "name": "MANIMANDABAM",
         "surface": null,
         "building": "apartments",
         "amenity": "place_of_worship",
@@ -2199,6 +2203,7 @@
         "osm_tags": {
           "amenity": "place_of_worship",
           "building": "apartments",
+          "name": "MANIMANDABAM",
           "religion": "taoist"
         }
       }
@@ -2332,7 +2337,7 @@
       "properties": {
         "osm_id": "1561762679",
         "highway": null,
-        "name": null,
+        "name": "AUDITORIUM",
         "surface": null,
         "building": "yes",
         "amenity": "place_of_worship",
@@ -2340,7 +2345,8 @@
         "landuse": null,
         "osm_tags": {
           "amenity": "place_of_worship",
-          "building": "yes"
+          "building": "yes",
+          "name": "AUDITORIUM"
         }
       }
     },
@@ -2530,14 +2536,15 @@
       "properties": {
         "osm_id": "1561762683",
         "highway": null,
-        "name": null,
+        "name": "2nd BLOCK",
         "surface": null,
         "building": "apartments",
         "amenity": null,
         "leisure": null,
         "landuse": null,
         "osm_tags": {
-          "building": "apartments"
+          "building": "apartments",
+          "name": "2nd BLOCK"
         }
       }
     },
@@ -2578,14 +2585,15 @@
       "properties": {
         "osm_id": "1561762684",
         "highway": null,
-        "name": null,
+        "name": "1st BLOCK",
         "surface": null,
         "building": "apartments",
         "amenity": null,
         "leisure": null,
         "landuse": null,
         "osm_tags": {
-          "building": "apartments"
+          "building": "apartments",
+          "name": "1st BLOCK"
         }
       }
     },
@@ -2638,14 +2646,16 @@
       "properties": {
         "osm_id": "1561762685",
         "highway": null,
-        "name": null,
+        "name": "8th BLOCK",
         "surface": null,
         "building": "apartments",
         "amenity": null,
         "leisure": null,
         "landuse": null,
         "osm_tags": {
-          "building": "apartments"
+          "building": "apartments",
+          "layer": "1",
+          "name": "8th BLOCK"
         }
       }
     },
@@ -2774,14 +2784,15 @@
       "properties": {
         "osm_id": "1561762688",
         "highway": null,
-        "name": null,
+        "name": "3rd BLOCK",
         "surface": null,
         "building": "apartments",
         "amenity": null,
         "leisure": null,
         "landuse": null,
         "osm_tags": {
-          "building": "apartments"
+          "building": "apartments",
+          "name": "3rd BLOCK"
         }
       }
     },
@@ -2818,14 +2829,15 @@
       "properties": {
         "osm_id": "1561762689",
         "highway": null,
-        "name": null,
+        "name": "4th BLOCK",
         "surface": null,
         "building": "apartments",
         "amenity": null,
         "leisure": null,
         "landuse": null,
         "osm_tags": {
-          "building": "apartments"
+          "building": "apartments",
+          "name": "4th BLOCK"
         }
       }
     },
@@ -2870,14 +2882,15 @@
       "properties": {
         "osm_id": "1561762690",
         "highway": null,
-        "name": null,
+        "name": "9th BLOCK",
         "surface": null,
         "building": "apartments",
         "amenity": null,
         "leisure": null,
         "landuse": null,
         "osm_tags": {
-          "building": "apartments"
+          "building": "apartments",
+          "name": "9th BLOCK"
         }
       }
     },
@@ -2938,14 +2951,15 @@
       "properties": {
         "osm_id": "1561762691",
         "highway": null,
-        "name": null,
+        "name": "9TH BLOCK",
         "surface": null,
         "building": "apartments",
         "amenity": null,
         "leisure": null,
         "landuse": null,
         "osm_tags": {
-          "building": "apartments"
+          "building": "apartments",
+          "name": "9TH BLOCK"
         }
       }
     },
@@ -3143,14 +3157,15 @@
       "properties": {
         "osm_id": "1561762694",
         "highway": null,
-        "name": null,
+        "name": "10th BLOCK",
         "surface": null,
         "building": "apartments",
         "amenity": null,
         "leisure": null,
         "landuse": null,
         "osm_tags": {
-          "building": "apartments"
+          "building": "apartments",
+          "name": "10th BLOCK"
         }
       }
     },
@@ -3199,14 +3214,15 @@
       "properties": {
         "osm_id": "1561762695",
         "highway": null,
-        "name": null,
+        "name": "5th BLOCK",
         "surface": null,
         "building": "apartments",
         "amenity": null,
         "leisure": null,
         "landuse": null,
         "osm_tags": {
-          "building": "apartments"
+          "building": "apartments",
+          "name": "5th BLOCK"
         }
       }
     },
@@ -3247,7 +3263,7 @@
       "properties": {
         "osm_id": "1561762696",
         "highway": null,
-        "name": null,
+        "name": "machine shop",
         "surface": null,
         "building": "yes",
         "amenity": "place_of_worship",
@@ -3255,7 +3271,8 @@
         "landuse": null,
         "osm_tags": {
           "amenity": "place_of_worship",
-          "building": "yes"
+          "building": "yes",
+          "name": "machine shop"
         }
       }
     },
@@ -3296,7 +3313,7 @@
       "properties": {
         "osm_id": "1561762697",
         "highway": null,
-        "name": null,
+        "name": "mech lab 2",
         "surface": null,
         "building": "yes",
         "amenity": "place_of_worship",
@@ -3304,7 +3321,8 @@
         "landuse": null,
         "osm_tags": {
           "amenity": "place_of_worship",
-          "building": "yes"
+          "building": "yes",
+          "name": "mech lab 2"
         }
       }
     },
@@ -3341,7 +3359,7 @@
       "properties": {
         "osm_id": "1561762698",
         "highway": null,
-        "name": null,
+        "name": "mech lab 1",
         "surface": null,
         "building": "yes",
         "amenity": "place_of_worship",
@@ -3349,7 +3367,8 @@
         "landuse": null,
         "osm_tags": {
           "amenity": "place_of_worship",
-          "building": "yes"
+          "building": "yes",
+          "name": "mech lab 1"
         }
       }
     },
@@ -3386,14 +3405,15 @@
       "properties": {
         "osm_id": "1561762699",
         "highway": null,
-        "name": null,
+        "name": "store room",
         "surface": null,
         "building": "apartments",
         "amenity": null,
         "leisure": null,
         "landuse": null,
         "osm_tags": {
-          "building": "apartments"
+          "building": "apartments",
+          "name": "store room"
         }
       }
     },
@@ -3430,7 +3450,7 @@
       "properties": {
         "osm_id": "1561762700",
         "highway": null,
-        "name": null,
+        "name": "store room",
         "surface": null,
         "building": "yes",
         "amenity": "place_of_worship",
@@ -3438,7 +3458,8 @@
         "landuse": null,
         "osm_tags": {
           "amenity": "place_of_worship",
-          "building": "yes"
+          "building": "yes",
+          "name": "store room"
         }
       }
     },
@@ -3479,14 +3500,15 @@
       "properties": {
         "osm_id": "1561762701",
         "highway": null,
-        "name": null,
+        "name": "KARE LIBRARY",
         "surface": null,
         "building": "apartments",
         "amenity": null,
         "leisure": null,
         "landuse": null,
         "osm_tags": {
-          "building": "apartments"
+          "building": "apartments",
+          "name": "KARE LIBRARY"
         }
       }
     },
@@ -3579,14 +3601,15 @@
       "properties": {
         "osm_id": "1561762702",
         "highway": null,
-        "name": null,
+        "name": "Mh-7",
         "surface": null,
         "building": "apartments",
         "amenity": null,
         "leisure": null,
         "landuse": null,
         "osm_tags": {
-          "building": "apartments"
+          "building": "apartments",
+          "name": "Mh-7"
         }
       }
     },
@@ -3943,7 +3966,7 @@
       "properties": {
         "osm_id": "1561762707",
         "highway": null,
-        "name": "sudexo",
+        "name": "pg hostel",
         "surface": null,
         "building": "apartments",
         "amenity": null,
@@ -3951,7 +3974,7 @@
         "landuse": null,
         "osm_tags": {
           "building": "apartments",
-          "name": "sudexo"
+          "name": "pg hostel"
         }
       }
     },
@@ -4033,14 +4056,15 @@
       "properties": {
         "osm_id": "1561762709",
         "highway": null,
-        "name": null,
+        "name": "Nelson Mandela (MH1) men's hostel",
         "surface": null,
         "building": "apartments",
         "amenity": null,
         "leisure": null,
         "landuse": null,
         "osm_tags": {
-          "building": "apartments"
+          "building": "apartments",
+          "name": "Nelson Mandela (MH1) men's hostel"
         }
       }
     },
@@ -4165,14 +4189,15 @@
       "properties": {
         "osm_id": "1561762711",
         "highway": null,
-        "name": null,
+        "name": "MH2 men's hostel",
         "surface": null,
         "building": "apartments",
         "amenity": null,
         "leisure": null,
         "landuse": null,
         "osm_tags": {
-          "building": "apartments"
+          "building": "apartments",
+          "name": "MH2 men's hostel"
         }
       }
     },
@@ -4257,14 +4282,15 @@
       "properties": {
         "osm_id": "1561762713",
         "highway": null,
-        "name": null,
+        "name": "Rathakrishna men's hostel",
         "surface": null,
         "building": "apartments",
         "amenity": null,
         "leisure": null,
         "landuse": null,
         "osm_tags": {
-          "building": "apartments"
+          "building": "apartments",
+          "name": "Rathakrishna men's hostel"
         }
       }
     },
@@ -4703,15 +4729,14 @@
       "properties": {
         "osm_id": "1561762723",
         "highway": null,
-        "name": "canteen",
+        "name": null,
         "surface": null,
         "building": "yes",
         "amenity": null,
         "leisure": null,
         "landuse": null,
         "osm_tags": {
-          "building": "yes",
-          "name": "canteen"
+          "building": "yes"
         }
       }
     },
@@ -4748,15 +4773,14 @@
       "properties": {
         "osm_id": "1561762724",
         "highway": null,
-        "name": "building",
+        "name": null,
         "surface": null,
         "building": "apartments",
         "amenity": null,
         "leisure": null,
         "landuse": null,
         "osm_tags": {
-          "building": "apartments",
-          "name": "building"
+          "building": "apartments"
         }
       }
     },
@@ -4805,14 +4829,15 @@
       "properties": {
         "osm_id": "1561762725",
         "highway": null,
-        "name": null,
+        "name": "11th BLOCK",
         "surface": null,
         "building": "apartments",
         "amenity": null,
         "leisure": null,
         "landuse": null,
         "osm_tags": {
-          "building": "apartments"
+          "building": "apartments",
+          "name": "11th BLOCK"
         }
       }
     },
@@ -4949,7 +4974,7 @@
       "properties": {
         "osm_id": "1561762728",
         "highway": null,
-        "name": null,
+        "name": "chemical lab",
         "surface": null,
         "building": "yes",
         "amenity": "place_of_worship",
@@ -4957,7 +4982,8 @@
         "landuse": null,
         "osm_tags": {
           "amenity": "place_of_worship",
-          "building": "yes"
+          "building": "yes",
+          "name": "chemical lab"
         }
       }
     },
@@ -6116,14 +6142,15 @@
       "properties": {
         "osm_id": "1561769459",
         "highway": null,
-        "name": null,
+        "name": "Girl's hostel 2",
         "surface": null,
         "building": "apartments",
         "amenity": null,
         "leisure": null,
         "landuse": null,
         "osm_tags": {
-          "building": "apartments"
+          "building": "apartments",
+          "name": "Girl's hostel 2"
         }
       }
     },

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "source": "map (1).osm",
+  "source": "campus.osm",
   "places": [
     {
       "id": "place_12238907234",
@@ -12,6 +12,83 @@
       "osm_id": "12238907234",
       "nearest_graph_node": "12238907234",
       "nearest_graph_distance_m": 0.0
+    },
+    {
+      "id": "place_way_1561762694",
+      "name": "10th BLOCK",
+      "lat": 9.57388848,
+      "lng": 77.67485858,
+      "category": "apartments",
+      "source": "osm_way",
+      "osm_id": "1561762694",
+      "nearest_graph_node": "12238907234",
+      "nearest_graph_distance_m": 26.51
+    },
+    {
+      "id": "place_way_1561762725",
+      "name": "11th BLOCK",
+      "lat": 9.573149275,
+      "lng": 77.67517194999999,
+      "category": "apartments",
+      "source": "osm_way",
+      "osm_id": "1561762725",
+      "nearest_graph_node": "6079184104",
+      "nearest_graph_distance_m": 74.26
+    },
+    {
+      "id": "place_way_1561762684",
+      "name": "1st BLOCK",
+      "lat": 9.575048316666667,
+      "lng": 77.67528985,
+      "category": "apartments",
+      "source": "osm_way",
+      "osm_id": "1561762684",
+      "nearest_graph_node": "12238907226",
+      "nearest_graph_distance_m": 31.55
+    },
+    {
+      "id": "place_way_1561762683",
+      "name": "2nd BLOCK",
+      "lat": 9.575396079999999,
+      "lng": 77.67581504,
+      "category": "apartments",
+      "source": "osm_way",
+      "osm_id": "1561762683",
+      "nearest_graph_node": "12238907224",
+      "nearest_graph_distance_m": 49.43
+    },
+    {
+      "id": "place_way_1561762688",
+      "name": "3rd BLOCK",
+      "lat": 9.574674820000002,
+      "lng": 77.67474446,
+      "category": "apartments",
+      "source": "osm_way",
+      "osm_id": "1561762688",
+      "nearest_graph_node": "12238907230",
+      "nearest_graph_distance_m": 47.2
+    },
+    {
+      "id": "place_way_1561762689",
+      "name": "4th BLOCK",
+      "lat": 9.57436478,
+      "lng": 77.67427414,
+      "category": "apartments",
+      "source": "osm_way",
+      "osm_id": "1561762689",
+      "nearest_graph_node": "12238907235",
+      "nearest_graph_distance_m": 46.53
+    },
+    {
+      "id": "place_way_1561762695",
+      "name": "5th BLOCK",
+      "lat": 9.573763425,
+      "lng": 77.675688425,
+      "category": "apartments",
+      "source": "osm_way",
+      "osm_id": "1561762695",
+      "nearest_graph_node": "12238907232",
+      "nearest_graph_distance_m": 40.91
     },
     {
       "id": "place_12238907240",
@@ -36,6 +113,39 @@
       "nearest_graph_distance_m": 27.19
     },
     {
+      "id": "place_way_1561762685",
+      "name": "8th BLOCK",
+      "lat": 9.575069444444445,
+      "lng": 77.67572603333332,
+      "category": "apartments",
+      "source": "osm_way",
+      "osm_id": "1561762685",
+      "nearest_graph_node": "12238907227",
+      "nearest_graph_distance_m": 24.74
+    },
+    {
+      "id": "place_way_1561762690",
+      "name": "9th BLOCK",
+      "lat": 9.5742064,
+      "lng": 77.67440725714286,
+      "category": "apartments",
+      "source": "osm_way",
+      "osm_id": "1561762690",
+      "nearest_graph_node": "12238907235",
+      "nearest_graph_distance_m": 27.19
+    },
+    {
+      "id": "place_way_1561762691",
+      "name": "9TH BLOCK",
+      "lat": 9.574523827272726,
+      "lng": 77.67485024545455,
+      "category": "apartments",
+      "source": "osm_way",
+      "osm_id": "1561762691",
+      "nearest_graph_node": "12238907230",
+      "nearest_graph_distance_m": 31.78
+    },
+    {
       "id": "place_12238907233",
       "name": "ADMIN OFFICE",
       "lat": 9.5741301,
@@ -47,6 +157,17 @@
       "nearest_graph_distance_m": 0.0
     },
     {
+      "id": "place_way_1561762676",
+      "name": "ADMISSION OFFICE",
+      "lat": 9.574256244444445,
+      "lng": 77.67622277777778,
+      "category": "apartments",
+      "source": "osm_way",
+      "osm_id": "1561762676",
+      "nearest_graph_node": "12238907233",
+      "nearest_graph_distance_m": 24.87
+    },
+    {
       "id": "place_12238907230",
       "name": "APJ ABUDL KALAM BLOCK / 9TH BLOCK",
       "lat": 9.5742508,
@@ -56,6 +177,17 @@
       "osm_id": "12238907230",
       "nearest_graph_node": "12238907230",
       "nearest_graph_distance_m": 0.0
+    },
+    {
+      "id": "place_way_1561762679",
+      "name": "AUDITORIUM",
+      "lat": 9.57502332857143,
+      "lng": 77.67726928571427,
+      "category": "place_of_worship",
+      "source": "osm_way",
+      "osm_id": "1561762679",
+      "nearest_graph_node": "12238903097",
+      "nearest_graph_distance_m": 45.66
     },
     {
       "id": "place_way_1329359770",
@@ -80,26 +212,15 @@
       "nearest_graph_distance_m": 0.0
     },
     {
-      "id": "place_way_1561762724",
-      "name": "building",
-      "lat": 9.57179992,
-      "lng": 77.67370387999999,
-      "category": "apartments",
+      "id": "place_way_1561762728",
+      "name": "chemical lab",
+      "lat": 9.57250792,
+      "lng": 77.67493052,
+      "category": "place_of_worship",
       "source": "osm_way",
-      "osm_id": "1561762724",
-      "nearest_graph_node": "6079184097",
-      "nearest_graph_distance_m": 101.47
-    },
-    {
-      "id": "place_way_1561762723",
-      "name": "canteen",
-      "lat": 9.5720648,
-      "lng": 77.6740468,
-      "category": "yes",
-      "source": "osm_way",
-      "osm_id": "1561762723",
-      "nearest_graph_node": "6079184097",
-      "nearest_graph_distance_m": 72.04
+      "osm_id": "1561762728",
+      "nearest_graph_node": "12238907244",
+      "nearest_graph_distance_m": 47.17
     },
     {
       "id": "place_12238907213",
@@ -133,6 +254,39 @@
       "osm_id": "12238907237",
       "nearest_graph_node": "6079184104",
       "nearest_graph_distance_m": 83.57
+    },
+    {
+      "id": "place_way_1073485254",
+      "name": "Girl's hostel 1",
+      "lat": 9.575794776923077,
+      "lng": 77.68158653846154,
+      "category": "industrial",
+      "source": "osm_way",
+      "osm_id": "1073485254",
+      "nearest_graph_node": "12238903076",
+      "nearest_graph_distance_m": 49.64
+    },
+    {
+      "id": "place_way_1561769459",
+      "name": "Girl's hostel 2",
+      "lat": 9.575061271428572,
+      "lng": 77.68197991428572,
+      "category": "apartments",
+      "source": "osm_way",
+      "osm_id": "1561769459",
+      "nearest_graph_node": "12238903076",
+      "nearest_graph_distance_m": 141.63
+    },
+    {
+      "id": "place_way_1329359771",
+      "name": "ground",
+      "lat": 9.576017680000001,
+      "lng": 77.67776893999999,
+      "category": "pitch",
+      "source": "osm_way",
+      "osm_id": "1329359771",
+      "nearest_graph_node": "12279723109",
+      "nearest_graph_distance_m": 77.7
     },
     {
       "id": "place_12238903085",
@@ -190,15 +344,15 @@
       "nearest_graph_distance_m": 0.0
     },
     {
-      "id": "place_way_1073485254",
-      "name": "Kalasalingam University",
-      "lat": 9.575794776923077,
-      "lng": 77.68158653846154,
-      "category": "industrial",
+      "id": "place_way_1561762701",
+      "name": "KARE LIBRARY",
+      "lat": 9.57424775,
+      "lng": 77.67867013333334,
+      "category": "apartments",
       "source": "osm_way",
-      "osm_id": "1073485254",
-      "nearest_graph_node": "12238903076",
-      "nearest_graph_distance_m": 49.64
+      "osm_id": "1561762701",
+      "nearest_graph_node": "12238903087",
+      "nearest_graph_distance_m": 54.76
     },
     {
       "id": "place_way_22836588",
@@ -223,6 +377,28 @@
       "nearest_graph_distance_m": 0.0
     },
     {
+      "id": "place_way_1073485252",
+      "name": "Linga Global School",
+      "lat": 9.574927961111111,
+      "lng": 77.68290582777779,
+      "category": "apartments",
+      "source": "osm_way",
+      "osm_id": "1073485252",
+      "nearest_graph_node": "6079184093",
+      "nearest_graph_distance_m": 113.27
+    },
+    {
+      "id": "place_way_1561762696",
+      "name": "machine shop",
+      "lat": 9.5734998,
+      "lng": 77.67552471666666,
+      "category": "place_of_worship",
+      "source": "osm_way",
+      "osm_id": "1561762696",
+      "nearest_graph_node": "12238907232",
+      "nearest_graph_distance_m": 75.13
+    },
+    {
       "id": "place_12238903074",
       "name": "MAIN GATE",
       "lat": 9.5761055,
@@ -243,6 +419,39 @@
       "osm_id": "12238903098",
       "nearest_graph_node": "12238903098",
       "nearest_graph_distance_m": 0.0
+    },
+    {
+      "id": "place_way_1561762677",
+      "name": "MANIMANDABAM",
+      "lat": 9.5749881,
+      "lng": 77.6766192,
+      "category": "place_of_worship",
+      "source": "osm_way",
+      "osm_id": "1561762677",
+      "nearest_graph_node": "12238903098",
+      "nearest_graph_distance_m": 29.41
+    },
+    {
+      "id": "place_way_1561762698",
+      "name": "mech lab 1",
+      "lat": 9.57384042,
+      "lng": 77.67513566,
+      "category": "place_of_worship",
+      "source": "osm_way",
+      "osm_id": "1561762698",
+      "nearest_graph_node": "12238907234",
+      "nearest_graph_distance_m": 43.45
+    },
+    {
+      "id": "place_way_1561762697",
+      "name": "mech lab 2",
+      "lat": 9.573475333333333,
+      "lng": 77.67516398333333,
+      "category": "place_of_worship",
+      "source": "osm_way",
+      "osm_id": "1561762697",
+      "nearest_graph_node": "12238907234",
+      "nearest_graph_distance_m": 79.47
     },
     {
       "id": "place_12238907242",
@@ -278,6 +487,39 @@
       "nearest_graph_distance_m": 0.0
     },
     {
+      "id": "place_way_1561762702",
+      "name": "Mh-7",
+      "lat": 9.573534863157896,
+      "lng": 77.67800274210526,
+      "category": "apartments",
+      "source": "osm_way",
+      "osm_id": "1561762702",
+      "nearest_graph_node": "12238907217",
+      "nearest_graph_distance_m": 14.58
+    },
+    {
+      "id": "place_way_1561762711",
+      "name": "MH2 men's hostel",
+      "lat": 9.5721767,
+      "lng": 77.67605035,
+      "category": "apartments",
+      "source": "osm_way",
+      "osm_id": "1561762711",
+      "nearest_graph_node": "12238907242",
+      "nearest_graph_distance_m": 46.03
+    },
+    {
+      "id": "place_way_1561762709",
+      "name": "Nelson Mandela (MH1) men's hostel",
+      "lat": 9.573063000000001,
+      "lng": 77.6767773,
+      "category": "apartments",
+      "source": "osm_way",
+      "osm_id": "1561762709",
+      "nearest_graph_node": "12238907220",
+      "nearest_graph_distance_m": 61.97
+    },
+    {
       "id": "place_way_1163638166",
       "name": "Nelson Mandela Mens Hostel",
       "lat": 9.5731364,
@@ -300,6 +542,17 @@
       "nearest_graph_distance_m": 0.0
     },
     {
+      "id": "place_way_1561762707",
+      "name": "pg hostel",
+      "lat": 9.5740586,
+      "lng": 77.6778972888889,
+      "category": "apartments",
+      "source": "osm_way",
+      "osm_id": "1561762707",
+      "nearest_graph_node": "12238907215",
+      "nearest_graph_distance_m": 36.9
+    },
+    {
       "id": "place_12238903100",
       "name": "PHYSICAL EDUCATION DEPT/GYM",
       "lat": 9.5755948,
@@ -320,6 +573,17 @@
       "osm_id": "12238903095",
       "nearest_graph_node": "12238903095",
       "nearest_graph_distance_m": 0.0
+    },
+    {
+      "id": "place_way_1561762713",
+      "name": "Rathakrishna men's hostel",
+      "lat": 9.571445833333334,
+      "lng": 77.67541005,
+      "category": "apartments",
+      "source": "osm_way",
+      "osm_id": "1561762713",
+      "nearest_graph_node": "12238907245",
+      "nearest_graph_distance_m": 61.61
     },
     {
       "id": "place_12238903090",
@@ -355,15 +619,26 @@
       "nearest_graph_distance_m": 0.0
     },
     {
-      "id": "place_way_1561762707",
-      "name": "sudexo",
-      "lat": 9.5740586,
-      "lng": 77.6778972888889,
+      "id": "place_way_1561762699",
+      "name": "store room",
+      "lat": 9.573668960000001,
+      "lng": 77.67494844000001,
       "category": "apartments",
       "source": "osm_way",
-      "osm_id": "1561762707",
-      "nearest_graph_node": "12238907215",
-      "nearest_graph_distance_m": 36.9
+      "osm_id": "1561762699",
+      "nearest_graph_node": "12238907234",
+      "nearest_graph_distance_m": 51.71
+    },
+    {
+      "id": "place_way_1561762700",
+      "name": "store room",
+      "lat": 9.57338112,
+      "lng": 77.67558269999999,
+      "category": "place_of_worship",
+      "source": "osm_way",
+      "osm_id": "1561762700",
+      "nearest_graph_node": "6079184104",
+      "nearest_graph_distance_m": 80.1
     },
     {
       "id": "place_12238907209",
@@ -375,6 +650,17 @@
       "osm_id": "12238907209",
       "nearest_graph_node": "12238907209",
       "nearest_graph_distance_m": 0.0
+    },
+    {
+      "id": "place_way_1329359769",
+      "name": "swimming pool",
+      "lat": 9.57705394,
+      "lng": 77.6790223,
+      "category": "swimming_pool",
+      "source": "osm_way",
+      "osm_id": "1329359769",
+      "nearest_graph_node": "12279734466",
+      "nearest_graph_distance_m": 56.05
     },
     {
       "id": "place_12238903083",

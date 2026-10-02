@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "source": "map (1).osm",
+  "source": "campus.osm",
   "mode": "walking",
   "edges": [
     {
