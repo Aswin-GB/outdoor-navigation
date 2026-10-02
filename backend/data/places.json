@@ -406,8 +406,8 @@
       "category": "place",
       "source": "osm_node",
       "osm_id": "12238903074",
-      "nearest_graph_node": "6079184109",
-      "nearest_graph_distance_m": 38.93
+      "nearest_graph_node": "12238903074",
+      "nearest_graph_distance_m": 0.0
     },
     {
       "id": "place_12238903098",

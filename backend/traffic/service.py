@@ -1,12 +1,12 @@
 """
-Traffic service - main traffic processing pipeline.
+Traffic service - complete production-safe traffic pipeline.
 
 Handles:
 - Redis/Valkey presence tracking
 - crowd-based traffic scoring
 - dynamic edge weights
 - manual traffic simulation
-- simulated-user traffic
+- simulated users
 - active-route impact analysis
 - automatic rerouting
 - WebSocket traffic/route updates
@@ -33,7 +33,7 @@ logger = logging.getLogger("traffic")
 
 
 class TrafficService:
-    """Main service for traffic processing and simulation."""
+    """Main traffic processing service."""
 
     SPEEDS_KMH = {
         "LOW": 40.0,
@@ -58,7 +58,6 @@ class TrafficService:
     # ------------------------------------------------------------------
 
     def get_traffic_version(self) -> int:
-        """Return the current global traffic version."""
         try:
             client = get_redis_client()
             if client:
@@ -67,26 +66,20 @@ class TrafficService:
                     return int(value)
         except Exception as exc:
             logger.warning("Unable to read traffic version: %s", exc)
-
         return self._traffic_version
 
     def _increment_traffic_version(self) -> int:
-        """Increment the global traffic version."""
         self._traffic_version += 1
-
         try:
             client = get_redis_client()
             if client:
-                value = self._traffic_version
-                client.set("traffic_version", value)
-                return value
+                client.set("traffic_version", self._traffic_version)
         except Exception as exc:
             logger.warning("Unable to persist traffic version: %s", exc)
-
         return self._traffic_version
 
     # ------------------------------------------------------------------
-    # GRAPH HELPERS
+    # GRAPH / WEIGHT HELPERS
     # ------------------------------------------------------------------
 
     def _set_exact_edge_weight(
@@ -96,7 +89,6 @@ class TrafficService:
         traffic_level: Optional[str] = None,
         traffic_factor: Optional[float] = None,
     ) -> bool:
-        """Set the exact dynamic time on an edge and its adjacency entry."""
         graph = self.graph_manager.get_graph()
         if not graph or edge_id not in graph.edges:
             return False
@@ -106,22 +98,20 @@ class TrafficService:
 
         if traffic_level is not None:
             edge["traffic_level"] = traffic_level
-
         if traffic_factor is not None:
             edge["traffic_factor"] = float(traffic_factor)
 
         from_node = edge.get("from")
-        adjacency = graph.adjacency.get(from_node, [])
-
-        for index, (neighbor, eid, _old_weight) in enumerate(adjacency):
+        for index, (neighbor, eid, _) in enumerate(
+            graph.adjacency.get(from_node, [])
+        ):
             if eid == edge_id:
-                adjacency[index] = (
+                graph.adjacency[from_node][index] = (
                     neighbor,
                     eid,
                     float(current_time_sec),
                 )
                 break
-
         return True
 
     def _calculate_level_time(
@@ -129,7 +119,6 @@ class TrafficService:
         edge: dict,
         traffic_level: str,
     ) -> tuple[float, float]:
-        """Return (travel_time_seconds, traffic_factor) for a level."""
         level = str(traffic_level).strip().upper()
         speed_kmh = self.SPEEDS_KMH[level]
         distance_m = float(edge.get("distance_m", 0.0) or 0.0)
@@ -143,25 +132,14 @@ class TrafficService:
         factor = 1.0 if base_time <= 0 else current_time / base_time
         return current_time, factor
 
-    def _apply_manual_level(
-        self,
-        edge_id: str,
-        traffic_level: str,
-    ) -> dict:
-        """Apply a manually simulated traffic level to an edge."""
+    def _apply_manual_level(self, edge_id: str, traffic_level: str) -> dict:
         graph = self.graph_manager.get_graph()
         if not graph:
-            return {
-                "success": False,
-                "error": "Graph not available",
-            }
+            return {"success": False, "error": "Graph not available"}
 
         edge = graph.edges.get(edge_id)
         if not edge:
-            return {
-                "success": False,
-                "error": "Edge not found",
-            }
+            return {"success": False, "error": "Edge not found"}
 
         level = str(traffic_level).strip().upper()
         if level not in self.SPEEDS_KMH:
@@ -181,22 +159,19 @@ class TrafficService:
 
         new_time, factor = self._calculate_level_time(edge, level)
 
-        changed = (
-            old_level != level
-            or (
-                old_time != float("inf")
-                and new_time != float("inf")
-                and abs(old_time - new_time) > 0.01
-            )
-            or (old_time == float("inf")) != (new_time == float("inf"))
-        )
-
         self._set_exact_edge_weight(
             edge_id,
             new_time,
             traffic_level=level,
             traffic_factor=factor,
         )
+
+        changed = (
+            old_level != level
+            or old_time != new_time
+        )
+
+        active_users = self.presence.get_edge_count(edge_id)
 
         return {
             "success": True,
@@ -207,44 +182,34 @@ class TrafficService:
             "previous_time_sec": old_time,
             "current_time_sec": new_time,
             "traffic_factor": factor,
-            "active_users": self.presence.get_edge_count(edge_id),
+            "active_users": active_users,
+            "geometry": self._get_edge_geometry(graph, edge_id),
         }
 
     # ------------------------------------------------------------------
-    # ROUTE / ETA HELPERS
+    # ROUTE HELPERS
     # ------------------------------------------------------------------
 
     def _nodes_to_edges(self, graph, node_path: list) -> list:
-        """Convert a node path to edge IDs."""
         edge_path = []
-
         for index in range(max(0, len(node_path) - 1)):
             from_node = node_path[index]
             to_node = node_path[index + 1]
-
-            selected_edge = None
+            selected = None
             for neighbor, edge_id, _weight in graph.adjacency.get(from_node, []):
                 if neighbor == to_node:
-                    selected_edge = edge_id
+                    selected = edge_id
                     break
-
-            if selected_edge is None:
+            if selected is None:
                 return []
-
-            edge_path.append(selected_edge)
-
+            edge_path.append(selected)
         return edge_path
 
     def _route_edges_from_result(self, graph, route_data: dict) -> list:
-        """Resolve route edge IDs from a RoutingService response."""
         edge_path = route_data.get("edge_path")
         if isinstance(edge_path, list) and edge_path:
             return edge_path
-
-        return self._nodes_to_edges(
-            graph,
-            route_data.get("node_path", []),
-        )
+        return self._nodes_to_edges(graph, route_data.get("node_path", []))
 
     def _route_eta(
         self,
@@ -252,7 +217,6 @@ class TrafficService:
         route_edges: list,
         current_edge: Optional[str] = None,
     ) -> float:
-        """Calculate ETA for a route using current dynamic edge weights."""
         if not route_edges:
             return 0.0
 
@@ -261,12 +225,10 @@ class TrafficService:
             start_index = route_edges.index(current_edge)
 
         total = 0.0
-
         for edge_id in route_edges[start_index:]:
             edge = graph.edges.get(edge_id)
             if not edge:
                 continue
-
             weight = float(
                 edge.get(
                     "current_time_sec",
@@ -274,18 +236,13 @@ class TrafficService:
                 )
                 or 0.0
             )
-
             if weight == float("inf"):
                 return float("inf")
-
             total += max(0.0, weight)
-
         return total
 
     def _capture_navigation_routes(self, affected_edges: set[str]) -> dict:
-        """Capture each active navigation's current route before mutation."""
-        from routing_engine.service import RoutingService
-
+        """Capture active route state before traffic mutation."""
         graph = self.graph_manager.get_graph()
         if not graph:
             return {}
@@ -295,69 +252,65 @@ class TrafficService:
             status=NavigationSession.Status.ACTIVE
         )
 
-        routing_service = RoutingService()
-
         for nav in active_navs:
-            current_position = nav.current_position or nav.source or {}
-            destination = nav.destination or {}
+            stored_edges = list(nav.route_edges or [])
+            stored_nodes = list(nav.route_nodes or [])
 
-            current_lat = current_position.get("lat")
-            current_lng = current_position.get("lng")
-            dest_lat = destination.get("lat")
-            dest_lng = destination.get("lng")
-
-            if None in (current_lat, current_lng, dest_lat, dest_lng):
+            if stored_edges and not set(stored_edges).intersection(affected_edges):
                 continue
 
-            try:
-                route_result = routing_service.compute_route(
-                    float(current_lat),
-                    float(current_lng),
-                    float(dest_lat),
-                    float(dest_lng),
-                    mode="walking",
-                    algorithm="astar",
-                )
-            except Exception as exc:
-                logger.warning(
-                    "Pre-change route calculation failed for %s: %s",
-                    nav.id,
-                    exc,
-                )
-                continue
+            # Some older sessions may not have persisted route edges.
+            if not stored_edges:
+                try:
+                    from routing_engine.service import RoutingService
 
-            if not route_result.get("success"):
-                continue
+                    position = nav.current_position or nav.source or {}
+                    destination = nav.destination or {}
+                    route_result = RoutingService().compute_route(
+                        float(position["lat"]),
+                        float(position["lng"]),
+                        float(destination["lat"]),
+                        float(destination["lng"]),
+                        mode="walking",
+                        algorithm="astar",
+                    )
+                    if not route_result.get("success"):
+                        continue
+                    data = route_result["data"]
+                    stored_edges = self._route_edges_from_result(graph, data)
+                    stored_nodes = data.get("node_path", [])
+                except Exception as exc:
+                    logger.warning(
+                        "Unable to reconstruct navigation route %s: %s",
+                        nav.id,
+                        exc,
+                    )
+                    continue
 
-            route_data = route_result["data"]
-            route_edges = self._route_edges_from_result(
-                graph,
-                route_data,
-            )
+                if not set(stored_edges).intersection(affected_edges):
+                    continue
 
-            if not set(route_edges).intersection(affected_edges):
-                continue
+            old_eta = float(nav.current_eta_sec or 0.0)
+            if old_eta <= 0:
+                old_eta = self._route_eta(graph, stored_edges, nav.current_edge)
 
             snapshot[str(nav.id)] = {
                 "navigation_id": str(nav.id),
                 "route_id": nav.route_id,
-                "route_edges": route_edges,
-                "old_eta": float(
-                    route_data.get("duration_sec", 0.0) or 0.0
+                "route_edges": stored_edges,
+                "route_nodes": stored_nodes,
+                "old_eta": old_eta,
+                "current_position": dict(
+                    nav.current_position or nav.source or {}
                 ),
-                "current_position": dict(current_position),
-                "destination": dict(destination),
+                "destination": dict(nav.destination or {}),
                 "current_edge": nav.current_edge,
             }
 
         return snapshot
 
-    def _evaluate_and_reroute(
-        self,
-        snapshot: dict,
-        changed_edges: set[str],
-    ) -> list[dict]:
-        """Evaluate affected routes and trigger reroute when threshold is met."""
+    def _evaluate_and_reroute(self, snapshot: dict, changed_edges: set[str]) -> list[dict]:
+        """Run route-impact analysis and reroute only affected sessions."""
         from routing_engine.service import RoutingService
 
         graph = self.graph_manager.get_graph()
@@ -368,13 +321,11 @@ class TrafficService:
         routing_service = RoutingService()
 
         for navigation_id, state in snapshot.items():
-            affected_route_edges = set(state["route_edges"]).intersection(
-                changed_edges
-            )
-            if not affected_route_edges:
+            affected = set(state["route_edges"]).intersection(changed_edges)
+            if not affected:
                 continue
 
-            old_eta = float(state["old_eta"] or 0.0)
+            old_eta = float(state.get("old_eta", 0.0) or 0.0)
             if old_eta <= 0:
                 continue
 
@@ -383,8 +334,7 @@ class TrafficService:
                 state["route_edges"],
                 state.get("current_edge"),
             )
-
-            trigger_edge = next(iter(affected_route_edges))
+            trigger_edge = next(iter(affected))
 
             decision = self.analyzer.should_reroute(
                 navigation_id=navigation_id,
@@ -392,15 +342,6 @@ class TrafficService:
                 new_eta=new_eta,
                 edge_id=trigger_edge,
                 route_edges=state["route_edges"],
-            )
-
-            logger.info(
-                "Traffic analyzer: navigation=%s edge=%s old_eta=%.2f new_eta=%.2f decision=%s",
-                navigation_id,
-                trigger_edge,
-                old_eta,
-                new_eta,
-                decision,
             )
 
             if not decision.get("should_reroute"):
@@ -423,53 +364,65 @@ class TrafficService:
                     dest_lng=float(destination["lng"]),
                     reason=f"traffic_change:{trigger_edge}",
                 )
+
+                if not reroute_result.get("success"):
+                    results.append({
+                        "navigation_id": navigation_id,
+                        "rerouted": False,
+                        "decision": decision,
+                        "error": reroute_result.get("error"),
+                    })
+                    continue
+
+                route_data = reroute_result["data"]
+
+                nav = NavigationSession.objects.filter(
+                    id=navigation_id,
+                    status=NavigationSession.Status.ACTIVE,
+                ).first()
+
+                if nav:
+                    nav.route_id = route_data["route_id"]
+                    nav.route_nodes = route_data.get("node_path", [])
+                    nav.route_edges = route_data.get("edge_path", [])
+                    nav.current_eta_sec = float(route_data.get("duration_sec", 0.0))
+                    nav.current_position = position
+                    nav.save(update_fields=[
+                        "route_id",
+                        "route_nodes",
+                        "route_edges",
+                        "current_eta_sec",
+                        "current_position",
+                        "last_seen_at",
+                    ])
+
+                self._broadcast_route_changed(
+                    navigation_id=navigation_id,
+                    route_id=route_data["route_id"],
+                    reason=f"traffic_change:{trigger_edge}",
+                    eta_sec=route_data["duration_sec"],
+                    path=route_data["path"],
+                )
+
+                results.append({
+                    "navigation_id": navigation_id,
+                    "rerouted": True,
+                    "decision": decision,
+                    "route": route_data,
+                })
+
             except Exception as exc:
                 logger.exception(
-                    "Reroute calculation failed for navigation %s: %s",
+                    "Reroute failed for navigation %s: %s",
                     navigation_id,
                     exc,
                 )
-                continue
-
-            if not reroute_result.get("success"):
-                logger.warning(
-                    "Reroute unsuccessful for navigation %s: %s",
-                    navigation_id,
-                    reroute_result.get("error"),
-                )
-                continue
-
-            route_data = reroute_result["data"]
-
-            nav = NavigationSession.objects.filter(
-                id=navigation_id,
-                status=NavigationSession.Status.ACTIVE,
-            ).first()
-
-            if nav:
-                nav.route_id = route_data["route_id"]
-                nav.current_position = position
-                nav.current_edge = nav.current_edge
-                nav.save(update_fields=[
-                    "route_id",
-                    "current_position",
-                    "current_edge",
-                ])
-
-            self._broadcast_route_changed(
-                navigation_id=navigation_id,
-                route_id=route_data["route_id"],
-                reason=f"traffic_change:{trigger_edge}",
-                eta_sec=route_data["duration_sec"],
-                path=route_data["path"],
-            )
-
-            results.append({
-                "navigation_id": navigation_id,
-                "rerouted": True,
-                "decision": decision,
-                "route": route_data,
-            })
+                results.append({
+                    "navigation_id": navigation_id,
+                    "rerouted": False,
+                    "decision": decision,
+                    "error": str(exc),
+                })
 
         return results
 
@@ -484,17 +437,15 @@ class TrafficService:
         traffic_level: str,
         current_time: float,
     ):
-        """Broadcast traffic changes to active navigation WebSocket groups."""
         try:
             channel_layer = get_channel_layer()
             if not channel_layer:
                 return
 
+            version = self.get_traffic_version()
             active_navs = NavigationSession.objects.filter(
                 status=NavigationSession.Status.ACTIVE
             )
-
-            version = self.get_traffic_version()
 
             for nav in active_navs:
                 async_to_sync(channel_layer.group_send)(
@@ -508,12 +459,8 @@ class TrafficService:
                         "traffic_version": version,
                     },
                 )
-
         except Exception as exc:
-            logger.warning(
-                "Failed to broadcast traffic update: %s",
-                exc,
-            )
+            logger.warning("Failed to broadcast traffic update: %s", exc)
 
     def _broadcast_route_changed(
         self,
@@ -523,7 +470,6 @@ class TrafficService:
         eta_sec: float,
         path: list,
     ):
-        """Broadcast a route change to one navigation session."""
         try:
             channel_layer = get_channel_layer()
             if not channel_layer:
@@ -542,10 +488,7 @@ class TrafficService:
                 },
             )
         except Exception as exc:
-            logger.warning(
-                "Failed to broadcast route change: %s",
-                exc,
-            )
+            logger.warning("Failed to broadcast route change: %s", exc)
 
     # ------------------------------------------------------------------
     # REAL TELEMETRY
@@ -559,47 +502,33 @@ class TrafficService:
         timestamp: Optional[str] = None,
         navigation_id: Optional[str] = None,
     ) -> dict:
-        """Process real GPS telemetry through the traffic pipeline."""
         start_time = time.perf_counter()
-
         graph = self.graph_manager.get_graph()
+
         if not graph or not graph.spatial_index:
-            return {
-                "success": False,
-                "error": "Graph not available",
-            }
+            return {"success": False, "error": "Graph not available"}
 
-        matcher = MapMatcher(graph.spatial_index)
-        match = matcher.match(lat, lng)
-
+        match = MapMatcher(graph.spatial_index).match_with_fallback(lat, lng)
         if not match:
-            return {
-                "success": False,
-                "error": "No matching road found",
-            }
+            return {"success": False, "error": "No matching road found"}
 
         edge_id = match["edge_id"]
         previous_edge = self.presence.get_session_edge(session_id)
-
         affected_edges = {edge_id}
         if previous_edge:
             affected_edges.add(previous_edge)
 
-        # Capture active routes before mutating traffic weights.
         snapshot = self._capture_navigation_routes(affected_edges)
 
-        presence_result = self.presence.update_presence(
+        presence = self.presence.update_presence(
             session_id,
             edge_id,
             lat,
             lng,
         )
+        if not presence.get("success"):
+            return presence
 
-        if not presence_result["success"]:
-            return presence_result
-
-        # Keep the navigation session synchronized when this telemetry
-        # belongs to an active navigation session.
         if navigation_id:
             try:
                 from navigation.services import NavigationService
@@ -611,22 +540,17 @@ class TrafficService:
                     edge_id=edge_id,
                 )
             except Exception as exc:
-                logger.warning(
-                    "Navigation location sync failed: %s",
-                    exc,
-                )
+                logger.warning("Navigation location sync failed: %s", exc)
 
         changed_edges = set()
 
-        # Recalculate every affected edge so moving users also reduce
-        # traffic on their previous edge.
         for affected_edge in affected_edges:
-            count = self.presence.get_edge_count(affected_edge)
             edge = graph.edges.get(affected_edge)
-
             if not edge:
                 continue
 
+            count = self.presence.get_edge_count(affected_edge)
+            old_level = edge.get("traffic_level", "LOW")
             old_time = float(
                 edge.get(
                     "current_time_sec",
@@ -634,12 +558,8 @@ class TrafficService:
                 )
                 or 0.0
             )
-            old_level = edge.get("traffic_level", "LOW")
 
-            new_time = self.weights.update_edge_weight(
-                edge,
-                count,
-            )
+            new_time = self.weights.update_edge_weight(edge, count)
             new_level = edge.get("traffic_level", "LOW")
             factor = edge.get("traffic_factor", 1.0)
 
@@ -650,19 +570,11 @@ class TrafficService:
                 traffic_factor=factor,
             )
 
-            changed = (
-                old_level != new_level
-                or (
-                    old_time != float("inf")
-                    and abs(old_time - float(new_time)) > 0.01
-                )
-            )
-
+            changed = old_level != new_level or abs(old_time - float(new_time)) > 0.01
             if changed:
                 changed_edges.add(affected_edge)
                 self._increment_traffic_version()
                 self.analytics.record_traffic_state_change()
-
                 self._broadcast_traffic_update(
                     edge_id=affected_edge,
                     active_count=count,
@@ -671,58 +583,31 @@ class TrafficService:
                 )
 
         if changed_edges:
-            self._evaluate_and_reroute(
-                snapshot,
-                changed_edges,
-            )
+            self._evaluate_and_reroute(snapshot, changed_edges)
 
         self.analytics.record_telemetry()
-
-        processing_time = (
-            time.perf_counter() - start_time
-        ) * 1000
-
-        current_edge = graph.edges.get(edge_id, {})
+        elapsed_ms = (time.perf_counter() - start_time) * 1000
+        current = graph.edges.get(edge_id, {})
 
         return {
             "success": True,
             "edge_id": edge_id,
             "active_users": self.presence.get_edge_count(edge_id),
-            "traffic_level": current_edge.get(
-                "traffic_level",
-                "LOW",
-            ),
-            "current_time_sec": current_edge.get(
-                "current_time_sec",
-                0,
-            ),
-            "match_confidence": match.get(
-                "confidence",
-                "LOW",
-            ),
-            "match_distance_m": match.get(
-                "distance_m",
-                0,
-            ),
-            "processing_time_ms": round(
-                processing_time,
-                2,
-            ),
+            "traffic_level": current.get("traffic_level", "LOW"),
+            "current_time_sec": current.get("current_time_sec", 0.0),
+            "match_confidence": match.get("confidence", "LOW"),
+            "match_distance_m": match.get("distance_m", 0.0),
+            "processing_time_ms": round(elapsed_ms, 2),
             "traffic_version": self.get_traffic_version(),
+            "timestamp": timestamp,
         }
 
     # ------------------------------------------------------------------
-    # MANUAL SIMULATOR
+    # MANUAL TRAFFIC
     # ------------------------------------------------------------------
 
-    def apply_manual_traffic(
-        self,
-        edge_id: str,
-        traffic_level: str,
-    ) -> dict:
-        """Apply a manual traffic-level simulation through the full pipeline."""
+    def apply_manual_traffic(self, edge_id: str, traffic_level: str) -> dict:
         normalized = str(traffic_level).strip().upper()
-
         if normalized not in self.SPEEDS_KMH:
             return {
                 "success": False,
@@ -731,32 +616,24 @@ class TrafficService:
 
         snapshot = self._capture_navigation_routes({edge_id})
         update = self._apply_manual_level(edge_id, normalized)
-
-        if not update["success"]:
+        if not update.get("success"):
             return update
 
+        reroutes = []
         if update["changed"]:
             self._increment_traffic_version()
             self.analytics.record_traffic_state_change()
-
             self._broadcast_traffic_update(
                 edge_id=edge_id,
                 active_count=update["active_users"],
                 traffic_level=update["traffic_level"],
                 current_time=update["current_time_sec"],
             )
-
-            reroutes = self._evaluate_and_reroute(
-                snapshot,
-                {edge_id},
-            )
-        else:
-            reroutes = []
+            reroutes = self._evaluate_and_reroute(snapshot, {edge_id})
 
         update["traffic_version"] = self.get_traffic_version()
         update["simulated"] = True
         update["reroutes"] = reroutes
-
         return update
 
     # ------------------------------------------------------------------
@@ -767,75 +644,45 @@ class TrafficService:
         client = get_redis_client()
         if not client:
             return []
-
         try:
-            members = client.smembers(
-                f"active_users:{edge_id}"
-            )
+            members = client.smembers(f"active_users:{edge_id}")
             result = []
-
             for member in members:
                 session_id = (
-                    member.decode()
-                    if isinstance(member, bytes)
-                    else member
+                    member.decode() if isinstance(member, bytes) else member
                 )
-
                 if session_id.startswith("sim_"):
                     result.append(session_id)
-
             return result
         except Exception as exc:
-            logger.warning(
-                "Unable to read simulated sessions: %s",
-                exc,
-            )
+            logger.warning("Unable to read simulated sessions: %s", exc)
             return []
 
-    def add_simulated_users(
-        self,
-        edge_id: str,
-        count: int = 1,
-    ) -> dict:
-        """Add simulated users to an edge and recalculate traffic."""
+    def add_simulated_users(self, edge_id: str, count: int = 1) -> dict:
         graph = self.graph_manager.get_graph()
-
         if not graph or edge_id not in graph.edges:
-            return {
-                "success": False,
-                "error": "Edge not found",
-            }
+            return {"success": False, "error": "Edge not found"}
 
         try:
             count = max(1, min(int(count), 100))
         except (TypeError, ValueError):
-            return {
-                "success": False,
-                "error": "count must be an integer",
-            }
+            return {"success": False, "error": "count must be an integer"}
 
         snapshot = self._capture_navigation_routes({edge_id})
 
         for index in range(count):
-            session_id = (
-                f"sim_{edge_id}_"
-                f"{int(time.time() * 1000)}_"
-                f"{index}"
-            )
-
+            session_id = f"sim_{edge_id}_{int(time.time() * 1000)}_{index}"
             presence = self.presence.update_presence(
                 session_id,
                 edge_id,
                 0.0,
                 0.0,
             )
-
-            if not presence["success"]:
+            if not presence.get("success"):
                 return presence
 
-        active_count = self.presence.get_edge_count(edge_id)
         edge = graph.edges[edge_id]
-
+        active_count = self.presence.get_edge_count(edge_id)
         old_level = edge.get("traffic_level", "LOW")
         old_time = float(
             edge.get(
@@ -845,10 +692,7 @@ class TrafficService:
             or 0.0
         )
 
-        new_time = self.weights.update_edge_weight(
-            edge,
-            active_count,
-        )
+        new_time = self.weights.update_edge_weight(edge, active_count)
         new_level = edge.get("traffic_level", "LOW")
         factor = edge.get("traffic_factor", 1.0)
 
@@ -859,31 +703,19 @@ class TrafficService:
             traffic_factor=factor,
         )
 
-        changed = (
-            old_level != new_level
-            or (
-                old_time != float("inf")
-                and abs(old_time - float(new_time)) > 0.01
-            )
-        )
-
+        changed = old_level != new_level or abs(old_time - float(new_time)) > 0.01
         reroutes = []
 
         if changed:
             self._increment_traffic_version()
             self.analytics.record_traffic_state_change()
-
             self._broadcast_traffic_update(
                 edge_id=edge_id,
                 active_count=active_count,
                 traffic_level=new_level,
                 current_time=new_time,
             )
-
-            reroutes = self._evaluate_and_reroute(
-                snapshot,
-                {edge_id},
-            )
+            reroutes = self._evaluate_and_reroute(snapshot, {edge_id})
 
         return {
             "success": True,
@@ -891,8 +723,11 @@ class TrafficService:
             "active_users": active_count,
             "traffic_level": new_level,
             "current_time_sec": new_time,
+            "traffic_factor": factor,
             "traffic_version": self.get_traffic_version(),
             "simulated": True,
+            "added": count,
+            "geometry": self._get_edge_geometry(graph, edge_id),
             "reroutes": reroutes,
         }
 
@@ -901,49 +736,31 @@ class TrafficService:
         edge_id: str,
         count: Optional[int] = None,
     ) -> dict:
-        """Remove simulated users from an edge and recalculate traffic."""
         graph = self.graph_manager.get_graph()
-
         if not graph or edge_id not in graph.edges:
-            return {
-                "success": False,
-                "error": "Edge not found",
-            }
+            return {"success": False, "error": "Edge not found"}
 
         client = get_redis_client()
         if not client:
-            return {
-                "success": False,
-                "error": "Redis unavailable",
-            }
+            return {"success": False, "error": "Redis unavailable"}
 
-        sim_sessions = self._get_simulated_sessions(edge_id)
-
+        sessions = self._get_simulated_sessions(edge_id)
         if count is None:
-            selected = sim_sessions
+            selected = sessions
         else:
             try:
-                selected = sim_sessions[: max(0, int(count))]
+                selected = sessions[: max(0, int(count))]
             except (TypeError, ValueError):
-                return {
-                    "success": False,
-                    "error": "count must be an integer",
-                }
+                return {"success": False, "error": "count must be an integer"}
 
         snapshot = self._capture_navigation_routes({edge_id})
 
         for session_id in selected:
-            client.srem(
-                f"active_users:{edge_id}",
-                session_id,
-            )
-            client.delete(
-                f"session:{session_id}"
-            )
+            client.srem(f"active_users:{edge_id}", session_id)
+            client.delete(f"session:{session_id}")
 
-        active_count = self.presence.get_edge_count(edge_id)
         edge = graph.edges[edge_id]
-
+        active_count = self.presence.get_edge_count(edge_id)
         old_level = edge.get("traffic_level", "LOW")
         old_time = float(
             edge.get(
@@ -953,13 +770,9 @@ class TrafficService:
             or 0.0
         )
 
-        new_time = self.weights.update_edge_weight(
-            edge,
-            active_count,
-        )
+        new_time = self.weights.update_edge_weight(edge, active_count)
         new_level = edge.get("traffic_level", "LOW")
         factor = edge.get("traffic_factor", 1.0)
-
         self._set_exact_edge_weight(
             edge_id,
             new_time,
@@ -967,31 +780,18 @@ class TrafficService:
             traffic_factor=factor,
         )
 
-        changed = (
-            old_level != new_level
-            or (
-                old_time != float("inf")
-                and abs(old_time - float(new_time)) > 0.01
-            )
-        )
-
+        changed = old_level != new_level or abs(old_time - float(new_time)) > 0.01
         reroutes = []
-
         if changed:
             self._increment_traffic_version()
             self.analytics.record_traffic_state_change()
-
             self._broadcast_traffic_update(
                 edge_id=edge_id,
                 active_count=active_count,
                 traffic_level=new_level,
                 current_time=new_time,
             )
-
-            reroutes = self._evaluate_and_reroute(
-                snapshot,
-                {edge_id},
-            )
+            reroutes = self._evaluate_and_reroute(snapshot, {edge_id})
 
         return {
             "success": True,
@@ -1002,56 +802,52 @@ class TrafficService:
             "traffic_version": self.get_traffic_version(),
             "simulated": True,
             "removed": len(selected),
+            "geometry": self._get_edge_geometry(graph, edge_id),
             "reroutes": reroutes,
         }
 
     def reset_simulation(self) -> dict:
-        """Remove all simulated users and restore traffic from real presence."""
         client = get_redis_client()
-
         if client:
-            keys = client.keys("active_users:*")
-
-            for key in keys:
+            for key in client.keys("active_users:*"):
                 members = client.smembers(key)
-
                 for member in members:
                     session_id = (
-                        member.decode()
-                        if isinstance(member, bytes)
-                        else member
+                        member.decode() if isinstance(member, bytes) else member
                     )
-
                     if session_id.startswith("sim_"):
                         client.srem(key, session_id)
-                        client.delete(
-                            f"session:{session_id}"
-                        )
+                        client.delete(f"session:{session_id}")
 
         graph = self.graph_manager.get_graph()
-
         if graph:
+            changed_edges = set()
             for edge_id, edge in graph.edges.items():
-                active_count = self.presence.get_edge_count(edge_id)
-                new_time = self.weights.update_edge_weight(
-                    edge,
-                    active_count,
+                old_time = float(
+                    edge.get(
+                        "current_time_sec",
+                        edge.get("base_time_sec", 0.0),
+                    )
+                    or 0.0
                 )
+                old_level = edge.get("traffic_level", "LOW")
+                count = self.presence.get_edge_count(edge_id)
+                new_time = self.weights.update_edge_weight(edge, count)
+                new_level = edge.get("traffic_level", "LOW")
+                factor = edge.get("traffic_factor", 1.0)
                 self._set_exact_edge_weight(
                     edge_id,
                     new_time,
-                    traffic_level=edge.get(
-                        "traffic_level",
-                        "LOW",
-                    ),
-                    traffic_factor=edge.get(
-                        "traffic_factor",
-                        1.0,
-                    ),
+                    traffic_level=new_level,
+                    traffic_factor=factor,
                 )
+                if old_level != new_level or abs(old_time - float(new_time)) > 0.01:
+                    changed_edges.add(edge_id)
+
+            if changed_edges:
+                self.analytics.record_traffic_state_change()
 
         version = self._increment_traffic_version()
-
         return {
             "success": True,
             "simulated": True,
@@ -1063,28 +859,19 @@ class TrafficService:
     # ------------------------------------------------------------------
 
     def get_traffic_state(self, edge_id: str) -> dict:
-        """Get current traffic state for one edge."""
         graph = self.graph_manager.get_graph()
-
         if not graph:
-            return {
-                "success": False,
-                "error": "Graph not available",
-            }
+            return {"success": False, "error": "Graph not available"}
 
         edge = graph.edges.get(edge_id)
         if not edge:
-            return {
-                "success": False,
-                "error": "Edge not found",
-            }
+            return {"success": False, "error": "Edge not found"}
 
         active_count = self.presence.get_edge_count(edge_id)
-        state = self.weights.get_edge_state(
-            edge,
-            active_count,
-        )
-
+        state = self.weights.get_edge_state(edge, active_count)
+        state["edge_id"] = edge_id
+        state["name"] = edge.get("name") or edge_id
+        state["active_users"] = active_count
         state["traffic_level"] = edge.get(
             "traffic_level",
             state.get("traffic_level", "LOW"),
@@ -1093,6 +880,7 @@ class TrafficService:
             "current_time_sec",
             state.get("current_time_sec", 0.0),
         )
+        state["geometry"] = self._get_edge_geometry(graph, edge_id)
 
         return {
             "success": True,
@@ -1100,39 +888,41 @@ class TrafficService:
         }
 
     def get_all_traffic(self) -> dict:
-        """Get current traffic states for all active edges."""
+        """
+        Return all edges that have live users OR a non-LOW simulated/manual state.
+
+        This is the production fix for the red traffic overlay: a manually
+        changed HIGH/SEVERE edge must remain visible even when active_users=0.
+        """
         graph = self.graph_manager.get_graph()
-
         if not graph:
-            return {
-                "success": False,
-                "error": "Graph not available",
-            }
+            return {"success": False, "error": "Graph not available"}
 
-        active_edges = self.presence.get_all_active_edges()
         result = {}
 
-        for edge_id, count in active_edges.items():
-            edge = graph.edges.get(edge_id)
-            if not edge:
+        for edge_id, edge in graph.edges.items():
+            active_count = self.presence.get_edge_count(edge_id)
+            traffic_level = str(
+                edge.get("traffic_level", "LOW")
+            ).upper()
+
+            if active_count <= 0 and traffic_level == "LOW":
                 continue
 
-            state = self.weights.get_edge_state(
-                edge,
-                count,
-            )
-            state["traffic_level"] = edge.get(
-                "traffic_level",
-                state.get("traffic_level", "LOW"),
-            )
+            state = self.weights.get_edge_state(edge, active_count)
+            state["edge_id"] = edge_id
+            state["name"] = edge.get("name") or edge_id
+            state["active_users"] = active_count
+            state["traffic_level"] = traffic_level
             state["current_time_sec"] = edge.get(
                 "current_time_sec",
                 state.get("current_time_sec", 0.0),
             )
-            state["geometry"] = self._get_edge_geometry(
-                graph,
-                edge_id,
+            state["traffic_factor"] = edge.get(
+                "traffic_factor",
+                state.get("congestion_factor", 1.0),
             )
+            state["geometry"] = self._get_edge_geometry(graph, edge_id)
 
             result[edge_id] = state
 
@@ -1146,14 +936,12 @@ class TrafficService:
         }
 
     def _get_edge_geometry(self, graph, edge_id: str) -> Optional[dict]:
-        """Return a simple LineString geometry for an edge."""
         edge = graph.edges.get(edge_id)
         if not edge:
             return None
 
         from_node = graph.nodes.get(edge.get("from"))
         to_node = graph.nodes.get(edge.get("to"))
-
         if not from_node or not to_node:
             return None
 
@@ -1166,11 +954,9 @@ class TrafficService:
         }
 
     def stop_sharing(self, session_id: str) -> dict:
-        """Stop real-user presence and restore affected edge weight."""
         previous_edge = self.presence.get_session_edge(session_id)
         result = self.presence.remove_presence(session_id)
-
-        if not result["success"]:
+        if not result.get("success"):
             return result
 
         if previous_edge:
@@ -1178,27 +964,38 @@ class TrafficService:
             if graph and previous_edge in graph.edges:
                 edge = graph.edges[previous_edge]
                 active_count = self.presence.get_edge_count(previous_edge)
-                new_time = self.weights.update_edge_weight(
-                    edge,
-                    active_count,
+                old_level = edge.get("traffic_level", "LOW")
+                old_time = float(
+                    edge.get(
+                        "current_time_sec",
+                        edge.get("base_time_sec", 0.0),
+                    )
+                    or 0.0
                 )
+                new_time = self.weights.update_edge_weight(edge, active_count)
                 self._set_exact_edge_weight(
                     previous_edge,
                     new_time,
-                    traffic_level=edge.get(
-                        "traffic_level",
-                        "LOW",
-                    ),
-                    traffic_factor=edge.get(
-                        "traffic_factor",
-                        1.0,
-                    ),
+                    traffic_level=edge.get("traffic_level", "LOW"),
+                    traffic_factor=edge.get("traffic_factor", 1.0),
                 )
 
-                self._increment_traffic_version()
+                changed = (
+                    old_level != edge.get("traffic_level", "LOW")
+                    or abs(old_time - float(new_time)) > 0.01
+                )
+                if changed:
+                    self._increment_traffic_version()
+                    self.analytics.record_traffic_state_change()
+                    self._broadcast_traffic_update(
+                        edge_id=previous_edge,
+                        active_count=active_count,
+                        traffic_level=edge.get("traffic_level", "LOW"),
+                        current_time=new_time,
+                    )
 
         return {
             "success": True,
             "session_id": session_id,
+            "traffic_version": self.get_traffic_version(),
         }
-

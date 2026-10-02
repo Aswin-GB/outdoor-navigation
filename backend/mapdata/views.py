@@ -5,6 +5,7 @@ API views for map data management.
 import json
 import logging
 
+from django.conf import settings
 from rest_framework import status
 from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
@@ -13,119 +14,112 @@ from rest_framework.views import APIView
 from analytics.services import AnalyticsService
 from mapdata.models import CampusFeature, MapVersion
 from mapdata.serializers import CampusFeatureSerializer
-from routing_engine.manager import get_graph_manager
 
 logger = logging.getLogger("mapdata")
 
 
+def _load_json(path):
+    with open(path, encoding="utf-8") as file:
+        return json.load(file)
+
+
+def _load_routing_edges():
+    """Load generated edges and enrich them with endpoint geometry."""
+    edges = {}
+    nodes = {}
+
+    try:
+        if settings.NODES_JSON_PATH.exists():
+            nodes_data = _load_json(settings.NODES_JSON_PATH)
+            nodes = {
+                node["id"]: node
+                for node in nodes_data.get("nodes", [])
+            }
+
+        if not settings.EDGES_JSON_PATH.exists():
+            return edges
+
+        edges_data = _load_json(settings.EDGES_JSON_PATH)
+
+        for edge in edges_data.get("edges", []):
+            edge_id = edge.get("id")
+            if not edge_id:
+                continue
+
+            from_node = nodes.get(edge.get("from"))
+            to_node = nodes.get(edge.get("to"))
+
+            geometry = None
+            if from_node and to_node:
+                geometry = {
+                    "type": "LineString",
+                    "coordinates": [
+                        [from_node["lng"], from_node["lat"]],
+                        [to_node["lng"], to_node["lat"]],
+                    ],
+                }
+
+            edges[edge_id] = {
+                "id": edge_id,
+                "name": edge.get("name") or edge_id,
+                "from": edge.get("from"),
+                "to": edge.get("to"),
+                "distance_m": edge.get("distance_m", 0),
+                "base_time_sec": edge.get("base_time_sec", 0),
+                "current_time_sec": edge.get(
+                    "current_time_sec",
+                    edge.get("base_time_sec", 0),
+                ),
+                "road_type": edge.get("road_type"),
+                "oneway": edge.get("oneway", False),
+                "traffic_level": edge.get("traffic_level", "LOW"),
+                "source_way_id": edge.get("source_way_id"),
+                "geometry": geometry,
+            }
+    except (OSError, ValueError, TypeError, KeyError) as exc:
+        logger.exception("Failed to load generated routing edges: %s", exc)
+
+    return edges
+
+
 class MapDataView(APIView):
-    """GET /api/v1/map/ - Get map data plus routing edges for the simulator."""
+    """GET /api/v1/map/ - map GeoJSON, custom features and simulator edges."""
 
     def get(self, request):
-        from django.conf import settings
-
         osm_data = None
 
         try:
-            with open(settings.CAMPUS_GEOJSON_PATH, encoding="utf-8") as file:
-                osm_data = json.load(file)
-        except FileNotFoundError:
-            logger.warning(
-                "Campus GeoJSON not found: %s",
-                settings.CAMPUS_GEOJSON_PATH,
-            )
-        except json.JSONDecodeError as exc:
-            logger.error(
-                "Campus GeoJSON is invalid: %s",
-                exc,
-            )
+            if settings.CAMPUS_GEOJSON_PATH.exists():
+                osm_data = _load_json(settings.CAMPUS_GEOJSON_PATH)
+        except (OSError, ValueError) as exc:
+            logger.exception("Failed to load campus GeoJSON: %s", exc)
 
-        custom_features = CampusFeature.objects.filter(
-            is_active=True
-        )
-
+        custom_features = CampusFeature.objects.filter(is_active=True)
         custom_geojson = {
             "type": "FeatureCollection",
-            "features": [
-                feature.to_geojson()
-                for feature in custom_features
-            ],
+            "features": [feature.to_geojson() for feature in custom_features],
         }
 
-        # The frontend traffic simulator needs to know which graph edges
-        # are available. The previous implementation only returned OSM and
-        # custom GeoJSON, leaving the Edge dropdown empty.
-        edges = {}
-
-        try:
-            graph = get_graph_manager().get_graph()
-
-            if graph:
-                edges = {
-                    edge_id: {
-                        "id": edge_id,
-                        "name": edge.get("name") or edge_id,
-                        "from": edge.get("from"),
-                        "to": edge.get("to"),
-                        "distance_m": edge.get(
-                            "distance_m",
-                            0,
-                        ),
-                        "base_time_sec": edge.get(
-                            "base_time_sec",
-                            0,
-                        ),
-                        "current_time_sec": edge.get(
-                            "current_time_sec",
-                            edge.get(
-                                "base_time_sec",
-                                0,
-                            ),
-                        ),
-                        "traffic_level": edge.get(
-                            "traffic_level",
-                            "LOW",
-                        ),
-                    }
-                    for edge_id, edge in graph.edges.items()
-                }
-
-        except Exception as exc:
-            logger.warning(
-                "Failed to load routing edges for map response: %s",
-                exc,
-            )
-
-        return Response(
-            {
-                "success": True,
-                "data": {
-                    "osm": osm_data,
-                    "custom": custom_geojson,
-                    "edges": edges,
-                    "map_version": MapVersion.get_current_version(),
-                },
-            }
-        )
+        return Response({
+            "success": True,
+            "data": {
+                "osm": osm_data,
+                "custom": custom_geojson,
+                "edges": _load_routing_edges(),
+                "map_version": MapVersion.get_current_version(),
+            },
+        })
 
 
 class MapVersionView(APIView):
-    """GET /api/v1/map/version - Get current map version."""
-
     def get(self, request):
-        return Response(
-            {
-                "success": True,
-                "data": {
-                    "map_version": MapVersion.get_current_version(),
-                },
-            }
-        )
+        return Response({
+            "success": True,
+            "data": {"map_version": MapVersion.get_current_version()},
+        })
 
 
 class FeatureListCreateView(APIView):
-    """GET/POST /api/v1/map/features - List or create features."""
-
     def get_permissions(self):
         if self.request.method == "POST":
             return [IsAdminUser()]
@@ -133,67 +127,33 @@ class FeatureListCreateView(APIView):
 
     def get(self, request):
         features = CampusFeature.objects.filter(is_active=True)
-        serializer = CampusFeatureSerializer(features, many=True)
-
-        return Response(
-            {
-                "success": True,
-                "data": serializer.data,
-            }
-        )
+        return Response({
+            "success": True,
+            "data": CampusFeatureSerializer(features, many=True).data,
+        })
 
     def post(self, request):
         data = request.data
-
         feature_type = data.get("feature_type")
         geometry_data = data.get("geometry_data")
 
-        if not feature_type:
-            return Response(
-                {
-                    "success": False,
-                    "error": {
-                        "code": "INVALID_FEATURE",
-                        "message": "feature_type is required.",
-                    },
+        if not feature_type or not geometry_data:
+            return Response({
+                "success": False,
+                "error": {
+                    "code": "INVALID_FEATURE",
+                    "message": "feature_type and geometry_data are required.",
                 },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            }, status=status.HTTP_400_BAD_REQUEST)
 
-        if not geometry_data:
-            return Response(
-                {
-                    "success": False,
-                    "error": {
-                        "code": "INVALID_FEATURE",
-                        "message": "geometry_data is required.",
-                    },
+        if geometry_data.get("type") not in {"Point", "LineString", "Polygon"}:
+            return Response({
+                "success": False,
+                "error": {
+                    "code": "INVALID_GEOMETRY",
+                    "message": "Geometry type must be Point, LineString, or Polygon.",
                 },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        valid_geometry_types = {
-            "Point",
-            "LineString",
-            "Polygon",
-        }
-
-        geometry_type = geometry_data.get("type")
-
-        if geometry_type not in valid_geometry_types:
-            return Response(
-                {
-                    "success": False,
-                    "error": {
-                        "code": "INVALID_GEOMETRY",
-                        "message": (
-                            "Geometry type must be one of: "
-                            "Point, LineString, Polygon."
-                        ),
-                    },
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         feature = CampusFeature.objects.create(
             feature_type=feature_type,
@@ -209,55 +169,36 @@ class FeatureListCreateView(APIView):
         )
 
         MapVersion.increment(
-            reason=(
-                f"Added {feature_type}: "
-                f"{feature.name or 'unnamed'}"
-            )
+            reason=f"Added {feature_type}: {feature.name or 'unnamed'}"
         )
 
-        if feature_type in {
-            "road",
-            "path",
-            "pedestrian_area",
-        }:
+        if feature_type in {"road", "path", "pedestrian_area"}:
+            from routing_engine.manager import get_graph_manager
             graph_manager = get_graph_manager()
             graph_manager.mark_stale()
             graph_manager.refresh_from_db()
 
         AnalyticsService().record_map_edit()
-
         self._invalidate_route_cache()
 
-        serializer = CampusFeatureSerializer(feature)
-
-        return Response(
-            {
-                "success": True,
-                "data": serializer.data,
-            },
-            status=status.HTTP_201_CREATED,
-        )
+        return Response({
+            "success": True,
+            "data": CampusFeatureSerializer(feature).data,
+        }, status=status.HTTP_201_CREATED)
 
     @staticmethod
     def _invalidate_route_cache():
         try:
             from cache.redis import get_redis_client
-
             client = get_redis_client()
-            if not client:
-                return
-
-            keys = client.keys("route:*")
-            for key in keys:
-                client.delete(key)
-
+            if client:
+                for key in client.keys("route:*"):
+                    client.delete(key)
         except Exception:
-            pass
+            logger.exception("Route cache invalidation failed")
 
 
 class FeatureDetailView(APIView):
-    """GET/PUT/DELETE /api/v1/map/features/{id}."""
-
     def get_permissions(self):
         if self.request.method in {"PUT", "DELETE"}:
             return [IsAdminUser()]
@@ -271,132 +212,93 @@ class FeatureDetailView(APIView):
 
     def get(self, request, feature_id):
         feature = self.get_object(feature_id)
-
         if not feature:
-            return Response(
-                {
-                    "success": False,
-                    "error": {
-                        "code": "FEATURE_NOT_FOUND",
-                        "message": "Feature not found.",
-                    },
+            return Response({
+                "success": False,
+                "error": {
+                    "code": "FEATURE_NOT_FOUND",
+                    "message": "Feature not found.",
                 },
-                status=status.HTTP_404_NOT_FOUND,
-            )
+            }, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = CampusFeatureSerializer(feature)
-
-        return Response(
-            {
-                "success": True,
-                "data": serializer.data,
-            }
-        )
+        return Response({
+            "success": True,
+            "data": CampusFeatureSerializer(feature).data,
+        })
 
     def put(self, request, feature_id):
         feature = self.get_object(feature_id)
-
         if not feature:
-            return Response(
-                {
-                    "success": False,
-                    "error": {
-                        "code": "FEATURE_NOT_FOUND",
-                        "message": "Feature not found.",
-                    },
+            return Response({
+                "success": False,
+                "error": {
+                    "code": "FEATURE_NOT_FOUND",
+                    "message": "Feature not found.",
                 },
-                status=status.HTTP_404_NOT_FOUND,
-            )
+            }, status=status.HTTP_404_NOT_FOUND)
 
         data = request.data
+        changed_geometry = False
 
         if "name" in data:
             feature.name = data["name"]
-
         if "geometry_data" in data:
             feature.geometry_data = data["geometry_data"]
-
+            changed_geometry = True
         if "properties" in data:
             feature.properties = data["properties"]
-
         if "is_active" in data:
             feature.is_active = data["is_active"]
 
         feature.version += 1
         feature.save()
 
-        if feature.feature_type in {
-            "road",
-            "path",
-            "pedestrian_area",
-        }:
+        if feature.feature_type in {"road", "path", "pedestrian_area"} and changed_geometry:
             MapVersion.increment(
-                reason=(
-                    f"Updated {feature.feature_type}: "
-                    f"{feature.name or 'unnamed'}"
-                )
+                reason=f"Updated {feature.feature_type}: {feature.name or 'unnamed'}"
             )
+            FeatureListCreateView._invalidate_route_cache()
 
+            from routing_engine.manager import get_graph_manager
             graph_manager = get_graph_manager()
             graph_manager.mark_stale()
             graph_manager.refresh_from_db()
 
-            FeatureListCreateView._invalidate_route_cache()
-
         AnalyticsService().record_map_edit()
 
-        serializer = CampusFeatureSerializer(feature)
-
-        return Response(
-            {
-                "success": True,
-                "data": serializer.data,
-            }
-        )
+        return Response({
+            "success": True,
+            "data": CampusFeatureSerializer(feature).data,
+        })
 
     def delete(self, request, feature_id):
         feature = self.get_object(feature_id)
-
         if not feature:
-            return Response(
-                {
-                    "success": False,
-                    "error": {
-                        "code": "FEATURE_NOT_FOUND",
-                        "message": "Feature not found.",
-                    },
+            return Response({
+                "success": False,
+                "error": {
+                    "code": "FEATURE_NOT_FOUND",
+                    "message": "Feature not found.",
                 },
-                status=status.HTTP_404_NOT_FOUND,
-            )
+            }, status=status.HTTP_404_NOT_FOUND)
 
         feature.is_active = False
-        feature.save()
+        feature.save(update_fields=["is_active", "updated_at"])
 
         MapVersion.increment(
-            reason=(
-                f"Deleted {feature.feature_type}: "
-                f"{feature.name or 'unnamed'}"
-            )
+            reason=f"Deleted {feature.feature_type}: {feature.name or 'unnamed'}"
         )
+        FeatureListCreateView._invalidate_route_cache()
 
-        if feature.feature_type in {
-            "road",
-            "path",
-            "pedestrian_area",
-        }:
+        if feature.feature_type in {"road", "path", "pedestrian_area"}:
+            from routing_engine.manager import get_graph_manager
             graph_manager = get_graph_manager()
             graph_manager.mark_stale()
             graph_manager.refresh_from_db()
 
-        FeatureListCreateView._invalidate_route_cache()
         AnalyticsService().record_map_edit()
 
-        return Response(
-            {
-                "success": True,
-                "data": {
-                    "id": str(feature.id),
-                    "deleted": True,
-                },
-            }
-        )
+        return Response({
+            "success": True,
+            "data": {"id": str(feature.id), "deleted": True},
+        })
