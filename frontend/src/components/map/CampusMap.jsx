@@ -4,6 +4,7 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
+import { computeRoute } from '../../services/routeApi'
 
 const SATELLITE_STYLE = {
   version: 8,
@@ -223,27 +224,27 @@ export default function CampusMap({
 
     // Route layer
     map.current.addLayer({
-      id: 'route-line',
-      type: 'line',
-      source: 'route',
-      filter: ['==', ['geometry-type'], 'LineString'],
-      paint: {
-        'line-color': '#2563eb',
-        'line-width': 5,
-        'line-opacity': 0.9,
-      },
-      layout: { 'line-cap': 'round', 'line-join': 'round' },
-    })
-
-    map.current.addLayer({
       id: 'route-casing',
       type: 'line',
       source: 'route',
       filter: ['==', ['geometry-type'], 'LineString'],
       paint: {
-        'line-color': '#1e40af',
-        'line-width': 8,
-        'line-opacity': 0.3,
+        'line-color': '#ffffff',
+        'line-width': 11,
+        'line-opacity': 0.95,
+      },
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+    })
+
+    map.current.addLayer({
+      id: 'route-line',
+      type: 'line',
+      source: 'route',
+      filter: ['==', ['geometry-type'], 'LineString'],
+      paint: {
+        'line-color': '#f97316',
+        'line-width': 7,
+        'line-opacity': 1,
       },
       layout: { 'line-cap': 'round', 'line-join': 'round' },
     })
@@ -320,6 +321,9 @@ export default function CampusMap({
     if (!source) return
 
     if (route?.path && route.path.length > 1) {
+      const bounds = new maplibregl.LngLatBounds()
+      route.path.forEach((coordinate) => bounds.extend(coordinate))
+
       source.setData({
         type: 'Feature',
         geometry: {
@@ -327,6 +331,15 @@ export default function CampusMap({
           coordinates: route.path,
         },
         properties: {},
+      })
+
+      const isNarrowScreen = window.innerWidth <= 1024
+      map.current.fitBounds(bounds, {
+        padding: isNarrowScreen
+          ? 32
+          : { top: 64, bottom: 64, left: 340, right: 220 },
+        maxZoom: 18,
+        duration: 800,
       })
     } else {
       source.setData({ type: 'FeatureCollection', features: [] })
@@ -431,11 +444,12 @@ export default function CampusMap({
     onRouteError?.(null)
 
     try {
-      const result = await apiPost('/api/v1/routes', {
-        source: { lat: fromNode.lat, lng: fromNode.lng },
-        destination: { place_id: toNode.id },
-        algorithm: algorithm,
-      })
+      const result = await computeRoute(
+        { lat: fromNode.lat, lng: fromNode.lng },
+        { place_id: toNode.id },
+        'walking',
+        algorithm,
+      )
 
       if (result.success) {
         const data = result.data
