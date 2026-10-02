@@ -102,12 +102,24 @@ def astar(
             total_distance = 0.0
             for i in range(len(path) - 1):
                 n1, n2 = path[i], path[i + 1]
+                found_edge = False
                 for neighbor, edge_id, weight in adjacency.get(n1, []):
                     if neighbor == n2:
-                        # Use physical distance, not dynamic time weight
                         edge_data = graph.get('edges', {}).get(edge_id, {})
-                        total_distance += edge_data.get('distance_m', 0.0)
+                        if edge_data.get('distance_m') is not None:
+                            total_distance += float(edge_data.get('distance_m', 0.0))
+                        else:
+                            total_distance += haversine_m(
+                                nodes[n1]['lat'], nodes[n1]['lng'],
+                                nodes[n2]['lat'], nodes[n2]['lng']
+                            )
+                        found_edge = True
                         break
+                if not found_edge:
+                    total_distance += haversine_m(
+                        nodes[n1]['lat'], nodes[n1]['lng'],
+                        nodes[n2]['lat'], nodes[n2]['lng']
+                    )
 
             latency = (time.perf_counter() - start_time) * 1000
 

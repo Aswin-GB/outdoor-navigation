@@ -128,10 +128,11 @@ class FeatureListCreateView(APIView):
         # Increment map version
         MapVersion.increment(reason=f"Added {feature_type}: {feature.name or 'unnamed'}")
 
-        # Mark graph as stale if routing-relevant
+        # Mark graph as stale if routing-relevant and trigger immediate reload
         if feature_type in ['road', 'path', 'pedestrian_area']:
             gm = get_graph_manager()
             gm.mark_stale()
+            gm.refresh_from_db()
 
         # Record analytics
         AnalyticsService().record_map_edit()
@@ -216,6 +217,7 @@ class FeatureDetailView(APIView):
             MapVersion.increment(reason=f"Updated {feature.feature_type}: {feature.name or 'unnamed'}")
             gm = get_graph_manager()
             gm.mark_stale()
+            gm.refresh_from_db()
 
             # Invalidate route cache
             try:
@@ -258,6 +260,7 @@ class FeatureDetailView(APIView):
         if feature.feature_type in ['road', 'path', 'pedestrian_area']:
             gm = get_graph_manager()
             gm.mark_stale()
+            gm.refresh_from_db()
 
         # Invalidate route cache
         try:

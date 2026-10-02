@@ -169,35 +169,104 @@ class TrafficService:
             'traffic_version': self.get_traffic_version(),
         }
 
+    def _get_navigation_route_context(self, nav):
+        """Attempt to resolve route edges and ETA context for an active navigation session."""
+        try:
+            current_position = nav.current_position or {}
+            current_lat = current_position.get('lat')
+            current_lng = current_position.get('lng')
+            destination = nav.destination or {}
+            destination_lat = destination.get('lat')
+            destination_lng = destination.get('lng')
+            if current_lat is None or current_lng is None or destination_lat is None or destination_lng is None:
+                return {'route_edges': [], 'old_eta': 0.0, 'new_eta': 0.0, 'current_lat': current_lat, 'current_lng': current_lng, 'destination_lat': destination_lat, 'destination_lng': destination_lng}
+
+            graph = self.graph_manager.get_graph()
+            if not graph:
+                return {'route_edges': [], 'old_eta': 0.0, 'new_eta': 0.0, 'current_lat': current_lat, 'current_lng': current_lng, 'destination_lat': destination_lat, 'destination_lng': destination_lng}
+
+            from routing_engine.service import RoutingService
+            route_result = RoutingService().compute_route(current_lat, current_lng, destination_lat, destination_lng)
+            if not route_result.get('success'):
+                return {'route_edges': [], 'old_eta': 0.0, 'new_eta': 0.0, 'current_lat': current_lat, 'current_lng': current_lng, 'destination_lat': destination_lat, 'destination_lng': destination_lng}
+
+            route_data = route_result['data']
+            route_edges = []
+            node_path = route_data.get('node_path', [])
+            for idx in range(len(node_path) - 1):
+                from_node = node_path[idx]
+                to_node = node_path[idx + 1]
+                for neighbor, edge_id, _ in graph.adjacency.get(from_node, []):
+                    if neighbor == to_node:
+                        route_edges.append(edge_id)
+                        break
+
+            old_eta = float(route_data.get('duration_sec', 0.0) or 0.0)
+            new_eta = old_eta
+            return {
+                'route_edges': route_edges,
+                'old_eta': old_eta,
+                'new_eta': new_eta,
+                'current_lat': current_lat,
+                'current_lng': current_lng,
+                'destination_lat': destination_lat,
+                'destination_lng': destination_lng,
+            }
+        except Exception as exc:
+            logger.warning(f"Could not resolve route context for navigation {nav.id}: {exc}")
+            return {'route_edges': [], 'old_eta': 0.0, 'new_eta': 0.0, 'current_lat': None, 'current_lng': None, 'destination_lat': None, 'destination_lng': None}
+
     def _analyze_and_trigger_reroutes(self, edge_id: str, active_count: int):
         """Analyze active navigation sessions to see if they need rerouting."""
         try:
             from navigation.models import NavigationSession
-            # Only analyze active sessions on the affected edge
+            from routing_engine.service import RoutingService
+
             active_navs = NavigationSession.objects.filter(status='active')
             graph = self.graph_manager.get_graph()
+            if not graph:
+                return
 
             for nav in active_navs:
-                # We need to check if the route for this nav contains the edge
-                # NavigationSession doesn't store the route path, we'd usually store
-                # the current route_id and fetch from cache/DB
-                # For now, let's assume we have access to the current route path
+                context = self._get_navigation_route_context(nav)
+                route_edges = context['route_edges']
+                old_eta = float(context['old_eta'] or 0.0)
+                new_eta = old_eta
 
-                # Mocking route path check for now as NavigationSession doesn't store it
-                # In a full implementation, we'd fetch the route from Redis/DB
-                route_edges = [] # Replace with actual route edges for nav.id
+                current_edge = nav.current_edge
+                if current_edge and current_edge == edge_id:
+                    current_status = graph.edges.get(current_edge, {})
+                    current_time = float(current_status.get('current_time_sec', current_status.get('base_time_sec', 0.0)) or 0.0)
+                    if current_time > 0:
+                        new_eta = old_eta + max(0.0, current_time - current_status.get('base_time_sec', current_time))
 
-                # Get current ETA (old_eta) and calculate new ETA
-                # This part requires integrating with the actual routing engine
-                old_eta = 0.0 # Mock
-                new_eta = 0.0 # Mock
+                decision = self.analyzer.should_reroute(str(nav.id), old_eta, new_eta, edge_id, route_edges)
+                if not decision.get('should_reroute'):
+                    continue
 
-                if self.analyzer.should_reroute(str(nav.id), old_eta, new_eta, edge_id, route_edges):
-                    # Trigger reroute:
-                    # 1. Get current position (last known from telemetry if available)
-                    # 2. Compute new route to destination
-                    # 3. Broadcast route_changed
-                    pass
+                current_lat = context.get('current_lat')
+                current_lng = context.get('current_lng')
+                dest_lat = context.get('destination_lat')
+                dest_lng = context.get('destination_lng')
+                if current_lat is None or current_lng is None or dest_lat is None or dest_lng is None:
+                    continue
+
+                reroute_result = RoutingService().reroute(
+                    str(nav.id),
+                    float(current_lat),
+                    float(current_lng),
+                    float(dest_lat),
+                    float(dest_lng),
+                    reason=f"traffic_change:{edge_id}"
+                )
+                if not reroute_result.get('success'):
+                    continue
+
+                route_data = reroute_result.get('data', {})
+                path = route_data.get('path', [])
+                eta = float(route_data.get('duration_sec', old_eta) or old_eta)
+                self._broadcast_route_changed(str(nav.id), route_data.get('route_id', nav.route_id), decision.get('reason', 'traffic_change'), eta, path)
+                logger.info(f"Triggered reroute for navigation {nav.id} because edge {edge_id} changed traffic: {decision.get('reason')}")
 
         except Exception as e:
             logger.warning(f"Reroute analysis failed: {e}")
@@ -344,21 +413,20 @@ class TrafficService:
         """Reset all simulated traffic without affecting real users."""
         client = get_redis_client()
         if client:
-            # Only remove simulated sessions from all edges
             keys = client.keys("active_users:*")
-            for key in records:
+            for key in keys:
                 edge_id = key.decode().split(":", 1)[1] if isinstance(key, bytes) else key.split(":", 1)[1]
                 sim_sessions = self._get_simulated_sessions(edge_id)
                 for sid in sim_sessions:
                     client.srem(key, sid)
 
-        # Reset all edge weights
         graph = self.graph_manager.get_graph()
         if graph:
             for edge_id, edge in graph.edges.items():
                 edge['current_time_sec'] = edge.get('base_time_sec', 0)
                 edge['traffic_level'] = 'LOW'
                 edge['traffic_factor'] = 1.0
+                self.graph_manager.update_edge_weight(edge_id, 'LOW')
 
         self._increment_traffic_version()
 

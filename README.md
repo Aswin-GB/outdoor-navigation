@@ -53,6 +53,7 @@ Trade-off Analytics
 - **Interactive Campus Map** — MapLibre GL JS with OSM-derived data
 - **Production Map Lifecycle** — MapLibre initializes once, creates empty GeoJSON sources immediately, and updates them when map data arrives without recreating the map instance
 - **Dynamic Custom Map Data** — Admin editor for adding/editing campus features
+- **Admin Graph Sync** — Feature creation/update/delete marks the routing graph stale and immediately reloads the in-memory graph so live route calculations reflect campus edits
 - **Campus Places** — Searchable POIs with categories
 - **Search** — Partial, case-insensitive place search
 - **Current Location** — Browser Geolocation API with permission handling
@@ -67,16 +68,17 @@ Trade-off Analytics
 - **Configurable Crowd Thresholds** — LOW/MODERATE/HIGH/SEVERE levels
 - **Dynamic Edge Weights** — Real-time travel time adjustments
 - **Traffic Visualization** — Color-coded road segments
-- **Route Impact Analyzer** — Smart rerouting decisions
-- **Mid-Journey Rerouting** — From current position, not origin
+- **Route Impact Analyzer** — Smart rerouting decisions using actual route membership and ETA deltas
+- **Mid-Journey Rerouting** — From current position, not origin, broadcast to WebSocket-connected navigation sessions
 - **WebSocket** — Real-time navigation updates
 - **Redis/Valkey State** — Caching and presence tracking
 - **Route Cache** — Version-aware route caching
 - **Map/Graph/Traffic Versions** — Cache invalidation support
 - **Trade-off Dashboard** — Real system metrics
 - **Traffic Demo Mode** — Live hackathon demonstration
-- **Traffic Simulator Fallback** — SIMULATED data for testing
+- **Traffic Simulator Fallback** — SIMULATED data for testing and reset cleanup
 - **Production Resilience** — Map data and places load independently so a places outage does not block campus map rendering
+- **Admin Editing Workflow** — Edit existing features in-place, cancel/reset, and save changes without leaving the editor
 
 ## Architecture
 
@@ -143,16 +145,23 @@ Route Impact → Possible Reroute
 ## Map Editor
 
 The admin map editor allows:
-- Add Road, Path, Building, Place, Parking
-- Edit Feature, Delete Feature, Enable/Disable Feature
-- Save Changes with map version increment
+- Add roads, paths, pedestrian areas, buildings, parking, and landmarks
+- Edit existing custom features in-place
+- Delete features with soft-delete support
+- Save changes and immediately reload the runtime graph for route calculations
 
-**Demo Flow:**
-1. Open admin map editor
-2. Add missing campus road
-3. Save → Map version increments
-4. Graph rebuilds
-5. New route can use that road
+**Operational Flow:**
+1. Open the admin map editor
+2. Add or update a routing-relevant feature
+3. Save → map version increments, route cache invalidates, and graph reload is triggered
+4. Runtime graph rebuilds in memory
+5. New route requests immediately use the updated campus topology
+
+**Backend sync behavior:**
+- Admin writes persist to SQLite
+- Routing-relevant changes mark the graph stale via `GraphManager.mark_stale()`
+- The manager immediately reloads from the current campus graph data
+- Route caches are cleared so clients do not reuse stale path results
 
 ## Graph Model
 
@@ -182,6 +191,18 @@ The admin map editor allows:
 **Output:** route_id, path, coordinates, distance, ETA, algorithm, cache status, map version, traffic version
 
 ## Crowd Traffic Analyzer
+
+**Reroute configuration:**
+- `REROUTE_THRESHOLD_PERCENT` — 15%
+- `MIN_REROUTE_INTERVAL_SECONDS` — 30 seconds
+- `MAX_TRAFFIC_STALENESS_SECONDS` — 60 seconds
+
+**Reroute logic:**
+1. Check whether the affected edge is part of the active route
+2. Read the current route context from the active navigation session
+3. Compare the pre-change and post-change ETA for the impacted segment
+4. Trigger `route_changed` only when the percentage threshold is crossed and the interval has elapsed
+5. Broadcast the new route to the navigation WebSocket room
 
 **Thresholds (prototype values):**
 | Level | Active Users |

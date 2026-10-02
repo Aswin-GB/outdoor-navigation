@@ -23,8 +23,8 @@ export default function MapEditor({ mapData }) {
   const [coordinates, setCoordinates] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState(null)
+  const [editingId, setEditingId] = useState(null)
 
-  // Load features
   const loadFeatures = useCallback(async () => {
     try {
       const result = await getFeatures()
@@ -40,8 +40,7 @@ export default function MapEditor({ mapData }) {
     loadFeatures()
   }, [loadFeatures])
 
-  // Create feature
-  const handleCreate = async () => {
+  const submitFeature = async () => {
     if (!coordinates) {
       setMessage({ type: 'error', text: 'Coordinates are required' })
       return
@@ -55,21 +54,29 @@ export default function MapEditor({ mapData }) {
         coordinates: coords,
       }
 
-      const result = await createFeature({
+      const payload = {
         feature_type: selectedType,
         name: featureName,
         geometry_data: geometry,
         properties: {},
         source: 'admin',
-      })
+      }
+
+      const result = editingId
+        ? await updateFeature(editingId, payload)
+        : await createFeature(payload)
 
       if (result.success) {
-        setMessage({ type: 'success', text: 'Feature created successfully' })
+        setMessage({
+          type: 'success',
+          text: editingId ? 'Feature updated successfully' : 'Feature created successfully',
+        })
         setFeatureName('')
         setCoordinates('')
-        loadFeatures()
+        setEditingId(null)
+        await loadFeatures()
       } else {
-        setMessage({ type: 'error', text: result.error?.message || 'Failed to create feature' })
+        setMessage({ type: 'error', text: result.error?.message || 'Failed to save feature' })
       }
     } catch (err) {
       setMessage({ type: 'error', text: err.message })
@@ -78,7 +85,18 @@ export default function MapEditor({ mapData }) {
     }
   }
 
-  // Delete feature
+  const handleCreate = async () => {
+    await submitFeature()
+  }
+
+  const handleEdit = (feature) => {
+    setEditingId(feature.id)
+    setSelectedType(feature.feature_type)
+    setFeatureName(feature.name || '')
+    setCoordinates(JSON.stringify(feature.geometry_data?.coordinates || [], null, 2))
+    setMessage({ type: 'info', text: `Editing ${feature.name || feature.feature_type}` })
+  }
+
   const handleDelete = async (id) => {
     if (!confirm('Are you sure you want to delete this feature?')) return
 
@@ -87,7 +105,12 @@ export default function MapEditor({ mapData }) {
       const result = await deleteFeature(id)
       if (result.success) {
         setMessage({ type: 'success', text: 'Feature deleted' })
-        loadFeatures()
+        if (editingId === id) {
+          setEditingId(null)
+          setFeatureName('')
+          setCoordinates('')
+        }
+        await loadFeatures()
       }
     } catch (err) {
       setMessage({ type: 'error', text: err.message })
@@ -139,9 +162,24 @@ export default function MapEditor({ mapData }) {
               rows={4}
             />
           </div>
-          <button className="btn btn-primary" onClick={handleCreate} disabled={loading}>
-            {loading ? 'Creating...' : 'Create Feature'}
-          </button>
+          <div className="button-row" style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+            <button className="btn btn-primary" onClick={handleCreate} disabled={loading}>
+              {loading ? (editingId ? 'Saving...' : 'Creating...') : (editingId ? 'Save Changes' : 'Create Feature')}
+            </button>
+            {editingId && (
+              <button
+                className="btn btn-secondary"
+                onClick={() => {
+                  setEditingId(null)
+                  setFeatureName('')
+                  setCoordinates('')
+                  setMessage(null)
+                }}
+              >
+                Cancel
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Feature List */}
@@ -154,9 +192,14 @@ export default function MapEditor({ mapData }) {
                   <span className="feature-name">{f.name || 'Unnamed'}</span>
                   <span className="feature-type">{f.feature_type}</span>
                 </div>
-                <button className="btn btn-danger btn-sm" onClick={() => handleDelete(f.id)}>
-                  Delete
-                </button>
+                <div className="feature-actions" style={{ display: 'flex', gap: '0.5rem' }}>
+                  <button className="btn btn-secondary btn-sm" onClick={() => handleEdit(f)}>
+                    Edit
+                  </button>
+                  <button className="btn btn-danger btn-sm" onClick={() => handleDelete(f.id)}>
+                    Delete
+                  </button>
+                </div>
               </div>
             ))}
             {features.length === 0 && (

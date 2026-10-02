@@ -83,8 +83,9 @@ class GraphManager:
 
     def get_graph(self) -> Optional[GraphData]:
         """Get the current in-memory graph."""
-        if self._graph is None:
-            return self.load_graph()
+        if self._graph is None or self._stale or self.is_graph_stale():
+            self._stale = False
+            return self.reload_graph()
         return self._graph
 
     def reload_graph(self) -> GraphData:
@@ -116,6 +117,13 @@ class GraphManager:
     def mark_stale(self):
         """Mark the graph as stale, triggering reload on next access."""
         self._stale = True
+        self._graph_version += 1
+
+    def refresh_from_db(self) -> GraphData:
+        """Reload the graph from disk and update map version metadata."""
+        with self._lock:
+            self._stale = False
+            return self.load_graph()
 
     def reload_if_stale(self) -> GraphData:
         """Reload graph if it has become stale."""
