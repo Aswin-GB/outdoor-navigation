@@ -365,6 +365,7 @@ class RoutingService:
         cached = self._get_cached_route(cache_key)
 
         if cached:
+            self.analytics.record_cache_hit()
             cached["source_node"] = source_node
             cached["dest_node"] = dest_node
 

@@ -1,12 +1,17 @@
 /**
  * WebSocket service for real-time navigation updates.
  */
-const normalizeWebSocketBase = (baseUrl, fallback) => {
-  const candidate = (baseUrl || fallback).trim().replace(/\/+$/, '')
-  return candidate || fallback
+const getWebSocketBase = () => {
+  const configuredBase = import.meta.env.VITE_WS_BASE_URL
+    || import.meta.env.VITE_API_BASE_URL
+    || 'http://localhost:8000'
+  const url = new URL(configuredBase.trim())
+  const securePage = typeof window !== 'undefined' && window.location.protocol === 'https:'
+  url.protocol = securePage || url.protocol === 'https:' || url.protocol === 'wss:' ? 'wss:' : 'ws:'
+  return url.href.replace(/\/+$/, '')
 }
 
-const WS_BASE = normalizeWebSocketBase(import.meta.env.VITE_WS_BASE_URL, 'ws://localhost:8000')
+const WS_BASE = getWebSocketBase()
 
 export class NavigationWebSocket {
   constructor(navigationId, onMessage, onConnect, onDisconnect) {
@@ -19,13 +24,20 @@ export class NavigationWebSocket {
     this.maxReconnectAttempts = 5
     this.reconnectDelay = 1000
     this.closed = false
+    this.reconnectTimer = null
   }
 
   connect() {
     if (this.closed || !this.navigationId) return
 
     const url = `${WS_BASE.replace(/\/$/, '')}/ws/navigation/${this.navigationId}/`
-    this.ws = new WebSocket(url)
+    try {
+      this.ws = new WebSocket(url)
+    } catch (error) {
+      console.error('Unable to create navigation WebSocket:', error)
+      this.onDisconnect?.()
+      return
+    }
 
     this.ws.onopen = () => {
       this.reconnectAttempts = 0
@@ -45,7 +57,10 @@ export class NavigationWebSocket {
       this.onDisconnect?.()
       if (!this.closed && this.reconnectAttempts < this.maxReconnectAttempts) {
         this.reconnectAttempts++
-        setTimeout(() => this.connect(), this.reconnectDelay * this.reconnectAttempts)
+        this.reconnectTimer = setTimeout(
+          () => this.connect(),
+          this.reconnectDelay * this.reconnectAttempts
+        )
       }
     }
 
@@ -62,6 +77,10 @@ export class NavigationWebSocket {
 
   close() {
     this.closed = true
+    if (this.reconnectTimer !== null) {
+      clearTimeout(this.reconnectTimer)
+      this.reconnectTimer = null
+    }
     this.ws?.close()
   }
 }

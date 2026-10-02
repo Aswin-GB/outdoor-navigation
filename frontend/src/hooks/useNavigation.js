@@ -16,6 +16,9 @@ export function useNavigation() {
         route_id: route.route_id,
         source: route.source,
         destination: route.destination,
+        route_nodes: route.node_path,
+        route_edges: route.edge_path,
+        duration_sec: route.duration_sec,
       })
       if (result.success) {
         setNavigation(result.data)

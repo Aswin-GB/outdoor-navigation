@@ -4,6 +4,7 @@ Tests for traffic system.
 import pytest
 from traffic.scoring import TrafficScorer
 from traffic.weights import WeightCalculator
+from traffic.presence import PresenceManager
 
 
 class TestTrafficScorer:
@@ -69,3 +70,25 @@ class TestWeightCalculator:
         edge = {'id': 'e1', 'base_time_sec': 100.0, 'current_time_sec': 100.0}
         self.calc.update_edge_weight(edge, 10)
         assert edge['base_time_sec'] == 100.0
+
+
+class TestPresenceMemoryFallback:
+    def test_presence_updates_and_expires_without_redis(self, monkeypatch):
+        monkeypatch.setattr('traffic.presence.get_redis_client', lambda: None)
+        manager = PresenceManager()
+        now = [1000.0]
+        monkeypatch.setattr('traffic.presence.time.time', lambda: now[0])
+        session_id = 'test-memory-presence'
+        edge_id = 'test-memory-edge'
+
+        manager.update_presence(session_id, edge_id, 9.57, 77.68)
+        assert manager.get_edge_count(edge_id) == 1
+        assert manager.get_session_edge(session_id) == edge_id
+
+        manager.update_presence(session_id, 'test-memory-edge-next', 9.58, 77.69)
+        assert manager.get_edge_count(edge_id) == 0
+        assert manager.get_edge_count('test-memory-edge-next') == 1
+
+        now[0] += manager.ttl + 1
+        assert manager.cleanup_expired() == 1
+        assert manager.get_session_edge(session_id) is None

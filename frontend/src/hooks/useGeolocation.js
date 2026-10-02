@@ -11,35 +11,45 @@ export function useGeolocation() {
 
   const getCurrentPosition = useCallback(() => {
     if (!navigator.geolocation) {
-      setError('Geolocation is not supported by your browser')
-      return
+      const locationError = new Error('Geolocation is not supported by your browser')
+      setError(locationError.message)
+      return Promise.reject(locationError)
     }
 
     setLoading(true)
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setPosition({
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude,
-          accuracy: pos.coords.accuracy,
-        })
-        setLoading(false)
-        setError(null)
-      },
-      (err) => {
-        setError(err.message)
-        setLoading(false)
-      },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-    )
+
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const nextPosition = {
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude,
+            accuracy: pos.coords.accuracy,
+          }
+          setPosition(nextPosition)
+          setLoading(false)
+          setError(null)
+          resolve(nextPosition)
+        },
+        (err) => {
+          setError(err.message)
+          setLoading(false)
+          reject(err)
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+      )
+    })
   }, [])
 
   const startWatching = useCallback(() => {
+    if (watchId.current !== null) return
+
     if (!navigator.geolocation) {
       setError('Geolocation is not supported by your browser')
       return
     }
 
+    setLoading(true)
     watchId.current = navigator.geolocation.watchPosition(
       (pos) => {
         setPosition({
@@ -47,10 +57,12 @@ export function useGeolocation() {
           lng: pos.coords.longitude,
           accuracy: pos.coords.accuracy,
         })
+        setLoading(false)
         setError(null)
       },
       (err) => {
         setError(err.message)
+        setLoading(false)
       },
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 5000 }
     )

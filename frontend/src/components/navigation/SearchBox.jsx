@@ -3,7 +3,15 @@
  */
 import React, { useState, useCallback, useRef, useEffect } from 'react'
 
-export default function SearchBox({ places = [], onPlaceSelect, selectedPlace }) {
+export default function SearchBox({
+  places = [],
+  onPlaceSelect,
+  selectedPlace,
+  position,
+  locationLoading = false,
+  locationError = null,
+  onLocate,
+}) {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState([])
   const [isOpen, setIsOpen] = useState(false)
@@ -79,10 +87,38 @@ export default function SearchBox({ places = [], onPlaceSelect, selectedPlace })
           className="search-input"
         />
         {query && (
-          <button className="search-clear" onClick={handleClear}>
+          <button
+            type="button"
+            className="search-clear"
+            onClick={handleClear}
+            aria-label="Clear place search"
+          >
             ×
           </button>
         )}
+        <button
+          type="button"
+          className={`location-button${position ? ' has-location' : ''}${locationLoading ? ' is-loading' : ''}`}
+          onClick={onLocate}
+          disabled={locationLoading}
+          aria-label={locationError ? `Location unavailable: ${locationError}` : 'Find my location'}
+          title={locationError || (position ? 'Update my location' : 'Find my location')}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="3" />
+            <path d="M12 2v2m0 16v2M2 12h2m16 0h2" />
+            <circle cx="12" cy="12" r="8" />
+          </svg>
+        </button>
+      </div>
+      <div className={`location-status${locationError ? ' has-error' : ''}`} aria-live="polite">
+        {locationLoading
+          ? 'Finding your location…'
+          : locationError
+            ? 'Location unavailable — check browser permission'
+            : position
+              ? `Location ready${position.accuracy ? ` · ±${Math.round(position.accuracy)} m` : ''}`
+              : 'Waiting for location permission'}
       </div>
 
       {isOpen && results.length > 0 && (
@@ -94,7 +130,7 @@ export default function SearchBox({ places = [], onPlaceSelect, selectedPlace })
               onClick={() => handleSelect(place)}
             >
               <div className="result-name">{place.name}</div>
-              <div className="result-category">{place.category}</div>
+              <div className="result-category">{place.category || 'Campus place'}</div>
             </button>
           ))}
         </div>

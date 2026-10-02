@@ -4,6 +4,7 @@ API views for map data management.
 
 import json
 import logging
+from math import cos, radians
 
 from django.conf import settings
 from rest_framework import status
@@ -24,9 +25,12 @@ def _load_json(path):
 
 
 def _load_routing_edges():
-    """Load generated edges and enrich them with endpoint geometry."""
+    """Load generated edges and enrich them with endpoint details."""
     edges = {}
     nodes = {}
+    named_places = []
+    place_names = {}
+    place_priorities = {}
 
     try:
         if settings.NODES_JSON_PATH.exists():
@@ -35,6 +39,49 @@ def _load_routing_edges():
                 node["id"]: node
                 for node in nodes_data.get("nodes", [])
             }
+
+        if settings.PLACES_JSON_PATH.exists():
+            places_data = _load_json(settings.PLACES_JSON_PATH)
+            named_places = [
+                place
+                for place in places_data.get("places", [])
+                if place.get("category") == "place"
+                and place.get("name")
+                and place.get("lat") is not None
+                and place.get("lng") is not None
+            ]
+            for place in places_data.get("places", []):
+                node_id = place.get("nearest_graph_node")
+                name = place.get("name")
+                if not node_id or not name:
+                    continue
+
+                priority = (
+                    place.get("category") == "place",
+                    -place.get("nearest_graph_distance_m", float("inf")),
+                )
+                if (
+                    node_id not in place_priorities
+                    or priority > place_priorities[node_id]
+                ):
+                    place_names[node_id] = name
+                    place_priorities[node_id] = priority
+
+        for node_id, node in nodes.items():
+            if node_id in place_names or not named_places:
+                continue
+
+            nearest_place = min(
+                named_places,
+                key=lambda place: (
+                    (node["lat"] - place["lat"]) ** 2
+                    + (
+                        cos(radians(node["lat"]))
+                        * (node["lng"] - place["lng"])
+                    ) ** 2
+                ),
+            )
+            place_names[node_id] = nearest_place["name"]
 
         if not settings.EDGES_JSON_PATH.exists():
             return edges
@@ -64,6 +111,8 @@ def _load_routing_edges():
                 "name": edge.get("name") or edge_id,
                 "from": edge.get("from"),
                 "to": edge.get("to"),
+                "from_name": place_names.get(edge.get("from")),
+                "to_name": place_names.get(edge.get("to")),
                 "distance_m": edge.get("distance_m", 0),
                 "base_time_sec": edge.get("base_time_sec", 0),
                 "current_time_sec": edge.get(

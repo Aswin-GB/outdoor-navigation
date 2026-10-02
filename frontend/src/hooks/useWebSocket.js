@@ -12,6 +12,7 @@ export function useWebSocket(navigationId) {
   useEffect(() => {
     if (!navigationId) {
       setConnected(false)
+      setLastMessage(null)
       return
     }
 

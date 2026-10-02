@@ -4,6 +4,7 @@ Provides a unified interface for Redis operations.
 Supports an in-memory fallback for environments without Redis.
 """
 import logging
+import time
 from typing import Optional, Any
 from django.conf import settings
 
@@ -20,6 +21,8 @@ def get_redis_client() -> Optional[object]:
     global _redis_client
     if _redis_client is not None:
         return _redis_client
+    if not settings.REDIS_URL:
+        return None
 
     try:
         import redis
@@ -51,12 +54,18 @@ def get_cached_item(key: str) -> Optional[Any]:
         except Exception as e:
             logger.warning(f"Redis read failed: {e}")
 
-    # Fallback to in-memory cache
-    return _memory_cache.get(key)
+    cached = _memory_cache.get(key)
+    if cached is None:
+        return None
+
+    expires_at, value = cached
+    if expires_at <= time.monotonic():
+        _memory_cache.pop(key, None)
+        return None
+    return value
 
 def set_cached_item(key: str, value: Any, ttl: int = 300) -> None:
-    """Set item in Redis or in-memory fallback."""
-    global _memory_cache
+    """Set item in Redis or a TTL-bound in-memory fallback."""
     client = get_redis_client()
     if client:
         try:
@@ -66,8 +75,7 @@ def set_cached_item(key: str, value: Any, ttl: int = 300) -> None:
         except Exception as e:
             logger.warning(f"Redis write failed: {e}")
 
-    # Fallback to in-memory cache
-    _memory_cache[key] = value
+    _memory_cache[key] = (time.monotonic() + max(0, ttl), value)
 
 def clear_cache() -> None:
     """Clear all cached items."""

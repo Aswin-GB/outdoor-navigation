@@ -28,6 +28,13 @@ const TRAFFIC_LEVELS = [
   'CLOSED',
 ]
 
+function getEdgeLabel(edge, fallback) {
+  if (edge?.from_name && edge?.to_name) {
+    return `${edge.from_name} to ${edge.to_name}`
+  }
+  return edge?.name || fallback
+}
+
 export default function TrafficDemo() {
   const [sessionId, setSessionId] = useState(null)
   const [sharing, setSharing] = useState(false)
@@ -290,6 +297,7 @@ export default function TrafficDemo() {
   }, [simEdgeId, manualLevel, refreshSelectedEdge])
 
   const selectedEdge = edges[simEdgeId]
+  const currentEdgeLabel = getEdgeLabel(edges[currentEdge], currentEdge)
 
   return (
     <div className="traffic-demo">
@@ -368,7 +376,7 @@ export default function TrafficDemo() {
           {currentEdge && (
             <div className="current-road">
               <h4>Current Road</h4>
-              <p>Edge: {currentEdge}</p>
+              <p>From / To: {currentEdgeLabel}</p>
               <p>Active Users: {activeUsers}</p>
               <p>
                 Traffic:{' '}
@@ -409,7 +417,7 @@ export default function TrafficDemo() {
                 {Object.entries(edges).map(
                   ([id, edge]) => (
                     <option key={id} value={id}>
-                      {edge.name || id}
+                      {getEdgeLabel(edge, id)}
                     </option>
                   ),
                 )}
@@ -479,7 +487,7 @@ export default function TrafficDemo() {
           {selectedEdge && (
             <div className="current-road">
               <p>
-                Selected: {selectedEdge.name || simEdgeId}
+                Selected: {getEdgeLabel(selectedEdge, simEdgeId)}
               </p>
               <p>
                 Simulated/Active Users: {simulatedUsers}

@@ -9,6 +9,7 @@ export function useTraffic(pollInterval = 5000) {
   const [trafficVersion, setTrafficVersion] = useState(0)
   const [activeUsers, setActiveUsers] = useState(0)
   const [loading, setLoading] = useState(true)
+  const [backendConnected, setBackendConnected] = useState(false)
   const intervalRef = useRef(null)
 
   const fetchTraffic = useCallback(async () => {
@@ -21,10 +22,15 @@ export function useTraffic(pollInterval = 5000) {
           (sum, e) => sum + (e.active_users || 0), 0
         )
         setActiveUsers(totalUsers)
-        setLoading(false)
+        setBackendConnected(true)
+      } else {
+        setBackendConnected(false)
       }
     } catch (err) {
+      setBackendConnected(false)
       console.error('Traffic fetch failed:', err)
+    } finally {
+      setLoading(false)
     }
   }, [])
 
@@ -38,5 +44,12 @@ export function useTraffic(pollInterval = 5000) {
     }
   }, [fetchTraffic, pollInterval])
 
-  return { trafficData, trafficVersion, activeUsers, loading, refresh: fetchTraffic }
+  return {
+    trafficData,
+    trafficVersion,
+    activeUsers,
+    loading,
+    backendConnected,
+    refresh: fetchTraffic,
+  }
 }

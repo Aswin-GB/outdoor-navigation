@@ -4,9 +4,6 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
-import { apiPost } from '../../services/api'
-
-const MAP_STYLE = import.meta.env.VITE_MAP_STYLE_URL || 'https://demotiles.maplibre.org/style.json'
 
 const SATELLITE_STYLE = {
   version: 8,
@@ -45,23 +42,24 @@ export default function CampusMap({
   route = null,
   trafficData = null,
   selectedPlace = null,
+  userLocation = null,
   onPlaceSelect,
+  onRouteComputed,
+  onRouteError,
   loading = false,
 }) {
   const mapContainer = useRef(null)
   const map = useRef(null)
   const markersRef = useRef([])
+  const userMarkerRef = useRef(null)
   const [mapLoaded, setMapLoaded] = useState(false)
   const [activePopup, setActivePopup] = useState(null)
-  const [basemap, setBasemap] = useState('satellite')
 
   // Routing State
   const [fromPlace, setFromPlace] = useState('')
   const [toPlace, setToPlace] = useState('')
   const [algorithm, setAlgorithm] = useState('astar')
-  const [routeSummary, setRouteSummary] = useState(null)
-  const [events, setEvents] = useState([])
-  const [activeRoute, setActiveRoute] = useState(null)
+  const [routeLoading, setRouteLoading] = useState(false)
 
   // Search terms and suggestions
   const [fromSearchTerm, setFromSearchTerm] = useState('')
@@ -75,19 +73,13 @@ export default function CampusMap({
   const [fromFocused, setFromFocused] = useState(false)
   const [toFocused, setToFocused] = useState(false)
 
-  // Traffic Simulator State
-  const [selectedEdge, setSelectedEdge] = useState('')
-  const [trafficLevel, setTrafficLevel] = useState('LOW')
-  const [isLiveTraffic, setIsLiveTraffic] = useState(false)
-
-
   // Initialize map
   useEffect(() => {
     if (map.current || !mapContainer.current) return
 
     map.current = new maplibregl.Map({
       container: mapContainer.current,
-      style: basemap === 'satellite' ? SATELLITE_STYLE : MAP_STYLE,
+      style: SATELLITE_STYLE,
       center: CAMPUS_CENTER,
       zoom: DEFAULT_ZOOM,
       attributionControl: {
@@ -105,7 +97,6 @@ export default function CampusMap({
 
     map.current.on('error', (event) => {
       console.error('MapLibre error:', event.error)
-      setEvents(prev => [`[${new Date().toLocaleTimeString()}] Map loading error: ${event.error?.message || 'Unknown map error'}`, ...prev].slice(0, 50))
     })
 
     return () => {
@@ -114,6 +105,28 @@ export default function CampusMap({
         map.current = null
       }
     }
+  }, [])
+
+  useEffect(() => {
+    if (!map.current || !mapLoaded || !userLocation) return
+
+    if (!userMarkerRef.current) {
+      const element = document.createElement('div')
+      element.className = 'user-location-marker'
+      element.setAttribute('aria-label', 'Your location')
+      element.innerHTML = '<span class="user-location-pulse"></span><span class="user-location-dot"></span>'
+      userMarkerRef.current = new maplibregl.Marker({ element })
+        .setLngLat([userLocation.lng, userLocation.lat])
+        .addTo(map.current)
+      return
+    }
+
+    userMarkerRef.current.setLngLat([userLocation.lng, userLocation.lat])
+  }, [userLocation, mapLoaded])
+
+  useEffect(() => () => {
+    userMarkerRef.current?.remove()
+    userMarkerRef.current = null
   }, [])
 
   // Add layers when map is loaded
@@ -269,32 +282,6 @@ export default function CampusMap({
       customSource.setData(mapData.custom)
     }
 
-    if (mapData?.osm && mapData?.custom) {
-      const bounds = new maplibregl.LngLatBounds()
-      const features = [...(mapData.osm?.features || []), ...(mapData.custom?.features || [])]
-
-      for (const feature of features) {
-        const geom = feature.geometry
-        if (!geom) continue
-
-        if (geom.type === 'Point') {
-          bounds.extend(geom.coordinates)
-        } else if (geom.type === 'LineString' || geom.type === 'MultiPoint') {
-          for (const coord of geom.coordinates) {
-            bounds.extend(coord)
-          }
-        } else if (geom.type === 'Polygon' || geom.type === 'MultiLineString') {
-          const coords = geom.type === 'Polygon' ? geom.coordinates : geom.coordinates.flat()
-          for (const coord of coords) {
-            bounds.extend(coord)
-          }
-        }
-      }
-
-      if (!bounds.isEmpty()) {
-        map.current.fitBounds(bounds, { padding: 50, duration: 1000 })
-      }
-    }
   }, [mapData, mapLoaded])
 
   // Update traffic layer when data changes
@@ -424,26 +411,24 @@ export default function CampusMap({
     })
   }, [selectedPlace, mapLoaded])
 
-  // Log event to the live log
-  const logEvent = useCallback((message) => {
-    const time = new Date().toLocaleTimeString()
-    setEvents(prev => [`[${time}] ${message}`, ...prev].slice(0, 50))
-  }, [])
-
   // Find fastest route
   const findRoute = useCallback(async () => {
     if (!fromPlace || !toPlace) {
-      alert('Please select both FROM and TO locations')
+      onRouteError?.('Please select both a starting place and a destination.')
       return
     }
 
     const fromNode = places.find(p => p.id === fromPlace)
     const toNode = places.find(p => p.id === toPlace)
 
-    if (!fromNode || !toNode) return
+    if (!fromNode || !toNode) {
+      onRouteError?.('Select valid starting and destination places.')
+      return
+    }
 
-    setRouteSummary(null)
-    logEvent(`Calculating route from ${fromNode.name} to ${toNode.name} using ${algorithm.toUpperCase()}...`)
+    setRouteLoading(true)
+    onRouteComputed?.(null)
+    onRouteError?.(null)
 
     try {
       const result = await apiPost('/api/v1/routes', {
@@ -454,111 +439,18 @@ export default function CampusMap({
 
       if (result.success) {
         const data = result.data
-        setActiveRoute(data)
-        setRouteSummary({
-          distance: (data.distance_m / 1000).toFixed(2),
-          duration: (data.duration_sec / 60).toFixed(1),
-          nodes: data.nodes_executed,
-          cache: data.cache,
-          algorithm: data.algorithm,
-        })
-        logEvent(`Route found: ${data.distance_m}m, ETA ${data.duration_sec}s, Nodes: ${data.nodes_executed}`)
-
-        // Update MapLibre Route Layer
-        const source = map.current.getSource('route')
-        if (source) {
-          source.setData({
-            type: 'Feature',
-            geometry: {
-              type: 'LineString',
-              coordinates: data.path,
-            },
-            properties: {},
-          })
-        }
+        onRouteComputed?.(data)
       } else {
-        logEvent(`Routing error: ${result.error?.message || 'Unknown error'}`)
-        alert(result.error?.message || 'Failed to find route')
+        const message = result.error?.message || 'Failed to find route'
+        onRouteError?.(message)
       }
     } catch (err) {
       console.error('Routing API error:', err)
-      logEvent(`API error while computing route: ${err.message}`)
+      onRouteError?.(err.message || 'Failed to find route')
+    } finally {
+      setRouteLoading(false)
     }
-  }, [fromPlace, toPlace, algorithm, places, logEvent])
-
-  // Update traffic level for an edge
-  const updateTraffic = useCallback(async (edgeId, level) => {
-    if (!edgeId) return
-
-    try {
-      const result = await apiPost('/api/v1/traffic/update', { edge_id: edgeId, traffic_level: level })
-
-      if (result.success) {
-        logEvent(`Traffic updated: Edge ${edgeId} -> ${level}`)
-
-        // Trigger automatic rerouting if this edge is part of the active route
-        if (activeRoute && activeRoute.node_path) {
-          // If the changed edge is part of our route, recalculate
-          // Backend uses edge IDs, so we check if this edge ID is in the current route's sequence
-          // (Assuming backend returns node_path, we might need to check edges)
-          // For the demo, we re-evaluate whenever any traffic changes to ensure correctness
-          findRoute()
-        }
-      }
-    } catch (err) {
-      console.error('Traffic API error:', err)
-    }
-  }, [activeRoute, findRoute, logEvent])
-
-  // Live Traffic Simulation
-  useEffect(() => {
-    if (!isLiveTraffic) return
-
-    const interval = setInterval(async () => {
-      const levels = ['LOW', 'MEDIUM', 'HIGH', 'SEVERE', 'CLOSED']
-      const randomLevel = levels[Math.floor(Math.random() * levels.length)]
-
-      if (mapData?.edges) {
-        const edgeIds = Object.keys(mapData.edges)
-        const randomEdge = edgeIds[Math.floor(Math.random() * edgeIds.length)]
-        await updateTraffic(randomEdge, randomLevel)
-      }
-    }, 7000)
-
-    return () => clearInterval(interval)
-  }, [isLiveTraffic, mapData, updateTraffic])
-
-  // Fit bounds when map data loads
-  useEffect(() => {
-    if (!map.current || !mapLoaded || !mapData?.osm) return
-
-
-    const bounds = new maplibregl.LngLatBounds()
-    const features = mapData.osm.features || []
-
-    for (const feature of features) {
-      const geom = feature.geometry
-      if (!geom) continue
-
-      if (geom.type === 'Point') {
-        bounds.extend(geom.coordinates)
-      } else if (geom.type === 'LineString') {
-        for (const coord of geom.coordinates) {
-          bounds.extend(coord)
-        }
-      } else if (geom.type === 'Polygon') {
-        for (const ring of geom.coordinates) {
-          for (const coord of ring) {
-            bounds.extend(coord)
-          }
-        }
-      }
-    }
-
-    if (!bounds.isEmpty()) {
-      map.current.fitBounds(bounds, { padding: 50, duration: 1000 })
-    }
-  }, [mapData, mapLoaded])
+  }, [fromPlace, toPlace, algorithm, places, onRouteComputed, onRouteError])
 
   return (
     <div className="campus-map-container">
@@ -655,7 +547,13 @@ export default function CampusMap({
               <option value="dijkstra">Dijkstra (Shortest)</option>
             </select>
           </div>
-          <button className="panel-btn" onClick={findRoute}>Find Fastest Route</button>
+          <button
+            className="panel-btn"
+            onClick={findRoute}
+            disabled={routeLoading || !fromPlace || !toPlace}
+          >
+            {routeLoading ? 'Finding Route…' : 'Find Fastest Route'}
+          </button>
           <button className="panel-btn panel-btn-secondary" onClick={() => {
             const tempFrom = fromPlace;
             const tempTo = toPlace;
@@ -668,95 +566,10 @@ export default function CampusMap({
             setToSearchTerm(toNode?.name || '');
           }}>Swap</button>
 
-          {routeSummary && (
-            <div className="route-summary-grid">
-              <div className="summary-item">
-                <span className="summary-label">Distance</span>
-                <span className="summary-value">{routeSummary.distance} km</span>
-              </div>
-              <div className="summary-item">
-                <span className="summary-label">ETA</span>
-                <span className="summary-value">{routeSummary.duration} min</span>
-              </div>
-              <div className="summary-item">
-                <span className="summary-label">Algo</span>
-                <span className="summary-value">{routeSummary.algorithm}</span>
-              </div>
-              <div className="summary-item">
-                <span className="summary-label">Cache</span>
-                <span className={`summary-value ${routeSummary.cache === 'HIT' ? 'cache-hit' : 'cache-miss'}`}>
-                  {routeSummary.cache}
-                </span>
-              </div>
-            </div>
-          )}
         </div>
 
-        {/* Traffic Simulator Panel */}
-        <div className="map-panel-card">
-          <div className="panel-title">Traffic Simulator</div>
-          <div className="panel-field">
-            <label className="panel-label">Road / Edge</label>
-            <select className="panel-select" value={selectedEdge} onChange={e => setSelectedEdge(e.target.value)}>
-              <option value="">Select Edge</option>
-              {mapData?.edges && Object.entries(mapData.edges).map(([id, edge]) => (
-                <option key={id} value={id}>{edge.name || id}</option>
-              ))}
-            </select>
-          </div>
-          <div className="panel-field">
-            <label className="panel-label">Traffic Level</label>
-            <select className="panel-select" value={trafficLevel} onChange={e => setTrafficLevel(e.target.value)}>
-              <option value="LOW">LOW</option>
-              <option value="MEDIUM">MEDIUM</option>
-              <option value="HIGH">HIGH</option>
-              <option value="SEVERE">SEVERE</option>
-              <option value="CLOSED">CLOSED</option>
-            </select>
-          </div>
-          <button className="panel-btn" onClick={() => updateTraffic(selectedEdge, trafficLevel)}>Apply Traffic</button>
-          <button className="panel-btn panel-btn-secondary" onClick={() => {
-            const levels = ['LOW', 'MEDIUM', 'HIGH', 'SEVERE', 'CLOSED'];
-            const randomLevel = levels[Math.floor(Math.random() * levels.length)];
-            if (mapData?.edges) {
-              const ids = Object.keys(mapData.edges);
-              const randomId = ids[Math.floor(Math.random() * ids.length)];
-              updateTraffic(randomId, randomLevel);
-            }
-          }}>Random Update</button>
-
-          <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <input type="checkbox" checked={isLiveTraffic} onChange={e => setIsLiveTraffic(e.target.checked)} id="live-traffic" />
-            <label htmlFor="live-traffic" style={{ fontSize: '12px', fontWeight: '600' }}>Simulated Live Traffic</label>
-          </div>
-        </div>
-
-        {/* Event Log */}
-        <div className="map-panel-card">
-          <div className="panel-title">Routing Events</div>
-          <div className="event-log">
-            {events.length === 0 && <div style={{ color: '#64748b', textAlign: 'center', marginTop: '20px' }}>No events yet...</div>}
-            {events.map((ev, i) => (
-              <div key={i} className="event-entry">{ev}</div>
-            ))}
-          </div>
-        </div>
       </div>
 
-      <div className="map-layer-control">
-        <button
-          className={basemap === 'map' ? 'active' : ''}
-          onClick={() => toggleBasemap('map')}
-        >
-          Map
-        </button>
-        <button
-          className={basemap === 'satellite' ? 'active' : ''}
-          onClick={() => toggleBasemap('satellite')}
-        >
-          Satellite
-        </button>
-      </div>
       <div ref={mapContainer} className="campus-map" />
       {loading && (
         <div className="map-loading">

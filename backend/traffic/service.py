@@ -643,7 +643,11 @@ class TrafficService:
     def _get_simulated_sessions(self, edge_id: str) -> list[str]:
         client = get_redis_client()
         if not client:
-            return []
+            return [
+                session_id
+                for session_id in self.presence.get_edge_sessions(edge_id)
+                if session_id.startswith("sim_")
+            ]
         try:
             members = client.smembers(f"active_users:{edge_id}")
             result = []

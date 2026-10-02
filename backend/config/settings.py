@@ -141,15 +141,22 @@ REST_FRAMEWORK = {
 }
 
 # Channels
-REDIS_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            'hosts': [REDIS_URL],
+REDIS_URL = os.environ.get('REDIS_URL') or None
+if REDIS_URL:
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            'CONFIG': {
+                'hosts': [REDIS_URL],
+            },
         },
     },
-}
+else:
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'channels.layers.InMemoryChannelLayer',
+        },
+    }
 
 # Traffic settings
 TRAFFIC_LOCATION_TTL_SECONDS = int(os.environ.get('TRAFFIC_LOCATION_TTL_SECONDS', '45'))

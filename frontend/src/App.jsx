@@ -13,7 +13,7 @@ import { useNavigation } from './hooks/useNavigation'
 import { useTraffic } from './hooks/useTraffic'
 import { useWebSocket } from './hooks/useWebSocket'
 import { useGeolocation } from './hooks/useGeolocation'
-import { computeRoute } from './services/routeApi'
+import { sendTelemetry } from './services/trafficApi'
 
 export default function App() {
   const [view, setView] = useState('map') // 'map' | 'demo' | 'admin'
@@ -24,45 +24,65 @@ export default function App() {
   const [rerouteData, setRerouteData] = useState(null)
 
   const { mapData, places, loading: mapLoading, error: mapError } = useCampusData()
-  const { navigation, startNavigation, stopNavigation, updateLocation } = useNavigation()
-  const { trafficData, trafficVersion, activeUsers } = useTraffic()
+  const { navigation, startNavigation, stopNavigation } = useNavigation()
+  const { trafficData, trafficVersion, activeUsers, backendConnected } = useTraffic()
   const { connected, lastMessage } = useWebSocket(navigation?.navigation_id)
-  const { position, error: geoError, getCurrentPosition } = useGeolocation()
+  const {
+    position,
+    loading: locationLoading,
+    error: geoError,
+    getCurrentPosition,
+    startWatching,
+    stopWatching,
+  } = useGeolocation()
 
-  // Handle place selection — trigger route request when we have GPS
-  const handlePlaceSelect = useCallback(async (place) => {
-    setSelectedPlace(place)
-    setRouteError(null)
+  useEffect(() => {
+    startWatching()
+    return stopWatching
+  }, [startWatching, stopWatching])
 
-    if (!place) {
-      setRoute(null)
-      return
-    }
-
+  const handleLocate = useCallback(async () => {
     try {
-      // Get current position
-      const pos = await getCurrentPosition()
-
-      if (!pos) {
-        setRouteError('Unable to get your location. Please enable GPS.')
-        return
-      }
-
-      const result = await computeRoute(
-        { lat: pos.lat, lng: pos.lng },
-        { place_id: place.id }
-      )
-
-      if (result.success) {
-        setRoute(result.data)
-        setRouteError(null)
-      } else {
-        setRouteError(result.error?.message || 'No route found.')
-      }
-    } catch (err) {
-      setRouteError(err.message || 'Failed to compute route.')
+      await getCurrentPosition()
+    } catch (error) {
+      console.error('Unable to get current location:', error)
     }
   }, [getCurrentPosition])
+
+  useEffect(() => {
+    if (!navigation || !position) return
+
+    let cancelled = false
+    const navigationId = navigation.navigation_id
+
+    sendTelemetry(
+      navigationId,
+      position.lat,
+      position.lng,
+      new Date().toISOString(),
+      navigationId,
+    ).then((result) => {
+      if (!cancelled) {
+        if (result.success) {
+          setRouteError(null)
+        } else {
+          setRouteError(result.error?.message || result.error || 'GPS update failed.')
+        }
+      }
+    }).catch((error) => {
+      if (!cancelled) {
+        console.error('Navigation GPS update failed:', error)
+        setRouteError(`GPS update failed: ${error.message}`)
+      }
+    })
+
+    return () => { cancelled = true }
+  }, [navigation, position])
+
+  // Search selects a POI to inspect; routes are created from the left planner.
+  const handlePlaceSelect = useCallback((place) => {
+    setSelectedPlace(place)
+  }, [])
 
   // Handle navigation start
   const handleStartNavigation = useCallback(async () => {
@@ -76,11 +96,21 @@ export default function App() {
     setRoute(null)
   }, [stopNavigation])
 
+  const handleRouteComputed = useCallback((nextRoute) => {
+    setRoute(nextRoute)
+    setRouteError(null)
+  }, [])
+
+  const handleRouteError = useCallback((message) => {
+    setRouteError(message)
+  }, [])
+
   // Handle reroute from WebSocket
   useEffect(() => {
     if (lastMessage?.event === 'route_changed') {
       setRoute(prev => ({
         ...prev,
+        route_id: lastMessage.route_id,
         path: lastMessage.path,
         duration_sec: lastMessage.eta_sec,
         traffic_version: lastMessage.traffic_version,
@@ -128,8 +158,12 @@ export default function App() {
           </button>
         </nav>
         <div className="header-status">
-          <span className={`status-dot ${connected ? 'connected' : 'disconnected'}`} />
-          <span>{connected ? 'Live' : 'Offline'}</span>
+          <span className={`status-dot ${backendConnected ? 'connected' : 'disconnected'}`} />
+          <span>
+            {backendConnected
+              ? (navigation ? (connected ? 'Live' : 'Connecting') : 'Online')
+              : 'Offline'}
+          </span>
         </div>
       </header>
 
@@ -141,6 +175,10 @@ export default function App() {
               places={places}
               onPlaceSelect={handlePlaceSelect}
               selectedPlace={selectedPlace}
+              position={position}
+              locationLoading={locationLoading}
+              locationError={geoError}
+              onLocate={handleLocate}
             />
             <CampusMap
               mapData={mapData}
@@ -148,7 +186,10 @@ export default function App() {
               route={route}
               trafficData={trafficData}
               selectedPlace={selectedPlace}
+              userLocation={position}
               onPlaceSelect={handlePlaceSelect}
+              onRouteComputed={handleRouteComputed}
+              onRouteError={handleRouteError}
               loading={mapLoading}
             />
             {mapError && (

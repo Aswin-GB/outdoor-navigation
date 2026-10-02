@@ -495,7 +495,7 @@ uv run python manage.py runserver
 5. Publish directory: `dist`
 6. Environment variables:
    - `VITE_API_BASE_URL`
-   - `VITE_WS_BASE_URL`
+   - `VITE_WS_BASE_URL` (optional; when omitted, WebSockets use the API host and switch to `wss://` for HTTPS)
    - `VITE_MAP_STYLE_URL`
 
 ### Backend Deployment
@@ -506,10 +506,12 @@ uv run python manage.py runserver
 5. Build command: `uv sync --frozen && uv run python manage.py collectstatic --no-input && uv run python manage.py migrate`
 6. Start command: `uv run uvicorn config.asgi:application --host 0.0.0.0 --port $PORT`
 7. Environment variables: (see Environment Variables section)
+8. Browser GPS requires HTTPS and the user must allow the browser's location permission prompt. Set `VITE_API_BASE_URL` to this backend's HTTPS URL.
 
 ### Key Value Setup
 1. Create Render Key Value service
 2. Use internal connection URL for `REDIS_URL`
+3. Without `REDIS_URL`, Channels and GPS presence use in-memory fallbacks suitable for a single backend process; configure Redis when running multiple processes or instances.
 
 ### Persistent Disk Setup
 1. Attach persistent disk to backend service

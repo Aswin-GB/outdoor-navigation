@@ -4,6 +4,7 @@ Each session has a TTL-based presence on edges.
 """
 import json
 import logging
+import threading
 import time
 from typing import Optional, List
 
@@ -11,6 +12,10 @@ from django.conf import settings
 from cache.redis import get_redis_client
 
 logger = logging.getLogger('traffic')
+
+_memory_sessions = {}
+_memory_edges = {}
+_memory_lock = threading.RLock()
 
 
 class PresenceManager:
@@ -25,6 +30,30 @@ class PresenceManager:
     def _session_key(self, session_id: str) -> str:
         return f"session:{session_id}"
 
+    @staticmethod
+    def _remove_memory_session(session_id: str) -> bool:
+        session = _memory_sessions.pop(session_id, None)
+        if not session:
+            return False
+
+        edge_sessions = _memory_edges.get(session["edge_id"])
+        if edge_sessions:
+            edge_sessions.discard(session_id)
+            if not edge_sessions:
+                _memory_edges.pop(session["edge_id"], None)
+        return True
+
+    def _expire_memory_sessions(self, now: Optional[float] = None) -> int:
+        current_time = time.time() if now is None else now
+        expired = [
+            session_id
+            for session_id, session in _memory_sessions.items()
+            if session["expires_at"] <= current_time
+        ]
+        for session_id in expired:
+            self._remove_memory_session(session_id)
+        return len(expired)
+
     def update_presence(self, session_id: str, edge_id: str, lat: float, lng: float) -> dict:
         """
         Update user presence on an edge.
@@ -32,7 +61,22 @@ class PresenceManager:
         """
         client = get_redis_client()
         if not client:
-            return {'success': False, 'error': 'Redis unavailable'}
+            with _memory_lock:
+                now = time.time()
+                self._expire_memory_sessions(now)
+                self._remove_memory_session(session_id)
+                _memory_sessions[session_id] = {
+                    'edge_id': edge_id,
+                    'lat': lat,
+                    'lng': lng,
+                    'expires_at': now + self.ttl,
+                }
+                _memory_edges.setdefault(edge_id, set()).add(session_id)
+                return {
+                    'success': True,
+                    'edge_id': edge_id,
+                    'active_users': len(_memory_edges[edge_id]),
+                }
 
         try:
             # Get previous edge for this session
@@ -79,7 +123,10 @@ class PresenceManager:
         """Remove a user's presence from all edges."""
         client = get_redis_client()
         if not client:
-            return {'success': False, 'error': 'Redis unavailable'}
+            with _memory_lock:
+                self._expire_memory_sessions()
+                self._remove_memory_session(session_id)
+            return {'success': True}
 
         try:
             session_data = client.get(self._session_key(session_id))
@@ -102,17 +149,40 @@ class PresenceManager:
         """Get active user count for an edge."""
         client = get_redis_client()
         if not client:
-            return 0
+            with _memory_lock:
+                self._expire_memory_sessions()
+                return len(_memory_edges.get(edge_id, set()))
         try:
             return client.scard(self._presence_key(edge_id))
         except Exception:
             return 0
 
+    def get_edge_sessions(self, edge_id: str) -> list[str]:
+        """Get active session IDs for an edge."""
+        client = get_redis_client()
+        if not client:
+            with _memory_lock:
+                self._expire_memory_sessions()
+                return list(_memory_edges.get(edge_id, set()))
+        try:
+            return [
+                session_id.decode() if isinstance(session_id, bytes) else session_id
+                for session_id in client.smembers(self._presence_key(edge_id))
+            ]
+        except Exception:
+            return []
+
     def get_all_active_edges(self) -> dict:
         """Get all edges with active users."""
         client = get_redis_client()
         if not client:
-            return {}
+            with _memory_lock:
+                self._expire_memory_sessions()
+                return {
+                    edge_id: len(session_ids)
+                    for edge_id, session_ids in _memory_edges.items()
+                    if session_ids
+                }
         try:
             keys = client.keys("active_users:*")
             result = {}
@@ -129,7 +199,10 @@ class PresenceManager:
         """Get the edge a session is currently on."""
         client = get_redis_client()
         if not client:
-            return None
+            with _memory_lock:
+                self._expire_memory_sessions()
+                session = _memory_sessions.get(session_id)
+                return session["edge_id"] if session else None
         try:
             data = client.get(self._session_key(session_id))
             if data:
@@ -142,7 +215,8 @@ class PresenceManager:
         """Clean up expired sessions from edge sets. Returns count of removed sessions."""
         client = get_redis_client()
         if not client:
-            return 0
+            with _memory_lock:
+                return self._expire_memory_sessions()
 
         try:
             removed_count = 0

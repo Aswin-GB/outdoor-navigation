@@ -52,6 +52,12 @@ class TestMapAPI:
         assert data['success'] is True
         assert 'osm' in data['data']
         assert 'custom' in data['data']
+        edges = data['data']['edges'].values()
+        assert any(edge['from_name'] == '7 TH BLOCK' for edge in edges)
+        assert any(
+            edge['to_name'] == 'FE BLOCK / 11TH BLOCK'
+            for edge in data['data']['edges'].values()
+        )
 
     def test_map_version(self):
         client = Client()
